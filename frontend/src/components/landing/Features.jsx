@@ -28,7 +28,7 @@ export default function Features() {
   return (
     <section
       id="features"
-      className="scroll-anchor bg-surface px-4 py-14 sm:px-6 sm:py-20 lg:py-28"
+      className="scroll-anchor px-4 py-14 sm:px-6 sm:py-20 lg:py-28"
     >
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">

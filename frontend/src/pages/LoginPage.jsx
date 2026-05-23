@@ -45,7 +45,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-surface px-4 py-10 sm:py-14">
+    <div className="flex min-h-screen flex-col px-4 py-10 sm:py-14">
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center">
         <Link to="/" className="shrink-0">
           <img src={logo} alt="inTouch" className="h-24 w-auto" />

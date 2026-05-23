@@ -8,8 +8,9 @@
   --color-foreground: #0f172a;
   --color-muted: #64748b;
   --color-border: #e2e8f0;
-  --color-surface: #f8fafc;
-  --color-card: #f1f5f9;
+  --color-cream: #fdfbf7;
+  --color-surface: #fdfbf7;
+  --color-card: #ffffff;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --header-height: 6rem;
 }
@@ -23,6 +24,7 @@
   body {
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    background-color: var(--color-cream);
     -webkit-font-smoothing: antialiased;
   }
 }
