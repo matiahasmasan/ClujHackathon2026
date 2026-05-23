@@ -77,9 +77,6 @@ export default function DashboardSidebar() {
         className="min-h-0 flex-1 overflow-y-auto px-3"
         aria-label="Dashboard"
       >
-        <p className="px-3 pb-2 text-xs font-semibold tracking-wide text-muted uppercase">
-          Care
-        </p>
         <ul className="space-y-1 pb-3">
           {navItems.map((item) => (
             <li key={item.label}>

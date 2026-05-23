@@ -75,6 +75,30 @@ export async function fetchUsers() {
 }
 
 /**
+ * Call GET /api/dashboard (requires Bearer token).
+ * Returns { seniors, medications, stats }.
+ */
+export async function fetchDashboard() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/dashboard`, {
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not load dashboard."));
+  }
+
+  return data;
+}
+
+/**
  * Call POST /api/auth/register.
  * Returns the parsed UserResponse on success, or throws an Error whose
  * message is suitable to show the user.

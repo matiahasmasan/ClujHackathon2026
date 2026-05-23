@@ -35,7 +35,7 @@ export default function DashboardHeader({ user }) {
           </div>
           <div className="hidden sm:block">
             <p className="text-sm font-semibold text-foreground">{fullName}</p>
-            <p className="text-xs text-muted">Primary Caregiver</p>
+            <p className="text-xs text-muted">Profile</p>
           </div>
         </div>
       </div>
