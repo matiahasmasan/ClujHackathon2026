@@ -343,6 +343,54 @@ export async function fetchCalls() {
 }
 
 /**
+ * Call GET /api/auth/me (requires Bearer token).
+ */
+export async function fetchProfile() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/auth/me`, {
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not load profile."));
+  }
+
+  return data;
+}
+
+/**
+ * Call PATCH /api/auth/me (requires Bearer token).
+ */
+export async function updateProfile(payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/auth/me`, {
+      method: "PATCH",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not update profile."));
+  }
+
+  return data;
+}
+
+/**
  * Call POST /api/auth/register.
  * Returns the parsed UserResponse on success, or throws an Error whose
  * message is suitable to show the user.

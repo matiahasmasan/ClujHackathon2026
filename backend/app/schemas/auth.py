@@ -1,4 +1,6 @@
-from pydantic import BaseModel, ConfigDict
+from datetime import datetime
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class LoginRequest(BaseModel):
@@ -31,3 +33,10 @@ class UserResponse(BaseModel):
     first_name: str
     last_name: str
     phone_number: str | None = None
+    created_at: datetime | None = None
+
+
+class UserUpdate(BaseModel):
+    first_name: str = Field(..., min_length=1, max_length=50)
+    last_name: str = Field(..., min_length=1, max_length=50)
+    phone_number: str | None = Field(None, max_length=20)

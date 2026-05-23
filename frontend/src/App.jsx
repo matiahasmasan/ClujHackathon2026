@@ -8,6 +8,7 @@ import DashboardPage from "./pages/DashboardPage";
 import SeniorsPage from "./pages/SeniorsPage";
 import MedicationsPage from "./pages/MedicationsPage";
 import CallsPage from "./pages/CallsPage";
+import SettingsPage from "./pages/SettingsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="seniors" element={<SeniorsPage />} />
             <Route path="medications" element={<MedicationsPage />} />
             <Route path="calls" element={<CallsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

@@ -44,6 +44,7 @@ export default function DashboardLayout() {
         <Outlet
           context={{
             user,
+            refreshUser: () => setUser(getStoredUser()),
             seniorsVersion,
             bumpSeniors: () => setSeniorsVersion((v) => v + 1),
             medicationsVersion,

@@ -7,31 +7,48 @@ import RecentCalls from "../components/dashboard/RecentCalls";
 import MedicationsTable from "../components/dashboard/MedicationsTable";
 import Button from "../components/ui/Button";
 import { getInitials } from "../lib/auth";
+import { formatRelativeTime } from "../lib/format";
 import { fetchDashboard } from "../lib/api";
-import {
-  stats as mockStats,
-  circleMembers as mockCircleMembers,
-  recentCalls,
-} from "../data/dashboardMock";
 
-function buildCircleMembers(seniors) {
-  const mockByName = Object.fromEntries(
-    mockCircleMembers.map((m) => [m.name, m]),
-  );
+function buildStatCards(stats) {
+  return [
+    {
+      label: "Seniors in care",
+      value: String(stats.senior_count),
+      sub: "Active in your circle",
+      icon: "users",
+    },
+    {
+      label: "Meds today",
+      value: `${stats.medications_taken}/${stats.medications_total}`,
+      sub: "Doses taken so far",
+      icon: "pill",
+    },
+    {
+      label: "Wellness calls",
+      value: String(stats.calls_completed_24h),
+      sub: "Completed in last 24h",
+      icon: "phone",
+    },
+    {
+      label: "Active alerts",
+      value: String(stats.active_alerts),
+      sub: "Need your attention",
+      icon: "alert",
+    },
+  ];
+}
 
-  return seniors.map((senior) => {
-    const name = `${senior.first_name} ${senior.last_name}`;
-    const mock = mockByName[name];
-    return {
-      id: senior.id,
-      initials: getInitials(senior.first_name, senior.last_name),
-      name,
-      age: senior.age,
-      diagnoses: senior.diagnoses ?? null,
-      lastCall: mock?.lastCall ?? "—",
-      status: mock?.status ?? "doing-well",
-    };
-  });
+function buildCircleMembers(circle) {
+  return circle.map((member) => ({
+    id: member.id,
+    initials: getInitials(member.first_name, member.last_name),
+    name: `${member.first_name} ${member.last_name}`,
+    age: member.age,
+    diagnoses: member.diagnoses ?? null,
+    lastCall: formatRelativeTime(member.last_call_at),
+    status: member.status,
+  }));
 }
 
 function buildMedicationRows(medications) {
@@ -40,6 +57,7 @@ function buildMedicationRows(medications) {
     const lastName = rest.join(" ");
 
     return {
+      id: med.id,
       initials: getInitials(firstName, lastName),
       senior: med.senior_name,
       medication: med.medication_name,
@@ -50,23 +68,14 @@ function buildMedicationRows(medications) {
   });
 }
 
-function buildStatCards(apiStats) {
-  return mockStats.map((stat) => {
-    if (stat.label === "Seniors in care") {
-      return {
-        ...stat,
-        value: String(apiStats.senior_count),
-      };
-    }
-    if (stat.label === "Meds today") {
-      const { medications_taken, medications_total } = apiStats;
-      return {
-        ...stat,
-        value: `${medications_taken}/${medications_total}`,
-      };
-    }
-    return stat;
-  });
+function buildRecentCalls(recentCalls) {
+  return recentCalls.map((call) => ({
+    id: call.id,
+    name: call.senior_name,
+    time: formatRelativeTime(call.started_at),
+    summary: call.summary,
+    tone: call.tone,
+  }));
 }
 
 export default function DashboardPage() {
@@ -93,19 +102,22 @@ export default function DashboardPage() {
   }, [loadDashboard, seniorsVersion, medicationsVersion]);
 
   const statCards = useMemo(
-    () => (dashboard ? buildStatCards(dashboard.stats) : mockStats),
+    () => (dashboard ? buildStatCards(dashboard.stats) : []),
     [dashboard],
   );
 
   const circleMembers = useMemo(
-    () =>
-      dashboard ? buildCircleMembers(dashboard.seniors) : mockCircleMembers,
+    () => (dashboard ? buildCircleMembers(dashboard.circle) : []),
     [dashboard],
   );
 
   const medicationRows = useMemo(
-    () =>
-      dashboard ? buildMedicationRows(dashboard.medications) : [],
+    () => (dashboard ? buildMedicationRows(dashboard.medications) : []),
+    [dashboard],
+  );
+
+  const recentCalls = useMemo(
+    () => (dashboard ? buildRecentCalls(dashboard.recent_calls) : []),
     [dashboard],
   );
 

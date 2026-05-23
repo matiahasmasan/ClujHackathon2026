@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.deps import get_current_user
 from app.core.database import get_db
 from app.core.security import create_access_token, hash_password, verify_password
 from app.models.user import User
@@ -10,6 +11,7 @@ from app.schemas.auth import (
     LoginResponse,
     RegisterRequest,
     UserResponse,
+    UserUpdate,
 )
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -62,3 +64,24 @@ async def login(
         first_name=user.first_name,
         last_name=user.last_name,
     )
+
+
+@router.get("/me", response_model=UserResponse)
+async def get_me(current_user: User = Depends(get_current_user)) -> User:
+    return current_user
+
+
+@router.patch("/me", response_model=UserResponse)
+async def update_me(
+    payload: UserUpdate,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> User:
+    current_user.first_name = payload.first_name.strip()
+    current_user.last_name = payload.last_name.strip()
+    current_user.phone_number = (
+        payload.phone_number.strip() if payload.phone_number else None
+    )
+    await db.commit()
+    await db.refresh(current_user)
+    return current_user
