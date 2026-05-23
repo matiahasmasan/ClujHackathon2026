@@ -9,7 +9,7 @@ export default function NotFoundPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
       <Link to="/" className="mb-10 shrink-0">
-        <img src={logo} alt="inTouch" className="h-24 w-auto" />
+        <img src={logo} alt="inTouch" className="h-28 w-auto" />
       </Link>
 
       <div className="w-full max-w-lg rounded-2xl bg-white/75 p-8 text-center shadow-sm backdrop-blur-sm sm:p-10">

@@ -19,3 +19,4 @@ class Medication(Base):
     dose: Mapped[str] = mapped_column(String(50), nullable=False)
     scheduled_time: Mapped[time] = mapped_column(Time, nullable=False)
     is_taken_today: Mapped[bool] = mapped_column(Boolean, default=False)
+    stock: Mapped[int] = mapped_column("stocks", Integer, default=0)

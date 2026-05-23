@@ -66,6 +66,7 @@ export default function SettingsPage() {
         last_name: updated.last_name,
         email: updated.email,
         phone_number: updated.phone_number,
+        role: updated.role ?? contextUser?.role,
       });
       refreshUser?.();
       setSuccess("Profile updated successfully.");

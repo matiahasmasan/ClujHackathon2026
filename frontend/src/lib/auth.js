@@ -1,7 +1,7 @@
-export function saveUser({ first_name, last_name, email, phone_number }) {
+export function saveUser({ first_name, last_name, email, phone_number, role }) {
   localStorage.setItem(
     "user",
-    JSON.stringify({ first_name, last_name, email, phone_number }),
+    JSON.stringify({ first_name, last_name, email, phone_number, role }),
   );
 }
 
