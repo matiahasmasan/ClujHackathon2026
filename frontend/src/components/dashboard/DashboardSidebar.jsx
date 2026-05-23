@@ -5,11 +5,11 @@ import { clearAuth } from "../../lib/auth";
 const navItems = [
   { label: "Overview", to: "/dashboard", icon: "grid", end: true },
   { label: "Seniors", to: "/dashboard/seniors", icon: "users" },
-  { label: "Medications", to: "#", icon: "pill" },
-  { label: "Wellness Calls", to: "#", icon: "phone" },
+  { label: "Medications", to: "/dashboard/medications", icon: "pill" },
+  { label: "Wellness Calls", to: "/dashboard/calls", icon: "phone" },
   { label: "Care Ledger", to: "/dashboard/ledger", icon: "ledger" },
   { label: "Alerts", to: "#", icon: "alert" },
-  { label: "Settings", to: "#", icon: "settings" },
+  { label: "Settings", to: "/dashboard/settings", icon: "settings" },
 ];
 
 function NavIcon({ name }) {
@@ -134,7 +134,7 @@ function SidebarContent({ onNavigate }) {
         </div>
         <Link
           to="/login"
-          className="block px-3 text-sm font-medium text-muted transition-colors hover:text-foreground"
+          className="flex w-full items-center justify-center rounded-xl border border-border px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-surface hover:text-foreground"
           onClick={() => {
             onNavigate?.();
             clearAuth();

@@ -2,7 +2,7 @@ import logo from "../../assets/intouch-logo.png";
 
 const productLinks = [
   "For Seniors",
-  "For Families",
+  "Pricing",
   "App Features",
   "Security",
 ];
@@ -36,10 +36,7 @@ function LinkColumn({ title, links }) {
 
 export default function Footer() {
   return (
-    <footer
-      id="for-families"
-      className="scroll-anchor px-4 py-12 sm:px-6 sm:py-16"
-    >
+    <footer className="scroll-anchor px-4 py-12 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-2">
