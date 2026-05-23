@@ -24,13 +24,12 @@ function buildCircleMembers(seniors) {
   return seniors.map((senior) => {
     const name = `${senior.first_name} ${senior.last_name}`;
     const mock = mockByName[name];
-    const metaParts = [`${senior.age} · ${senior.gender}`];
-    if (senior.diagnoses) metaParts.push(senior.diagnoses);
-
     return {
+      id: senior.id,
       initials: getInitials(senior.first_name, senior.last_name),
       name,
-      meta: metaParts.join(" · "),
+      age: senior.age,
+      diagnoses: senior.diagnoses ?? null,
       lastCall: mock?.lastCall ?? "—",
       status: mock?.status ?? "doing-well",
     };

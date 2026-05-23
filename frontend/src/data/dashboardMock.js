@@ -27,16 +27,20 @@ export const stats = [
 
 export const circleMembers = [
   {
+    id: 1000,
     initials: "MH",
     name: "Margaret Hill",
-    meta: "82 · Female · Early-stage dementia",
+    age: 82,
+    diagnoses: "Early-stage dementia",
     lastCall: "2h ago",
     status: "doing-well",
   },
   {
+    id: 1001,
     initials: "RJ",
     name: "Robert Jenkins",
-    meta: "76 · Male · Heart condition",
+    age: 76,
+    diagnoses: "Heart condition",
     lastCall: "5h ago",
     status: "needs-attention",
   },

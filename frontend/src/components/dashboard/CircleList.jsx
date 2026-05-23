@@ -7,7 +7,7 @@ export default function CircleList({ members }) {
       <ul className="mt-4 divide-y divide-border/50">
         {members.map((member) => (
           <li
-            key={member.initials}
+            key={member.id ?? member.initials}
             className="flex flex-col gap-3 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between"
           >
             <div className="flex items-center gap-3">
@@ -16,11 +16,30 @@ export default function CircleList({ members }) {
               </div>
               <div>
                 <p className="font-semibold text-foreground">{member.name}</p>
-                <p className="text-sm text-muted">{member.meta}</p>
+                <dl className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-sm text-muted">
+                  <div className="flex gap-1">
+                    <dt className="font-medium text-foreground/70">Age</dt>
+                    <dd>{member.age}</dd>
+                  </div>
+                  <div className="flex gap-1">
+                    <dt className="font-medium text-foreground/70">ID</dt>
+                    <dd>{member.id}</dd>
+                  </div>
+                  {member.diagnoses && (
+                    <div className="flex w-full gap-1 sm:w-auto">
+                      <dt className="shrink-0 font-medium text-foreground/70">
+                        Diagnoses
+                      </dt>
+                      <dd>{member.diagnoses}</dd>
+                    </div>
+                  )}
+                </dl>
               </div>
             </div>
             <div className="flex items-center gap-3 sm:flex-col sm:items-end sm:gap-1">
-              <span className="text-xs text-muted">Last call {member.lastCall}</span>
+              <span className="text-xs text-muted">
+                Last call {member.lastCall}
+              </span>
               <StatusBadge status={member.status} />
             </div>
           </li>
