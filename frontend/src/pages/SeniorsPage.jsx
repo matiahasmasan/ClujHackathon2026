@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Button from "../components/ui/Button";
 import StatCard from "../components/dashboard/StatCard";
@@ -72,7 +72,7 @@ function SeniorCard({ senior, onEdit, onDelete }) {
 }
 
 export default function SeniorsPage() {
-  const { seniorsVersion } = useOutletContext();
+  const { seniorsVersion, bumpSeniors } = useOutletContext();
   const [seniors, setSeniors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -80,6 +80,25 @@ export default function SeniorsPage() {
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const stats = useMemo(() => ({
+    total: seniors.length,
+    withDiagnoses: seniors.filter((s) => s.diagnoses).length,
+  }), [seniors]);
+
+  function handleMutationSuccess() {
+    bumpSeniors?.();
+  }
+
+  function openEdit(senior) {
+    setSelectedSenior(senior);
+    setEditOpen(true);
+  }
+
+  function openDelete(senior) {
+    setSelectedSenior(senior);
+    setDeleteOpen(true);
+  }
 
   const loadSeniors = useCallback(async () => {
     setLoading(true);
@@ -203,7 +222,23 @@ export default function SeniorsPage() {
                     </dl>
                   </div>
                 </div>
-                <span className="text-xs text-muted">ID {senior.id}</span>
+                <div className="flex shrink-0 gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="px-3 py-1.5 text-xs"
+                    onClick={() => openEdit(senior)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    type="button"
+                    className="bg-red-600 px-3 py-1.5 text-xs hover:bg-red-600/90"
+                    onClick={() => openDelete(senior)}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </li>
             );
           })}
