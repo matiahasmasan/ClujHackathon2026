@@ -49,7 +49,11 @@ export default function LoginPage() {
   const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(
+    location.state?.sessionExpired
+      ? "Your session expired. Please sign in again."
+      : "",
+  );
   const [loading, setLoading] = useState(false);
   // Holds the LoginResponse after a correct password, while we show the 2FA
   // step. Set to null when no 2FA is in progress.
