@@ -6,7 +6,7 @@ const navItems = [
   { label: "Overview", to: "/dashboard", icon: "grid", end: true },
   { label: "Seniors", to: "/dashboard/seniors", icon: "users" },
   { label: "Medications", to: "/dashboard/medications", icon: "pill" },
-  { label: "Wellness Calls", to: "#", icon: "phone" },
+  { label: "Wellness Calls", to: "/dashboard/calls", icon: "phone" },
   { label: "Alerts", to: "#", icon: "alert" },
   { label: "Settings", to: "#", icon: "settings" },
 ];

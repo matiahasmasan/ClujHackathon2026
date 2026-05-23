@@ -12,6 +12,7 @@ export default function DashboardLayout() {
   const [addSeniorOpen, setAddSeniorOpen] = useState(false);
   const [seniorsVersion, setSeniorsVersion] = useState(0);
   const [medicationsVersion, setMedicationsVersion] = useState(0);
+  const [callsVersion, setCallsVersion] = useState(0);
 
   useEffect(() => {
     if (!localStorage.getItem("access_token") || !getStoredUser()) {
@@ -51,6 +52,8 @@ export default function DashboardLayout() {
             bumpSeniors: () => setSeniorsVersion((v) => v + 1),
             medicationsVersion,
             bumpMedications: () => setMedicationsVersion((v) => v + 1),
+            callsVersion,
+            bumpCalls: () => setCallsVersion((v) => v + 1),
           }}
         />
 
