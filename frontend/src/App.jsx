@@ -15,6 +15,8 @@ import SettingsPage from "./pages/SettingsPage";
 import LedgerPage from "./pages/LedgerPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
 import AdminPricingPage from "./pages/AdminPricingPage";
+import AdminReviewsPage from "./pages/AdminReviewsPage";
+import ReviewsPage from "./pages/ReviewsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
@@ -40,6 +42,7 @@ export default function App() {
             <Route path="calls" element={<CallsPage />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="ledger" element={<LedgerPage />} />
+            <Route path="reviews" element={<ReviewsPage />} />
           </Route>
           <Route
             path="/admin"
@@ -51,6 +54,7 @@ export default function App() {
           >
             <Route index element={<AdminUsersPage />} />
             <Route path="pricing" element={<AdminPricingPage />} />
+            <Route path="reviews" element={<AdminReviewsPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
