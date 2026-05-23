@@ -37,7 +37,7 @@ function SidebarContent({ onNavigate }) {
     <>
       <div className="shrink-0 px-5 py-4">
         <Link to="/" onClick={onNavigate}>
-          <img src={logo} alt="inTouch" className="h-24 w-auto" />
+          <img src={logo} alt="inTouch" className="h-28 w-auto" />
         </Link>
         <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
           Admin
@@ -69,6 +69,18 @@ function SidebarContent({ onNavigate }) {
       </nav>
 
       <div className="shrink-0 space-y-3 border-t border-border/40 p-4">
+        <div className="rounded-2xl bg-linear-to-br from-primary to-secondary p-4 text-primary-foreground">
+          <p className="text-sm font-semibold">Need help?</p>
+          <p className="mt-1 text-xs text-primary-foreground/85">
+            Our care team is here for you.
+          </p>
+          <button
+            type="button"
+            className="mt-3 w-full rounded-xl bg-white/20 px-3 py-2 text-xs font-semibold backdrop-blur-sm transition-colors hover:bg-white/30"
+          >
+            Contact support
+          </button>
+        </div>
         <Link
           to="/login"
           className="flex w-full items-center justify-center rounded-xl border border-border px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-surface hover:text-foreground"

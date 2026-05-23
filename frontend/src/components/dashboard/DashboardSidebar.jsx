@@ -77,7 +77,7 @@ function SidebarContent({ onNavigate }) {
     <>
       <div className="shrink-0 px-5 py-4">
         <Link to="/" onClick={onNavigate}>
-          <img src={logo} alt="inTouch" className="h-24 w-auto" />
+          <img src={logo} alt="inTouch" className="h-28 w-auto" />
         </Link>
       </div>
 

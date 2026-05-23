@@ -78,7 +78,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-cream/70 backdrop-blur-md">
-      <div className="relative mx-auto flex h-24 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
+      <div className="relative mx-auto flex h-28 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         <Link to="/" className="flex shrink-0 items-center" onClick={closeMenu}>
           <img src={logo} alt="inTouch" className="h-28 w-auto" />
         </Link>
