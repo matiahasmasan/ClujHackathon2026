@@ -22,6 +22,7 @@ export default function MedicationsPage() {
   const [medications, setMedications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
   const [togglingId, setTogglingId] = useState(null);
   const [selectedMedication, setSelectedMedication] = useState(null);
   const [addOpen, setAddOpen] = useState(false);
@@ -44,6 +45,17 @@ export default function MedicationsPage() {
   useEffect(() => {
     loadMedications();
   }, [loadMedications, medicationsVersion]);
+
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase().trim();
+    if (!q) return medications;
+    return medications.filter(
+      (m) =>
+        m.medication_name.toLowerCase().includes(q) ||
+        m.senior_name.toLowerCase().includes(q) ||
+        m.dose.toLowerCase().includes(q),
+    );
+  }, [medications, query]);
 
   const stats = useMemo(() => {
     const taken = medications.filter((m) => m.is_taken_today).length;
@@ -104,6 +116,19 @@ export default function MedicationsPage() {
           </Button>
         </div>
 
+        <label className="relative mt-2 block">
+          <span className="sr-only">Search medications</span>
+          <svg className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+          </svg>
+          <input
+            type="search"
+            placeholder="Search by medication, senior, or dose…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full rounded-xl border border-border/60 bg-white/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+        </label>
       </div>
 
       {!loading && !error && (
@@ -151,14 +176,20 @@ export default function MedicationsPage() {
         </div>
       )}
 
-      {!loading && !error && medications.length > 0 && (
+      {!loading && !error && medications.length > 0 && filtered.length === 0 && (
+        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+          <p className="text-sm text-muted">No medications match &quot;{query}&quot;.</p>
+        </div>
+      )}
+
+      {!loading && !error && filtered.length > 0 && (
         <section className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
           <h2 className="text-lg font-bold text-foreground">
             Today&apos;s schedule
           </h2>
 
           <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[720px] text-left text-sm">
+            <table className="w-full min-w-180 text-left text-sm">
               <thead>
                 <tr className="border-b border-border/50 text-xs font-semibold tracking-wide text-muted uppercase">
                   <th className="pb-3 pr-4">Senior</th>
@@ -170,7 +201,7 @@ export default function MedicationsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/40">
-                {medications.map((med) => {
+                {filtered.map((med) => {
                   const [firstName, ...rest] = med.senior_name.split(" ");
                   const lastName = rest.join(" ");
                   const initials = getInitials(firstName, lastName);

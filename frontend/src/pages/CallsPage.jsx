@@ -105,6 +105,7 @@ export default function CallsPage() {
   const [calls, setCalls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
 
   const loadCalls = useCallback(async () => {
     setLoading(true);
@@ -122,6 +123,17 @@ export default function CallsPage() {
   useEffect(() => {
     loadCalls();
   }, [loadCalls]);
+
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase().trim();
+    if (!q) return calls;
+    return calls.filter(
+      (c) =>
+        c.senior_name.toLowerCase().includes(q) ||
+        callSummary(c).toLowerCase().includes(q) ||
+        c.status.toLowerCase().includes(q),
+    );
+  }, [calls, query]);
 
   const stats = useMemo(() => {
     const completed = calls.filter((c) => c.status === "completed").length;
@@ -141,6 +153,19 @@ export default function CallsPage() {
           the system — review summaries and health flags here.
         </p>
 
+        <label className="relative mt-2 block">
+          <span className="sr-only">Search calls</span>
+          <svg className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+          </svg>
+          <input
+            type="search"
+            placeholder="Search by senior, status, or summary…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full rounded-xl border border-border/60 bg-white/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+        </label>
       </div>
 
       {!loading && !error && (
@@ -194,9 +219,15 @@ export default function CallsPage() {
         </div>
       )}
 
-      {!loading && !error && calls.length > 0 && (
+      {!loading && !error && calls.length > 0 && filtered.length === 0 && (
+        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+          <p className="text-sm text-muted">No calls match &quot;{query}&quot;.</p>
+        </div>
+      )}
+
+      {!loading && !error && filtered.length > 0 && (
         <div className="space-y-4">
-          {calls.map((call) => (
+          {filtered.map((call) => (
             <CallCard key={call.id} call={call} />
           ))}
         </div>

@@ -81,6 +81,19 @@ export default function SeniorsPage() {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase().trim();
+    if (!q) return seniors;
+    return seniors.filter(
+      (s) =>
+        `${s.first_name} ${s.last_name}`.toLowerCase().includes(q) ||
+        s.phone_number?.toLowerCase().includes(q) ||
+        s.diagnoses?.toLowerCase().includes(q),
+    );
+  }, [seniors, query]);
+
   const stats = useMemo(() => ({
     total: seniors.length,
     withDiagnoses: seniors.filter((s) => s.diagnoses).length,
@@ -138,6 +151,20 @@ export default function SeniorsPage() {
             + Add senior
           </Button>
         </div>
+
+        <label className="relative mt-2 block">
+          <span className="sr-only">Search seniors</span>
+          <svg className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+          </svg>
+          <input
+            type="search"
+            placeholder="Search by name, diagnosis, or phone…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full rounded-xl border border-border/60 bg-white/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+        </label>
       </div>
 
       {!loading && !error && (
@@ -179,9 +206,15 @@ export default function SeniorsPage() {
         </div>
       )}
 
-      {!loading && !error && seniors.length > 0 && (
+      {!loading && !error && seniors.length > 0 && filtered.length === 0 && (
+        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+          <p className="text-sm text-muted">No seniors match &quot;{query}&quot;.</p>
+        </div>
+      )}
+
+      {!loading && !error && filtered.length > 0 && (
         <ul className="divide-y divide-border/50 rounded-2xl bg-white/75 shadow-sm backdrop-blur-sm">
-          {seniors.map((senior) => {
+          {filtered.map((senior) => {
             const name = `${senior.first_name} ${senior.last_name}`;
             return (
               <li
