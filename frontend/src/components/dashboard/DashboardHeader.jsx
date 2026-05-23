@@ -1,9 +1,20 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 import { getInitials } from "../../lib/auth";
+import { logout } from "../../lib/api";
 
 export default function DashboardHeader({ user }) {
+  const navigate = useNavigate();
+  const [showMenu, setShowMenu] = useState(false);
   const fullName = `${user.first_name} ${user.last_name}`;
   const initials = getInitials(user.first_name, user.last_name);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login", { replace: true });
+  };
+
   return (
     <header className="flex flex-col gap-4 border-b border-border/40 bg-white/50 px-4 py-4 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:border-b-0">
       <div className="order-1 flex items-center justify-between gap-3 sm:order-2 sm:justify-end">
@@ -29,14 +40,28 @@ export default function DashboardHeader({ user }) {
           <Button className="px-4 py-2 text-sm">+ Add senior</Button>
         </div>
 
-        <div className="flex items-center gap-3 sm:border-l sm:border-border/60 sm:pl-4">
-          <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+        <div className="flex items-center gap-3 sm:border-l sm:border-border/60 sm:pl-4 relative">
+          <button
+            onClick={() => setShowMenu(!showMenu)}
+            className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary hover:bg-primary/20 transition-colors"
+          >
             {initials}
-          </div>
+          </button>
           <div className="hidden sm:block">
             <p className="text-sm font-semibold text-foreground">{fullName}</p>
             <p className="text-xs text-muted">Primary Caregiver</p>
           </div>
+
+          {showMenu && (
+            <div className="absolute top-full right-0 mt-2 w-48 rounded-lg border border-border/60 bg-white shadow-lg z-50">
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-gray-50 rounded-lg transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

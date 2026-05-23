@@ -25,14 +25,14 @@ function parseErrorMessage(data, fallback) {
 }
 
 /**
- * Call POST /api/auth/login.
- * Returns the parsed LoginResponse on success, or throws an Error whose
+ * Call POST /api/auth/sign-in (Better Auth endpoint).
+ * Returns the parsed response on success, or throws an Error whose
  * message is suitable to show the user.
  */
 export async function login({ email, password }) {
   let response;
   try {
-    response = await fetch(`${API_URL}/auth/login`, {
+    response = await fetch(`${API_URL}/auth/sign-in`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -75,8 +75,8 @@ export async function fetchUsers() {
 }
 
 /**
- * Call POST /api/auth/register.
- * Returns the parsed UserResponse on success, or throws an Error whose
+ * Call POST /api/auth/sign-up (Better Auth endpoint).
+ * Returns the parsed response on success, or throws an Error whose
  * message is suitable to show the user.
  */
 export async function register({
@@ -88,7 +88,7 @@ export async function register({
 }) {
   let response;
   try {
-    response = await fetch(`${API_URL}/auth/register`, {
+    response = await fetch(`${API_URL}/auth/sign-up`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -107,6 +107,102 @@ export async function register({
 
   if (!response.ok) {
     throw new Error(parseErrorMessage(data, "Sign up failed. Please try again."));
+  }
+
+  return data;
+}
+
+/**
+ * Call POST /api/auth/sign-out.
+ * Logs out the current user.
+ */
+export async function logout() {
+  try {
+    await fetch(`${API_URL}/auth/sign-out`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch {
+    // Ignore errors on logout
+  }
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("user");
+}
+
+/**
+ * Call POST /api/2fa/setup.
+ * Setup 2FA for the current user. Requires Bearer token.
+ * Returns QR code, secret, and backup codes.
+ */
+export async function setup2FA() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/2fa/setup`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ token: getStoredToken() }),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Failed to setup 2FA."));
+  }
+
+  return data;
+}
+
+/**
+ * Call POST /api/2fa/verify.
+ * Verify 2FA code and enable it.
+ */
+export async function verify2FA(code, secret) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/2fa/verify`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ token: getStoredToken(), code, secret }),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Invalid 2FA code."));
+  }
+
+  return data;
+}
+
+/**
+ * Call POST /api/2fa/disable.
+ * Disable 2FA for the current user.
+ */
+export async function disable2FA() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/2fa/disable`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ token: getStoredToken() }),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Failed to disable 2FA."));
   }
 
   return data;
