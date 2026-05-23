@@ -11,6 +11,7 @@
   --color-surface: #f8fafc;
   --color-card: #f1f5f9;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --header-height: 6rem;
 }
 
 @layer base {

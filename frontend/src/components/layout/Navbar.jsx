@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "../../assets/intouch-logo.png";
 import Button from "../ui/Button";
 
@@ -35,21 +35,32 @@ function MenuIcon({ open }) {
   );
 }
 
+function LogInIcon() {
+  return (
+    <svg
+      className="size-4"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
 
   const closeMenu = () => setOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-8 sm:px-6">
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-white/95 backdrop-blur-md">
+      <div className="relative mx-auto flex h-24 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         <a href="#" className="flex shrink-0 items-center" onClick={closeMenu}>
           <img src={logo} alt="inTouch" className="h-24 w-auto" />
         </a>
@@ -67,9 +78,13 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button className="hidden px-4 py-2 text-sm sm:inline-flex">
-            Get Started
-          </Button>
+          <div className="hidden items-center gap-2 md:flex">
+            <Button variant="outline" className="gap-2 px-4 py-2 text-sm">
+              <LogInIcon />
+              Log In
+            </Button>
+            <Button className="px-4 py-2 text-sm">Get Started</Button>
+          </div>
 
           <button
             type="button"
@@ -82,32 +97,51 @@ export default function Navbar() {
             <MenuIcon open={open} />
           </button>
         </div>
-      </div>
 
-      {open && (
-        <nav
-          id="mobile-nav"
-          className="border-t border-border bg-white px-4 py-3 md:hidden"
-          aria-label="Mobile"
-        >
-          <ul className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="block rounded-lg px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:bg-surface"
+        {open && (
+          <>
+            <button
+              type="button"
+              className="fixed inset-0 top-24 z-40 bg-foreground/10 md:hidden"
+              aria-label="Close menu"
+              onClick={closeMenu}
+            />
+            <nav
+              id="mobile-nav"
+              className="absolute inset-x-0 top-full z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain border-t border-border bg-white px-4 py-3 shadow-lg md:hidden"
+              aria-label="Mobile"
+            >
+              <ul className="flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className="block rounded-lg px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:bg-surface"
+                      onClick={closeMenu}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-4 flex flex-col gap-3 border-t border-border pt-4">
+                <Button
+                  variant="outline"
+                  className="w-full gap-2 py-2.5 text-sm"
                   onClick={closeMenu}
                 >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <Button className="mt-3 w-full py-2.5 text-sm" onClick={closeMenu}>
-            Get Started
-          </Button>
-        </nav>
-      )}
+                  <LogInIcon />
+                  Log In
+                </Button>
+                <Button className="w-full py-2.5 text-sm" onClick={closeMenu}>
+                  Get Started
+                </Button>
+              </div>
+            </nav>
+          </>
+        )}
+      </div>
     </header>
   );
 }

@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16 lg:py-24">
       <div className="grid items-center gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16">
-        <div className="order-2 flex flex-col gap-4 sm:order-1 sm:gap-6">
+        <div className="flex flex-col gap-4 sm:gap-6">
           <span className="inline-flex w-fit items-center gap-2 rounded-full bg-secondary/10 px-4 py-1.5 text-sm font-medium text-secondary">
             <span className="size-2 rounded-full bg-secondary" aria-hidden />
             Trusted by 10,000+ Families
@@ -32,7 +32,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative order-1 sm:order-2">
+        <div className="relative">
           <div className="absolute -inset-4 rounded-3xl bg-linear-to-br from-primary/10 to-secondary/10 blur-2xl" />
           <img
             src={heroImage}
