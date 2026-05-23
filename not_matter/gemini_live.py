@@ -4,7 +4,7 @@ from google import genai
 from google.genai import types
 
 # --- ÎNLOCUIEȘTE CU CHEIA TA DE LA GOOGLE AI STUDIO ---
-API_KEY = "AIzaSyBd0HQT4SofKHZ-RBr7XjNa3H-ngX-Pgxs"
+API_KEY = "de pus in env"
 
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
