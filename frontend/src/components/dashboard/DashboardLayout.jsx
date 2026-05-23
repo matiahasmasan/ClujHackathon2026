@@ -11,7 +11,6 @@ export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [addSeniorOpen, setAddSeniorOpen] = useState(false);
   const [seniorsVersion, setSeniorsVersion] = useState(0);
-  const [medicationsVersion, setMedicationsVersion] = useState(0);
 
   useEffect(() => {
     if (!localStorage.getItem("access_token") || !getStoredUser()) {
@@ -44,15 +43,7 @@ export default function DashboardLayout() {
           onAddSenior={() => setAddSeniorOpen(true)}
         />
 
-        <Outlet
-          context={{
-            user,
-            seniorsVersion,
-            bumpSeniors: () => setSeniorsVersion((v) => v + 1),
-            medicationsVersion,
-            bumpMedications: () => setMedicationsVersion((v) => v + 1),
-          }}
-        />
+        <Outlet context={{ user, seniorsVersion }} />
 
         <AddSeniorModal
           open={addSeniorOpen}

@@ -5,7 +5,7 @@ import { clearAuth } from "../../lib/auth";
 const navItems = [
   { label: "Overview", to: "/dashboard", icon: "grid", end: true },
   { label: "Seniors", to: "/dashboard/seniors", icon: "users" },
-  { label: "Medications", to: "/dashboard/medications", icon: "pill" },
+  { label: "Medications", to: "#", icon: "pill" },
   { label: "Wellness Calls", to: "#", icon: "phone" },
   { label: "Alerts", to: "#", icon: "alert" },
   { label: "Settings", to: "#", icon: "settings" },
