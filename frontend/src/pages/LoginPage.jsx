@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/intouch-logo.png";
 import GoogleSignInButton from "../components/auth/GoogleSignInButton";
 import TwoFactorModal from "../components/auth/TwoFactorModal";
@@ -46,6 +46,10 @@ function LockIcon({ className }) {
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  // Where to go after login: back to the page the guard bounced us from, or
+  // the dashboard by default.
+  const redirectTo = location.state?.from?.pathname ?? "/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -75,7 +79,7 @@ export default function LoginPage() {
     localStorage.setItem("access_token", pendingLogin.access_token);
     saveUser(pendingLogin);
     setPendingLogin(null);
-    navigate("/dashboard");
+    navigate(redirectTo, { replace: true });
   };
 
   return (
