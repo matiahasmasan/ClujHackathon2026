@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/intouch-logo.png";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
+import { login, register } from "../lib/api";
 
 function UserIcon({ className }) {
   return (
@@ -75,8 +77,35 @@ function LockIcon({ className }) {
 }
 
 export default function SignUpPage() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      await register({
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+        phone_number: phone,
+      });
+      const data = await login({ email, password });
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -101,6 +130,8 @@ export default function SignUpPage() {
                 placeholder="Jane"
                 icon={UserIcon}
                 autoComplete="given-name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 required
               />
               <Input
@@ -110,6 +141,8 @@ export default function SignUpPage() {
                 placeholder="Doe"
                 icon={UserIcon}
                 autoComplete="family-name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 required
               />
             </div>
@@ -121,6 +154,8 @@ export default function SignUpPage() {
               placeholder="you@example.com"
               icon={MailIcon}
               autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
 
@@ -131,6 +166,8 @@ export default function SignUpPage() {
               placeholder="+1 (555) 000-0000"
               icon={PhoneIcon}
               autoComplete="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               required
             />
 
@@ -141,6 +178,8 @@ export default function SignUpPage() {
               placeholder="Create a password"
               icon={LockIcon}
               autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
 
@@ -170,8 +209,17 @@ export default function SignUpPage() {
               </span>
             </label>
 
-            <Button type="submit" className="mt-2 w-full rounded-xl py-3.5">
-              Sign Up
+            {error && (
+              <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+                {error}
+              </p>
+            )}
+            <Button
+              type="submit"
+              disabled={loading}
+              className="mt-2 w-full rounded-xl py-3.5 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? "Creating account…" : "Sign Up"}
             </Button>
           </form>
 
