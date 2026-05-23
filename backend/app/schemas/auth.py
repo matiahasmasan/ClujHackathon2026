@@ -17,6 +17,11 @@ class LoginResponse(BaseModel):
     last_name: str
 
 
+class GoogleLoginRequest(BaseModel):
+    # The ID token (a JWT) returned by Google Identity Services on the frontend.
+    credential: str
+
+
 class RegisterRequest(BaseModel):
     first_name: str
     last_name: str

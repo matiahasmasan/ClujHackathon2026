@@ -9,7 +9,6 @@ export default function DashboardLayout() {
   const [user, setUser] = useState(getStoredUser);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [seniorsVersion, setSeniorsVersion] = useState(0);
-  const [medicationsVersion, setMedicationsVersion] = useState(0);
 
   useEffect(() => {
     if (!localStorage.getItem("access_token") || !getStoredUser()) {
@@ -36,10 +35,7 @@ export default function DashboardLayout() {
       />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <DashboardHeader
-          user={user}
-          onMenuOpen={() => setSidebarOpen(true)}
-        />
+        <DashboardHeader user={user} onMenuOpen={() => setSidebarOpen(true)} />
 
         <Outlet
           context={{
@@ -51,7 +47,6 @@ export default function DashboardLayout() {
             bumpMedications: () => setMedicationsVersion((v) => v + 1),
           }}
         />
-
       </div>
     </div>
   );

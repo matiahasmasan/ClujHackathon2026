@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/intouch-logo.png";
+import GoogleSignInButton from "../components/auth/GoogleSignInButton";
+import TwoFactorModal from "../components/auth/TwoFactorModal";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { login } from "../lib/api";
@@ -48,6 +50,9 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  // Holds the LoginResponse after a correct password, while we show the 2FA
+  // step. Set to null when no 2FA is in progress.
+  const [pendingLogin, setPendingLogin] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -55,14 +60,22 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const data = await login({ email, password });
-      localStorage.setItem("access_token", data.access_token);
-      saveUser(data);
-      navigate("/dashboard");
+      // Password is valid — show the (simulated) 2FA step before finishing.
+      setPendingLogin(data);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Called once the 2FA modal accepts a 6-digit code: complete the login.
+  const completeLogin = () => {
+    if (!pendingLogin) return;
+    localStorage.setItem("access_token", pendingLogin.access_token);
+    saveUser(pendingLogin);
+    setPendingLogin(null);
+    navigate("/dashboard");
   };
 
   return (
@@ -115,6 +128,8 @@ export default function LoginPage() {
             </Button>
           </form>
 
+          <GoogleSignInButton onError={setError} text="signin_with" />
+
           <p className="mt-6 text-center text-sm text-muted">
             Don&apos;t have an account?{" "}
             <Link
@@ -136,6 +151,13 @@ export default function LoginPage() {
           </a>
         </footer>
       </div>
+
+      <TwoFactorModal
+        open={pendingLogin !== null}
+        email={pendingLogin?.email ?? email}
+        onVerify={completeLogin}
+        onClose={() => setPendingLogin(null)}
+      />
     </div>
   );
 }

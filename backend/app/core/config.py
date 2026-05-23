@@ -29,5 +29,9 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     jwt_access_token_expire_minutes: int = 60
 
+    # Google Sign-In — OAuth 2.0 Client ID used to verify ID tokens sent from
+    # the frontend. Loaded from GOOGLE_CLIENT_ID in .env.
+    google_client_id: str | None = None
+
 
 settings = Settings()

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Button from "../components/ui/Button";
 import StatCard from "../components/dashboard/StatCard";
@@ -72,7 +72,7 @@ function SeniorCard({ senior, onEdit, onDelete }) {
 }
 
 export default function SeniorsPage() {
-  const { seniorsVersion, bumpSeniors } = useOutletContext();
+  const { seniorsVersion } = useOutletContext();
   const [seniors, setSeniors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -97,25 +97,6 @@ export default function SeniorsPage() {
   useEffect(() => {
     loadSeniors();
   }, [loadSeniors, seniorsVersion]);
-
-  const stats = useMemo(() => {
-    const withDiagnoses = seniors.filter((s) => s.diagnoses?.trim()).length;
-    return { total: seniors.length, withDiagnoses };
-  }, [seniors]);
-
-  function openEdit(senior) {
-    setSelectedSenior(senior);
-    setEditOpen(true);
-  }
-
-  function openDelete(senior) {
-    setSelectedSenior(senior);
-    setDeleteOpen(true);
-  }
-
-  function handleMutationSuccess() {
-    bumpSeniors?.();
-  }
 
   return (
     <main className="flex-1 space-y-6 p-4 sm:p-6">
@@ -180,16 +161,53 @@ export default function SeniorsPage() {
       )}
 
       {!loading && !error && seniors.length > 0 && (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {seniors.map((senior) => (
-            <SeniorCard
-              key={senior.id}
-              senior={senior}
-              onEdit={openEdit}
-              onDelete={openDelete}
-            />
-          ))}
-        </div>
+        <ul className="divide-y divide-border/50 rounded-2xl bg-white/75 shadow-sm backdrop-blur-sm">
+          {seniors.map((senior) => {
+            const name = `${senior.first_name} ${senior.last_name}`;
+            return (
+              <li
+                key={senior.id}
+                className="flex flex-col gap-3 p-5 sm:flex-row sm:items-start sm:justify-between"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                    {getInitials(senior.first_name, senior.last_name)}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">{name}</p>
+                    <dl className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-sm text-muted">
+                      <div className="flex gap-1">
+                        <dt className="font-medium text-foreground/70">Age</dt>
+                        <dd>{senior.age}</dd>
+                      </div>
+                      <div className="flex gap-1">
+                        <dt className="font-medium text-foreground/70">
+                          Gender
+                        </dt>
+                        <dd>{senior.gender}</dd>
+                      </div>
+                      <div className="flex gap-1">
+                        <dt className="font-medium text-foreground/70">
+                          Phone
+                        </dt>
+                        <dd>{senior.phone_number}</dd>
+                      </div>
+                      {senior.diagnoses && (
+                        <div className="flex w-full gap-1">
+                          <dt className="shrink-0 font-medium text-foreground/70">
+                            Diagnoses
+                          </dt>
+                          <dd>{senior.diagnoses}</dd>
+                        </div>
+                      )}
+                    </dl>
+                  </div>
+                </div>
+                <span className="text-xs text-muted">ID {senior.id}</span>
+              </li>
+            );
+          })}
+        </ul>
       )}
 
       <AddSeniorModal

@@ -24,3 +24,16 @@ export function getInitials(firstName, lastName) {
   const last = lastName?.trim()?.[0] ?? "";
   return `${first}${last}`.toUpperCase() || "?";
 }
+
+/**
+ * Censor the middle of an email for display, e.g.
+ * "vintalexandru03@gmail.com" -> "vi•••••03@gmail.com".
+ */
+export function maskEmail(email) {
+  if (!email || !email.includes("@")) return email ?? "";
+  const [local, domain] = email.split("@");
+  if (local.length <= 2) return `${local[0] ?? ""}•••@${domain}`;
+  const start = local.slice(0, 2);
+  const end = local.length > 4 ? local.slice(-2) : "";
+  return `${start}•••••${end}@${domain}`;
+}

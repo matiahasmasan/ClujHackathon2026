@@ -83,7 +83,7 @@ function buildRecentCalls(recentCalls) {
 }
 
 export default function DashboardPage() {
-  const { user, seniorsVersion, medicationsVersion } = useOutletContext();
+  const { user, seniorsVersion } = useOutletContext();
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -103,7 +103,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     loadDashboard();
-  }, [loadDashboard, seniorsVersion, medicationsVersion]);
+  }, [loadDashboard, seniorsVersion]);
 
   const statCards = useMemo(
     () => (dashboard ? buildStatCards(dashboard.stats) : []),
