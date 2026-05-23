@@ -8,7 +8,6 @@ const navItems = [
   { label: "Medications", to: "/dashboard/medications", icon: "pill" },
   { label: "Wellness Calls", to: "/dashboard/calls", icon: "phone" },
   { label: "Care Ledger", to: "/dashboard/ledger", icon: "ledger" },
-  { label: "Alerts", to: "#", icon: "alert" },
   { label: "Settings", to: "/dashboard/settings", icon: "settings" },
 ];
 

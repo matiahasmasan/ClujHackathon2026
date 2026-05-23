@@ -4,13 +4,16 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
+import AdminLayout from "./components/admin/AdminLayout";
 import RequireAuth from "./components/auth/RequireAuth";
+import RequireAdmin from "./components/auth/RequireAdmin";
 import DashboardPage from "./pages/DashboardPage";
 import SeniorsPage from "./pages/SeniorsPage";
 import MedicationsPage from "./pages/MedicationsPage";
 import CallsPage from "./pages/CallsPage";
 import SettingsPage from "./pages/SettingsPage";
 import LedgerPage from "./pages/LedgerPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
@@ -36,6 +39,16 @@ export default function App() {
             <Route path="calls" element={<CallsPage />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="ledger" element={<LedgerPage />} />
+          </Route>
+          <Route
+            path="/admin"
+            element={
+              <RequireAdmin>
+                <AdminLayout />
+              </RequireAdmin>
+            }
+          >
+            <Route index element={<AdminUsersPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
