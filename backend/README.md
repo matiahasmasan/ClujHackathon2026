@@ -19,6 +19,7 @@ uv run uvicorn app.main:app --reload --port 8000
 | ------ | ----------------- | ---------------------------------------- |
 | GET    | `/api/health`     | Health check                             |
 | POST   | `/api/auth/login` | Login by email + password (bcrypt)       |
+| GET    | `/api/users`      | List users (`hello users`); Bearer token |
 
 `POST /api/auth/login` body:
 

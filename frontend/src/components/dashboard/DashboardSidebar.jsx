@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/intouch-logo.png";
+import { clearAuth } from "../../lib/auth";
 const navItems = [
   { label: "Overview", href: "/dashboard", icon: "grid", active: true },
   { label: "Seniors", href: "#", icon: "users" },
@@ -114,6 +115,7 @@ export default function DashboardSidebar() {
         <Link
           to="/login"
           className="block px-3 text-sm font-medium text-muted transition-colors hover:text-foreground"
+          onClick={clearAuth}
         >
           Sign out
         </Link>

@@ -1,6 +1,9 @@
 import Button from "../ui/Button";
+import { getInitials } from "../../lib/auth";
 
-export default function DashboardHeader() {
+export default function DashboardHeader({ user }) {
+  const fullName = `${user.first_name} ${user.last_name}`;
+  const initials = getInitials(user.first_name, user.last_name);
   return (
     <header className="flex flex-col gap-4 border-b border-border/40 bg-white/50 px-4 py-4 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:border-b-0">
       <div className="order-1 flex items-center justify-between gap-3 sm:order-2 sm:justify-end">
@@ -28,10 +31,10 @@ export default function DashboardHeader() {
 
         <div className="flex items-center gap-3 sm:border-l sm:border-border/60 sm:pl-4">
           <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
-            SJ
+            {initials}
           </div>
           <div className="hidden sm:block">
-            <p className="text-sm font-semibold text-foreground">Sarah Jenkins</p>
+            <p className="text-sm font-semibold text-foreground">{fullName}</p>
             <p className="text-xs text-muted">Primary Caregiver</p>
           </div>
         </div>

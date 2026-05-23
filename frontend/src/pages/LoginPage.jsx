@@ -4,6 +4,7 @@ import logo from "../assets/intouch-logo.png";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { login } from "../lib/api";
+import { saveUser } from "../lib/auth";
 
 function MailIcon({ className }) {
   return (
@@ -55,7 +56,8 @@ export default function LoginPage() {
     try {
       const data = await login({ email, password });
       localStorage.setItem("access_token", data.access_token);
-      navigate("/");
+      saveUser(data);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     } finally {

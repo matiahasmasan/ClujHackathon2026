@@ -1,6 +1,6 @@
 import Button from "../ui/Button";
 
-export default function GreetingCard() {
+export default function GreetingCard({ firstName }) {
   return (
     <section className="relative overflow-hidden rounded-2xl bg-linear-to-r from-primary/15 via-secondary/10 to-primary/5 p-6 sm:p-8">
       <div className="pointer-events-none absolute -right-8 -top-8 size-40 rounded-full bg-primary/20 blur-3xl" />
@@ -12,7 +12,7 @@ export default function GreetingCard() {
           All systems calm
         </span>
         <h1 className="mt-4 text-2xl font-bold text-foreground sm:text-3xl">
-          Good morning, Sarah.
+          Good morning, {firstName}.
         </h1>
         <p className="mt-2 text-sm text-muted sm:text-base">
           Here&apos;s the latest from your circle. 4 loved ones checked in, 4 of

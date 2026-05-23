@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DashboardSidebar from "../components/dashboard/DashboardSidebar";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import GreetingCard from "../components/dashboard/GreetingCard";
@@ -5,6 +7,7 @@ import StatCard from "../components/dashboard/StatCard";
 import CircleList from "../components/dashboard/CircleList";
 import RecentCalls from "../components/dashboard/RecentCalls";
 import MedicationsTable from "../components/dashboard/MedicationsTable";
+import { getStoredUser } from "../lib/auth";
 import {
   stats,
   circleMembers,
@@ -13,15 +16,28 @@ import {
 } from "../data/dashboardMock";
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(getStoredUser);
+
+  useEffect(() => {
+    if (!localStorage.getItem("access_token") || !getStoredUser()) {
+      navigate("/login", { replace: true });
+      return;
+    }
+    setUser(getStoredUser());
+  }, [navigate]);
+
+  if (!user) return null;
+
   return (
     <div className="flex min-h-screen">
       <DashboardSidebar />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <DashboardHeader />
+        <DashboardHeader user={user} />
 
         <main className="flex-1 space-y-6 p-4 sm:p-6">
-          <GreetingCard />
+          <GreetingCard firstName={user.first_name} />
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {stats.map((stat) => (

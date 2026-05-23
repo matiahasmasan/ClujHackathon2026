@@ -4,6 +4,7 @@ import logo from "../assets/intouch-logo.png";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { login, register } from "../lib/api";
+import { saveUser } from "../lib/auth";
 
 function UserIcon({ className }) {
   return (
@@ -100,7 +101,8 @@ export default function SignUpPage() {
       });
       const data = await login({ email, password });
       localStorage.setItem("access_token", data.access_token);
-      navigate("/");
+      saveUser(data);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     } finally {
