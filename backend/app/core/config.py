@@ -20,9 +20,8 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5173",
     ]
 
-    # Temporary hardcoded credentials, used until the database is wired up.
-    admin_username: str = "admin"
-    admin_password: str = "admin"
+    # Database — preia automat DATABASE_URL din .env.
+    database_url: str
 
 
 settings = Settings()
