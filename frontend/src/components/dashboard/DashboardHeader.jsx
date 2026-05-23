@@ -81,7 +81,7 @@ export default function DashboardHeader({ user, onMenuOpen }) {
               <p className="text-sm font-semibold text-foreground">
                 {fullName}
               </p>
-              <p className="text-xs text-muted">Profile</p>
+              <p className="text-xs text-muted capitalize">{user.role}</p>
             </div>
             <svg
               className={`hidden size-4 text-muted transition-transform sm:block ${dropdownOpen ? "rotate-180" : ""}`}

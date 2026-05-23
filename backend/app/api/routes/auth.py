@@ -70,6 +70,7 @@ async def login(
         email=user.email,
         first_name=user.first_name,
         last_name=user.last_name,
+        role=user.role,
     )
 
 @router.get("/me", response_model=UserResponse)
@@ -146,4 +147,5 @@ async def google_login(
         email=user.email,
         first_name=user.first_name,
         last_name=user.last_name,
+        role=user.role,
     )

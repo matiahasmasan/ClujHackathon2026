@@ -17,6 +17,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     phone_number: Mapped[str | None] = mapped_column(String(20))
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    role: Mapped[str | None] = mapped_column(String(50), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, server_default=func.current_timestamp()
     )

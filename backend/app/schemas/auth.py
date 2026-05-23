@@ -15,6 +15,7 @@ class LoginResponse(BaseModel):
     email: str
     first_name: str
     last_name: str
+    role: str | None = None
 
 
 class GoogleLoginRequest(BaseModel):
@@ -38,6 +39,7 @@ class UserResponse(BaseModel):
     first_name: str
     last_name: str
     phone_number: str | None = None
+    role: str | None = None
     created_at: datetime | None = None
 
 
