@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Button from "../components/ui/Button";
+import StatCard from "../components/dashboard/StatCard";
 import StatusBadge from "../components/dashboard/StatusBadge";
 import AddMedicationModal from "../components/dashboard/AddMedicationModal";
 import EditMedicationModal from "../components/dashboard/EditMedicationModal";
@@ -103,23 +104,30 @@ export default function MedicationsPage() {
           </Button>
         </div>
 
-        {!loading && !error && medications.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-4">
-            <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-foreground">{stats.total}</p>
-              <p className="text-xs text-muted">Scheduled today</p>
-            </div>
-            <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-secondary">{stats.taken}</p>
-              <p className="text-xs text-muted">Taken</p>
-            </div>
-            <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-foreground">{stats.pending}</p>
-              <p className="text-xs text-muted">Pending</p>
-            </div>
-          </div>
-        )}
       </div>
+
+      {!loading && !error && (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <StatCard
+            label="Meds today"
+            value={String(stats.total)}
+            sub="Scheduled for today"
+            icon="pill"
+          />
+          <StatCard
+            label="Taken"
+            value={String(stats.taken)}
+            sub="Doses marked taken"
+            icon="pill"
+          />
+          <StatCard
+            label="Pending"
+            value={String(stats.pending)}
+            sub="Still due today"
+            icon="pill"
+          />
+        </div>
+      )}
 
       {loading && (
         <p className="text-center text-sm text-muted">Loading medications…</p>

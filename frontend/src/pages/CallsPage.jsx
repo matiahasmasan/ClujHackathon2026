@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Button from "../components/ui/Button";
+import StatCard from "../components/dashboard/StatCard";
 import StatusBadge from "../components/dashboard/StatusBadge";
 import { getInitials } from "../lib/auth";
 import { fetchCalls } from "../lib/api";
@@ -140,27 +141,36 @@ export default function CallsPage() {
           the system — review summaries and health flags here.
         </p>
 
-        {!loading && !error && calls.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-4">
-            <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-foreground">{stats.total}</p>
-              <p className="text-xs text-muted">Total calls</p>
-            </div>
-            <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-secondary">{stats.completed}</p>
-              <p className="text-xs text-muted">Completed</p>
-            </div>
-            <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-foreground">{stats.active}</p>
-              <p className="text-xs text-muted">In progress</p>
-            </div>
-            <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-amber-700">{stats.flagged}</p>
-              <p className="text-xs text-muted">With health flags</p>
-            </div>
-          </div>
-        )}
       </div>
+
+      {!loading && !error && (
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <StatCard
+            label="Wellness calls"
+            value={String(stats.total)}
+            sub="Total in history"
+            icon="phone"
+          />
+          <StatCard
+            label="Completed"
+            value={String(stats.completed)}
+            sub="Finished check-ins"
+            icon="phone"
+          />
+          <StatCard
+            label="In progress"
+            value={String(stats.active)}
+            sub="Active or scheduled"
+            icon="phone"
+          />
+          <StatCard
+            label="Health flags"
+            value={String(stats.flagged)}
+            sub="Need your attention"
+            icon="alert"
+          />
+        </div>
+      )}
 
       {loading && (
         <p className="text-center text-sm text-muted">Loading calls…</p>

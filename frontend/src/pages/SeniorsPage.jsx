@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Button from "../components/ui/Button";
+import StatCard from "../components/dashboard/StatCard";
 import AddSeniorModal from "../components/dashboard/AddSeniorModal";
 import EditSeniorModal from "../components/dashboard/EditSeniorModal";
 import DeleteSeniorModal from "../components/dashboard/DeleteSeniorModal";
@@ -20,14 +21,8 @@ function SeniorCard({ senior, onEdit, onDelete }) {
         <div className="min-w-0 flex-1">
           <h2 className="truncate text-lg font-bold text-foreground">{name}</h2>
           <p className="mt-0.5 text-xs text-muted">ID {senior.id}</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <span className="rounded-full bg-surface px-2.5 py-0.5 text-xs font-medium text-foreground">
-              {senior.age} yrs
-            </span>
-            <span className="rounded-full bg-surface px-2.5 py-0.5 text-xs font-medium text-foreground">
-              {senior.gender}
-            </span>
-          </div>
+          <p className="mt-0.5 text-xs text-muted">Gender {senior.gender}</p>
+          <p className="mt-0.5 text-xs text-muted">Age {senior.age} yrs</p>
         </div>
       </div>
 
@@ -131,8 +126,8 @@ export default function SeniorsPage() {
               Seniors
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-muted sm:text-base">
-              Everyone in your care circle. Update details or remove someone when
-              they leave your care.
+              Everyone in your care circle. Update details or remove someone
+              when they leave your care.
             </p>
           </div>
           <Button
@@ -143,24 +138,24 @@ export default function SeniorsPage() {
             + Add senior
           </Button>
         </div>
-
-        {!loading && !error && seniors.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-4">
-            <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-foreground">
-                {stats.total}
-              </p>
-              <p className="text-xs text-muted">In your circle</p>
-            </div>
-            <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-foreground">
-                {stats.withDiagnoses}
-              </p>
-              <p className="text-xs text-muted">With diagnoses on file</p>
-            </div>
-          </div>
-        )}
       </div>
+
+      {!loading && !error && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <StatCard
+            label="Seniors in care"
+            value={String(stats.total)}
+            sub="Active in your circle"
+            icon="users"
+          />
+          <StatCard
+            label="With diagnoses"
+            value={String(stats.withDiagnoses)}
+            sub="Health info on file"
+            icon="alert"
+          />
+        </div>
+      )}
 
       {loading && (
         <p className="text-center text-sm text-muted">Loading seniors…</p>
