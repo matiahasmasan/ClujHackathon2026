@@ -70,7 +70,7 @@ function buildStatCards(apiStats) {
 }
 
 export default function DashboardPage() {
-  const { user } = useOutletContext();
+  const { user, seniorsVersion } = useOutletContext();
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -90,7 +90,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     loadDashboard();
-  }, [loadDashboard]);
+  }, [loadDashboard, seniorsVersion]);
 
   const statCards = useMemo(
     () => (dashboard ? buildStatCards(dashboard.stats) : mockStats),

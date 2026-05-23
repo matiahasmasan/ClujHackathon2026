@@ -10,6 +10,7 @@ export default function DashboardLayout() {
   const [user, setUser] = useState(getStoredUser);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [addSeniorOpen, setAddSeniorOpen] = useState(false);
+  const [seniorsVersion, setSeniorsVersion] = useState(0);
 
   useEffect(() => {
     if (!localStorage.getItem("access_token") || !getStoredUser()) {
@@ -42,11 +43,12 @@ export default function DashboardLayout() {
           onAddSenior={() => setAddSeniorOpen(true)}
         />
 
-        <Outlet context={{ user }} />
+        <Outlet context={{ user, seniorsVersion }} />
 
         <AddSeniorModal
           open={addSeniorOpen}
           onClose={() => setAddSeniorOpen(false)}
+          onSuccess={() => setSeniorsVersion((v) => v + 1)}
         />
       </div>
     </div>

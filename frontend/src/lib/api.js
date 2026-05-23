@@ -99,6 +99,56 @@ export async function fetchDashboard() {
 }
 
 /**
+ * Call GET /api/seniors (requires Bearer token).
+ * Returns { count, seniors }.
+ */
+export async function fetchSeniors() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/seniors`, {
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not load seniors."));
+  }
+
+  return data;
+}
+
+/**
+ * Call POST /api/seniors (requires Bearer token).
+ * Returns the created senior.
+ */
+export async function createSenior(payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/seniors`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not add senior."));
+  }
+
+  return data;
+}
+
+/**
  * Call POST /api/auth/register.
  * Returns the parsed UserResponse on success, or throws an Error whose
  * message is suitable to show the user.

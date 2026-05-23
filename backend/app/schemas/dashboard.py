@@ -1,15 +1,6 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
-
-class SeniorOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    first_name: str
-    last_name: str
-    age: int
-    gender: str
-    diagnoses: str | None = None
+from app.schemas.senior import SeniorOut
 
 
 class MedicationOut(BaseModel):
