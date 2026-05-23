@@ -70,7 +70,7 @@ export default function TwoFactorModal({ open, email, onVerify, onClose }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (code.length !== LENGTH) {
-      setError("Introdu codul de 6 cifre.");
+      setError("Enter the 6-digit code.");
       return;
     }
     setDigits(EMPTY);
@@ -78,14 +78,14 @@ export default function TwoFactorModal({ open, email, onVerify, onClose }) {
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Verificare în doi pași" size="sm">
+    <Modal open={open} onClose={onClose} title="Two-step verification" size="sm">
       <form onSubmit={handleSubmit} className="space-y-5">
         <p className="text-sm text-muted">
-          Am trimis un cod de verificare de 6 cifre la{" "}
+          We&apos;ve sent a 6-digit verification code to{" "}
           <span className="font-semibold text-foreground">
             {maskEmail(email)}
           </span>
-          . Introdu-l mai jos pentru a continua.
+          . Enter it below to continue.
         </p>
 
         <div>
@@ -105,7 +105,7 @@ export default function TwoFactorModal({ open, email, onVerify, onClose }) {
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
                 onFocus={(e) => e.target.select()}
-                aria-label={`Cifra ${index + 1}`}
+                aria-label={`Digit ${index + 1}`}
                 className="h-14 w-full rounded-xl border border-border bg-white text-center text-2xl font-semibold text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
             ))}
@@ -118,11 +118,11 @@ export default function TwoFactorModal({ open, email, onVerify, onClose }) {
           className="w-full rounded-xl py-3.5 disabled:cursor-not-allowed disabled:opacity-60"
           disabled={code.length !== LENGTH}
         >
-          Verifică
+          Verify
         </Button>
 
         <p className="text-center text-sm text-muted">
-          Nu ai primit codul?{" "}
+          Didn&apos;t get the code?{" "}
           <button
             type="button"
             onClick={() => {
@@ -132,7 +132,7 @@ export default function TwoFactorModal({ open, email, onVerify, onClose }) {
             }}
             className="font-semibold text-foreground transition-colors hover:text-primary"
           >
-            Retrimite
+            Resend
           </button>
         </p>
       </form>

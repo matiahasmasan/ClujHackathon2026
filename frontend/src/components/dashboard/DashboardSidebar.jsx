@@ -7,6 +7,7 @@ const navItems = [
   { label: "Seniors", to: "/dashboard/seniors", icon: "users" },
   { label: "Medications", to: "#", icon: "pill" },
   { label: "Wellness Calls", to: "#", icon: "phone" },
+  { label: "Care Ledger", to: "/dashboard/ledger", icon: "ledger" },
   { label: "Alerts", to: "#", icon: "alert" },
   { label: "Settings", to: "#", icon: "settings" },
 ];
@@ -25,6 +26,13 @@ function NavIcon({ name }) {
     ),
     pill: (
       <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" />
+    ),
+    ledger: (
+      <>
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        <path d="M9 7h7M9 11h7" />
+      </>
     ),
     phone: (
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
