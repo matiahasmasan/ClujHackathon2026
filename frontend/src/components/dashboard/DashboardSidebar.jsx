@@ -1,13 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/intouch-logo.png";
 import { clearAuth } from "../../lib/auth";
+
 const navItems = [
-  { label: "Overview", href: "/dashboard", icon: "grid", active: true },
-  { label: "Seniors", href: "#", icon: "users" },
-  { label: "Medications", href: "#", icon: "pill" },
-  { label: "Wellness Calls", href: "#", icon: "phone" },
-  { label: "Alerts", href: "#", icon: "alert" },
-  { label: "Settings", href: "#", icon: "settings" },
+  { label: "Overview", to: "/dashboard", icon: "grid", end: true },
+  { label: "Seniors", to: "/dashboard/seniors", icon: "users" },
+  { label: "Medications", to: "#", icon: "pill" },
+  { label: "Wellness Calls", to: "#", icon: "phone" },
+  { label: "Alerts", to: "#", icon: "alert" },
+  { label: "Settings", to: "#", icon: "settings" },
 ];
 
 function NavIcon({ name }) {
@@ -64,11 +65,11 @@ function NavIcon({ name }) {
   );
 }
 
-export default function DashboardSidebar() {
+function SidebarContent({ onNavigate }) {
   return (
-    <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border/40 bg-white/60 backdrop-blur-sm lg:flex">
+    <>
       <div className="shrink-0 px-5 py-4">
-        <Link to="/">
+        <Link to="/" onClick={onNavigate}>
           <img src={logo} alt="inTouch" className="h-24 w-auto" />
         </Link>
       </div>
@@ -77,23 +78,34 @@ export default function DashboardSidebar() {
         className="min-h-0 flex-1 overflow-y-auto px-3"
         aria-label="Dashboard"
       >
-        <p className="px-3 pb-2 text-xs font-semibold tracking-wide text-muted uppercase">
-          Care
-        </p>
         <ul className="space-y-1 pb-3">
           {navItems.map((item) => (
             <li key={item.label}>
-              <a
-                href={item.href}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-                  item.active
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted hover:bg-white/80 hover:text-foreground"
-                }`}
-              >
-                <NavIcon name={item.icon} />
-                {item.label}
-              </a>
+              {item.to.startsWith("/") ? (
+                <NavLink
+                  to={item.to}
+                  end={item.end}
+                  onClick={onNavigate}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
+                      isActive
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted hover:bg-white/80 hover:text-foreground"
+                    }`
+                  }
+                >
+                  <NavIcon name={item.icon} />
+                  {item.label}
+                </NavLink>
+              ) : (
+                <a
+                  href={item.to}
+                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-white/80 hover:text-foreground"
+                >
+                  <NavIcon name={item.icon} />
+                  {item.label}
+                </a>
+              )}
             </li>
           ))}
         </ul>
@@ -115,11 +127,66 @@ export default function DashboardSidebar() {
         <Link
           to="/login"
           className="block px-3 text-sm font-medium text-muted transition-colors hover:text-foreground"
-          onClick={clearAuth}
+          onClick={() => {
+            onNavigate?.();
+            clearAuth();
+          }}
         >
           Sign out
         </Link>
       </div>
-    </aside>
+    </>
+  );
+}
+
+export default function DashboardSidebar({ open = false, onClose }) {
+  const handleNavigate = () => onClose?.();
+
+  return (
+    <>
+      {/* Desktop */}
+      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border/40 bg-white/60 backdrop-blur-sm lg:flex lg:flex-col">
+        <SidebarContent />
+      </aside>
+
+      {/* Mobile overlay */}
+      {open && (
+        <button
+          type="button"
+          className="fixed inset-0 z-40 bg-foreground/40 backdrop-blur-[2px] lg:hidden"
+          aria-label="Close menu"
+          onClick={onClose}
+        />
+      )}
+
+      {/* Mobile drawer */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 max-w-[85vw] flex-col border-r border-border/40 bg-white shadow-xl transition-transform duration-300 ease-out lg:hidden ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+        aria-hidden={!open}
+      >
+        <div className="flex items-center justify-end px-3 pt-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex size-10 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface hover:text-foreground"
+            aria-label="Close menu"
+          >
+            <svg
+              className="size-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden
+            >
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <SidebarContent onNavigate={handleNavigate} />
+      </aside>
+    </>
   );
 }
