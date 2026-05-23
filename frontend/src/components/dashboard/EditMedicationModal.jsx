@@ -1,24 +1,44 @@
 import { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import Modal from "../ui/Modal";
-import SeniorFormFields from "./SeniorFormFields";
-import { emptySeniorForm, formToPayload } from "./seniorForm";
-import { createSenior } from "../../lib/api";
+import MedicationFormFields from "./MedicationFormFields";
+import {
+  emptyMedicationForm,
+  formToUpdatePayload,
+  medicationToForm,
+} from "./medicationForm";
+import { fetchSeniors, updateMedication } from "../../lib/api";
 
-export default function AddSeniorModal({ open, onClose, onSuccess }) {
-  const [form, setForm] = useState(emptySeniorForm);
+export default function EditMedicationModal({
+  open,
+  medication,
+  onClose,
+  onSuccess,
+}) {
+  const [form, setForm] = useState(emptyMedicationForm);
+  const [seniors, setSeniors] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!open) return;
-    setForm(emptySeniorForm);
+    if (!open || !medication) return;
+    setForm(medicationToForm(medication));
     setError("");
     setLoading(false);
-  }, [open]);
+
+    fetchSeniors()
+      .then((data) => setSeniors(data.seniors))
+      .catch(() => setSeniors([]));
+  }, [open, medication]);
+
+  if (!medication) return null;
 
   function updateField(field) {
-    return (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
+    return (e) => {
+      const value =
+        field === "is_taken_today" ? e.target.checked : e.target.value;
+      setForm((prev) => ({ ...prev, [field]: value }));
+    };
   }
 
   async function handleSubmit(e) {
@@ -27,8 +47,11 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
     setLoading(true);
 
     try {
-      const senior = await createSenior(formToPayload(form));
-      onSuccess?.(senior);
+      const updated = await updateMedication(
+        medication.id,
+        formToUpdatePayload(form),
+      );
+      onSuccess?.(updated);
       onClose();
     } catch (err) {
       setError(err.message);
@@ -41,8 +64,8 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
     <Modal
       open={open}
       onClose={onClose}
-      title="Add senior"
-      description="Add someone to your care circle. Details can be edited later."
+      title="Edit medication"
+      description={`Update schedule for ${medication.medication_name}`}
       disabled={loading}
     >
       <form className="space-y-4" onSubmit={handleSubmit}>
@@ -52,11 +75,13 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
           </p>
         )}
 
-        <SeniorFormFields
+        <MedicationFormFields
           form={form}
           updateField={updateField}
           loading={loading}
-          idPrefix="add-senior"
+          seniors={seniors}
+          idPrefix={`edit-medication-${medication.id}`}
+          showTakenStatus
         />
 
         <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
@@ -70,7 +95,7 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
             Cancel
           </Button>
           <Button type="submit" className="w-full sm:w-auto" disabled={loading}>
-            {loading ? "Adding…" : "Add senior"}
+            {loading ? "Saving…" : "Save changes"}
           </Button>
         </div>
       </form>

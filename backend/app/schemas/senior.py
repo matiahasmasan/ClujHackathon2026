@@ -10,6 +10,15 @@ class SeniorCreate(BaseModel):
     phone_number: str = Field(..., min_length=1, max_length=11)
 
 
+class SeniorUpdate(BaseModel):
+    first_name: str = Field(..., min_length=1, max_length=50)
+    last_name: str = Field(..., min_length=1, max_length=50)
+    age: int = Field(..., ge=1, le=120)
+    gender: str = Field(..., min_length=1, max_length=20)
+    diagnoses: str = Field(..., min_length=1)
+    phone_number: str = Field(..., min_length=1, max_length=11)
+
+
 class SeniorOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

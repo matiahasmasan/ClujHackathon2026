@@ -2,20 +2,26 @@ import { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import SeniorFormFields from "./SeniorFormFields";
-import { emptySeniorForm, formToPayload } from "./seniorForm";
-import { createSenior } from "../../lib/api";
+import {
+  emptySeniorForm,
+  formToPayload,
+  seniorToForm,
+} from "./seniorForm";
+import { updateSenior } from "../../lib/api";
 
-export default function AddSeniorModal({ open, onClose, onSuccess }) {
+export default function EditSeniorModal({ open, senior, onClose, onSuccess }) {
   const [form, setForm] = useState(emptySeniorForm);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!open) return;
-    setForm(emptySeniorForm);
+    if (!open || !senior) return;
+    setForm(seniorToForm(senior));
     setError("");
     setLoading(false);
-  }, [open]);
+  }, [open, senior]);
+
+  if (!senior) return null;
 
   function updateField(field) {
     return (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
@@ -27,8 +33,8 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
     setLoading(true);
 
     try {
-      const senior = await createSenior(formToPayload(form));
-      onSuccess?.(senior);
+      const updated = await updateSenior(senior.id, formToPayload(form));
+      onSuccess?.(updated);
       onClose();
     } catch (err) {
       setError(err.message);
@@ -37,12 +43,14 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
     }
   }
 
+  const name = `${senior.first_name} ${senior.last_name}`;
+
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title="Add senior"
-      description="Add someone to your care circle. Details can be edited later."
+      title="Edit senior"
+      description={`Update profile for ${name}`}
       disabled={loading}
     >
       <form className="space-y-4" onSubmit={handleSubmit}>
@@ -56,7 +64,7 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
           form={form}
           updateField={updateField}
           loading={loading}
-          idPrefix="add-senior"
+          idPrefix={`edit-senior-${senior.id}`}
         />
 
         <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
@@ -70,7 +78,7 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
             Cancel
           </Button>
           <Button type="submit" className="w-full sm:w-auto" disabled={loading}>
-            {loading ? "Adding…" : "Add senior"}
+            {loading ? "Saving…" : "Save changes"}
           </Button>
         </div>
       </form>
