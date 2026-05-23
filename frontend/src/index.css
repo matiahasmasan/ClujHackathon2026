@@ -5,4 +5,29 @@
   --color-primary-foreground: #ffffff;
   --color-secondary: #25be5f;
   --color-secondary-foreground: #ffffff;
+  --color-foreground: #0f172a;
+  --color-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-surface: #f8fafc;
+  --color-card: #f1f5f9;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
+  }
+
+  body {
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .scroll-anchor {
+    scroll-margin-top: var(--header-height);
+  }
 }
