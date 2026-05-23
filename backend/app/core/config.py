@@ -31,13 +31,16 @@ class Settings(BaseSettings):
     jwt_access_token_expire_minutes: int = 60
     jwt_refresh_token_expire_days: int = 7
 
+    # Frontend — used for OAuth redirect back to the Vite app
+    frontend_url: str = "http://localhost:5173"
+
     # OAuth — Google
     google_client_id: str = ""
     google_client_secret: str = ""
-    
-    # OAuth — GitHub
-    github_client_id: str = ""
-    github_client_secret: str = ""
+
+    @property
+    def google_oauth_redirect_uri(self) -> str:
+        return f"{self.frontend_url.rstrip('/')}/oauth/google/callback"
 
 
 settings = Settings()

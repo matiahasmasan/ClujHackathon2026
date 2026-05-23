@@ -18,7 +18,6 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/oauth/google/callback" element={<OAuthCallback />} />
-          <Route path="/oauth/github/callback" element={<OAuthCallback />} />
           <Route
             path="/dashboard"
             element={

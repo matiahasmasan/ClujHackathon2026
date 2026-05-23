@@ -56,16 +56,10 @@ export function BetterAuthLogin() {
 
       <div className="my-4 border-t">
         <p className="text-center text-gray-600 text-sm py-2">Or continue with</p>
-        <div className="flex gap-2">
-          <Button variant="outline" className="flex-1">
-            <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
-            Google
-          </Button>
-          <Button variant="outline" className="flex-1">
-            <img src="/github-icon.svg" alt="GitHub" className="w-5 h-5" />
-            GitHub
-          </Button>
-        </div>
+        <Button variant="outline" className="w-full">
+          <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
+          Google
+        </Button>
       </div>
     </div>
   );
