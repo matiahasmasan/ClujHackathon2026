@@ -3,23 +3,23 @@ import FeatureCard from "./FeatureCard";
 const features = [
   {
     number: 1,
-    title: "One-Touch SOS",
+    title: "Automated Wellness Calls",
     description:
-      "Instant alerts to your care circle with location sharing. Help arrives when it matters most.",
+      "Scheduled AI-powered calls check in with seniors at specific times and days, creating a consistent and comforting routine.",
     accent: "primary",
   },
   {
     number: 2,
-    title: "Daily Vitals Sync",
+    title: "Medication Reminders",
     description:
-      "Automatic health data sharing with family and caregivers. Stay informed without the hassle.",
+      "Friendly voice reminders help users stay on track with their medications, reducing missed doses and supporting daily care.",
     accent: "secondary",
   },
   {
     number: 3,
-    title: "Video Check-ins",
+    title: "Health & Emergency Monitoring",
     description:
-      "Simple, one-tap video calls designed for seniors. See your loved ones face-to-face, anytime.",
+      "The assistant asks simple health questions during each call and can quickly alert caregivers if an emergency or unusual response is detected.",
     accent: "primary",
   },
 ];
