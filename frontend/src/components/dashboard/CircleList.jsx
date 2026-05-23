@@ -4,6 +4,11 @@ export default function CircleList({ members }) {
   return (
     <section className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
       <h2 className="text-lg font-bold text-foreground">Your circle</h2>
+      {members.length === 0 ? (
+        <p className="mt-4 text-sm text-muted">
+          No seniors in your circle yet. Add someone from the Seniors page.
+        </p>
+      ) : (
       <ul className="mt-4 divide-y divide-border/50">
         {members.map((member) => (
           <li
@@ -45,6 +50,7 @@ export default function CircleList({ members }) {
           </li>
         ))}
       </ul>
+      )}
     </section>
   );
 }

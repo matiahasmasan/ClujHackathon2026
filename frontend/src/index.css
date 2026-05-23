@@ -28,9 +28,3 @@
     -webkit-font-smoothing: antialiased;
   }
 }
-
-@layer utilities {
-  .scroll-anchor {
-    scroll-margin-top: var(--header-height);
-  }
-}

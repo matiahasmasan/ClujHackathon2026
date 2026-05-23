@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -6,7 +6,7 @@ from app.api.deps import get_current_user
 from app.core.database import get_db
 from app.models.senior import Senior
 from app.models.user import User
-from app.schemas.senior import SeniorCreate, SeniorOut, SeniorsListResponse
+from app.schemas.senior import SeniorCreate, SeniorOut, SeniorsListResponse, SeniorUpdate
 
 router = APIRouter(prefix="/seniors", tags=["seniors"])
 
@@ -47,3 +47,48 @@ async def create_senior(
     await db.commit()
     await db.refresh(senior)
     return senior
+
+
+async def _get_senior(senior_id: int, user_id: int, db: AsyncSession) -> Senior:
+    senior = await db.scalar(
+        select(Senior).where(Senior.id == senior_id, Senior.caregiver_id == user_id)
+    )
+    if not senior:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Senior not found.")
+    return senior
+
+
+@router.patch("/{senior_id}", response_model=SeniorOut)
+async def update_senior(
+    senior_id: int,
+    payload: SeniorUpdate,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> Senior:
+    senior = await _get_senior(senior_id, current_user.id, db)
+    if payload.first_name is not None:
+        senior.first_name = payload.first_name.strip()
+    if payload.last_name is not None:
+        senior.last_name = payload.last_name.strip()
+    if payload.age is not None:
+        senior.age = payload.age
+    if payload.gender is not None:
+        senior.gender = payload.gender.strip()
+    if payload.diagnoses is not None:
+        senior.diagnoses = payload.diagnoses.strip()
+    if payload.phone_number is not None:
+        senior.phone_number = payload.phone_number.strip()
+    await db.commit()
+    await db.refresh(senior)
+    return senior
+
+
+@router.delete("/{senior_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_senior(
+    senior_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> None:
+    senior = await _get_senior(senior_id, current_user.id, db)
+    await db.delete(senior)
+    await db.commit()

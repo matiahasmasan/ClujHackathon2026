@@ -8,9 +8,14 @@ export default function RecentCalls({ calls }) {
   return (
     <section className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
       <h2 className="text-lg font-bold text-foreground">Recent calls</h2>
+      {calls.length === 0 ? (
+        <p className="mt-4 text-sm text-muted">
+          No wellness calls yet. Automated check-ins will show up here.
+        </p>
+      ) : (
       <ul className="mt-4 space-y-4">
         {calls.map((call) => (
-          <li key={`${call.name}-${call.time}`} className="flex gap-3">
+          <li key={call.id ?? `${call.name}-${call.time}`} className="flex gap-3">
             <span
               className={`mt-1.5 size-2.5 shrink-0 rounded-full ${toneDot[call.tone]}`}
               aria-hidden
@@ -27,6 +32,7 @@ export default function RecentCalls({ calls }) {
           </li>
         ))}
       </ul>
+      )}
     </section>
   );
 }

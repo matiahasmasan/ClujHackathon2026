@@ -19,10 +19,6 @@ export default function GreetingCard({
       <div className="pointer-events-none absolute right-16 bottom-0 size-32 rounded-full bg-secondary/20 blur-3xl" />
 
       <div className="relative max-w-2xl">
-        <span className="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 text-xs font-medium text-secondary backdrop-blur-sm">
-          <span className="size-2 rounded-full bg-secondary" aria-hidden />
-          All systems calm
-        </span>
         <h1 className="mt-4 text-2xl font-bold text-foreground sm:text-3xl">
           Good morning, {firstName}.
         </h1>
@@ -31,7 +27,10 @@ export default function GreetingCard({
           {medsLine}.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Button to="/dashboard/seniors" className="bg-blue/80 px-5 py-2.5 text-sm">
+          <Button
+            to="/dashboard/seniors"
+            className="bg-blue/80 px-5 py-2.5 text-sm"
+          >
             View today&apos;s schedule
           </Button>
         </div>

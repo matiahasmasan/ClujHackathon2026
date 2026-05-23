@@ -22,6 +22,15 @@ class SeniorOut(BaseModel):
     phone_number: str
 
 
+class SeniorUpdate(BaseModel):
+    first_name: str | None = Field(None, min_length=1, max_length=50)
+    last_name: str | None = Field(None, min_length=1, max_length=50)
+    age: int | None = Field(None, ge=1, le=120)
+    gender: str | None = Field(None, min_length=1, max_length=20)
+    diagnoses: str | None = None
+    phone_number: str | None = Field(None, min_length=1, max_length=11)
+
+
 class SeniorsListResponse(BaseModel):
     count: int
     seniors: list[SeniorOut]

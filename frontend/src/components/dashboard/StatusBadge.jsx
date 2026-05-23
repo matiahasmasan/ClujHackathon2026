@@ -4,6 +4,12 @@ const styles = {
   "missed-call": "bg-red-100 text-red-600",
   taken: "bg-secondary/10 text-secondary",
   pending: "bg-slate-100 text-slate-600",
+  initiated: "bg-slate-100 text-slate-600",
+  ongoing: "bg-primary/10 text-primary",
+  in_progress: "bg-primary/10 text-primary",
+  completed: "bg-secondary/10 text-secondary",
+  missed: "bg-red-100 text-red-600",
+  failed: "bg-red-100 text-red-600",
 };
 
 const labels = {
@@ -12,14 +18,25 @@ const labels = {
   "missed-call": "Missed call",
   taken: "Taken",
   pending: "Pending",
+  initiated: "Initiated",
+  ongoing: "In progress",
+  in_progress: "In progress",
+  completed: "Completed",
+  missed: "Missed",
+  failed: "Failed",
 };
 
 export default function StatusBadge({ status }) {
+  const style = styles[status] ?? "bg-slate-100 text-slate-600";
+  const label =
+    labels[status] ??
+    String(status).replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
   return (
     <span
-      className={`inline-flex shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${styles[status]}`}
+      className={`inline-flex shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${style}`}
     >
-      {labels[status]}
+      {label}
     </span>
   );
 }

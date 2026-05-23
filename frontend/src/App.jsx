@@ -7,6 +7,9 @@ import DashboardLayout from "./components/dashboard/DashboardLayout";
 import RequireAuth from "./components/auth/RequireAuth";
 import DashboardPage from "./pages/DashboardPage";
 import SeniorsPage from "./pages/SeniorsPage";
+import MedicationsPage from "./pages/MedicationsPage";
+import CallsPage from "./pages/CallsPage";
+import SettingsPage from "./pages/SettingsPage";
 import LedgerPage from "./pages/LedgerPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -29,6 +32,9 @@ export default function App() {
           >
             <Route index element={<DashboardPage />} />
             <Route path="seniors" element={<SeniorsPage />} />
+            <Route path="medications" element={<MedicationsPage />} />
+            <Route path="calls" element={<CallsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
             <Route path="ledger" element={<LedgerPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
