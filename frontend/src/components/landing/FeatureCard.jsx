@@ -5,7 +5,7 @@ export default function FeatureCard({ number, title, description, accent = "prim
   };
 
   return (
-    <article className="flex flex-col gap-3 rounded-2xl bg-card p-6 transition-shadow hover:shadow-md sm:gap-4 sm:p-8">
+    <article className="flex flex-col gap-3 rounded-2xl bg-white/75 p-6 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md sm:gap-4 sm:p-8">
       <span
         className={`flex size-10 items-center justify-center rounded-full text-sm font-bold ${accentStyles[accent]}`}
       >

@@ -4,6 +4,7 @@ import logo from "../assets/intouch-logo.png";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { login, register } from "../lib/api";
+import { saveUser } from "../lib/auth";
 
 function UserIcon({ className }) {
   return (
@@ -100,7 +101,8 @@ export default function SignUpPage() {
       });
       const data = await login({ email, password });
       localStorage.setItem("access_token", data.access_token);
-      navigate("/");
+      saveUser(data);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -109,7 +111,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-surface px-4 py-10 sm:py-14">
+    <div className="flex min-h-screen flex-col px-4 py-10 sm:py-14">
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center">
         <Link to="/" className="shrink-0">
           <img src={logo} alt="inTouch" className="h-24 w-auto" />

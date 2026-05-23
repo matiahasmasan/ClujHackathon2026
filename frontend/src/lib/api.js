@@ -1,5 +1,29 @@
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000/api";
 
+function getStoredToken() {
+  return localStorage.getItem("access_token");
+}
+
+function authHeaders() {
+  const token = getStoredToken();
+  if (!token) {
+    throw new Error("Not authenticated");
+  }
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+}
+
+function parseErrorMessage(data, fallback) {
+  if (!data?.detail) return fallback;
+  if (typeof data.detail === "string") return data.detail;
+  if (Array.isArray(data.detail)) {
+    return data.detail.map((item) => item.msg).join(", ");
+  }
+  return fallback;
+}
+
 /**
  * Call POST /api/auth/login.
  * Returns the parsed LoginResponse on success, or throws an Error whose
@@ -20,7 +44,31 @@ export async function login({ email, password }) {
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(data?.detail ?? "Login failed. Please try again.");
+    throw new Error(parseErrorMessage(data, "Login failed. Please try again."));
+  }
+
+  return data;
+}
+
+/**
+ * Call GET /api/users (requires Bearer token).
+ * Returns { message, count, users }.
+ */
+export async function fetchUsers() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/users`, {
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not load users."));
   }
 
   return data;
@@ -58,7 +106,7 @@ export async function register({
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(data?.detail ?? "Sign up failed. Please try again.");
+    throw new Error(parseErrorMessage(data, "Sign up failed. Please try again."));
   }
 
   return data;

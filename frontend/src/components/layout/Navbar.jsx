@@ -60,7 +60,7 @@ export default function Navbar() {
   const closeMenu = () => setOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-white/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 bg-cream/70 backdrop-blur-md">
       <div className="relative mx-auto flex h-24 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         <Link to="/" className="flex shrink-0 items-center" onClick={closeMenu}>
           <img src={logo} alt="inTouch" className="h-24 w-auto" />
