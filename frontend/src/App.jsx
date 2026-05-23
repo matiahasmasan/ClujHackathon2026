@@ -19,7 +19,14 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth>
+                <DashboardLayout />
+              </RequireAuth>
+            }
+          >
             <Route index element={<DashboardPage />} />
             <Route path="seniors" element={<SeniorsPage />} />
             <Route path="ledger" element={<LedgerPage />} />
