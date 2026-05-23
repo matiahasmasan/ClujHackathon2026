@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardHeader from "./DashboardHeader";
-import AddSeniorModal from "./AddSeniorModal";
 import { getStoredUser } from "../../lib/auth";
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
   const [user, setUser] = useState(getStoredUser);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [addSeniorOpen, setAddSeniorOpen] = useState(false);
   const [seniorsVersion, setSeniorsVersion] = useState(0);
   const [medicationsVersion, setMedicationsVersion] = useState(0);
 
@@ -41,7 +39,6 @@ export default function DashboardLayout() {
         <DashboardHeader
           user={user}
           onMenuOpen={() => setSidebarOpen(true)}
-          onAddSenior={() => setAddSeniorOpen(true)}
         />
 
         <Outlet
@@ -54,11 +51,6 @@ export default function DashboardLayout() {
           }}
         />
 
-        <AddSeniorModal
-          open={addSeniorOpen}
-          onClose={() => setAddSeniorOpen(false)}
-          onSuccess={() => setSeniorsVersion((v) => v + 1)}
-        />
       </div>
     </div>
   );

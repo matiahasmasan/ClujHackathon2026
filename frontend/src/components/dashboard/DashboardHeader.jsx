@@ -1,7 +1,6 @@
-import Button from "../ui/Button";
 import { getInitials } from "../../lib/auth";
 
-export default function DashboardHeader({ user, onMenuOpen, onAddSenior }) {
+export default function DashboardHeader({ user, onMenuOpen }) {
   const fullName = `${user.first_name} ${user.last_name}`;
   const initials = getInitials(user.first_name, user.last_name);
 
@@ -45,14 +44,6 @@ export default function DashboardHeader({ user, onMenuOpen, onAddSenior }) {
             </svg>
             <span className="absolute top-2 right-2 size-2 rounded-full bg-red-500" />
           </button>
-
-          <Button
-            type="button"
-            className="px-4 py-2 text-sm"
-            onClick={onAddSenior}
-          >
-            + Add senior
-          </Button>
         </div>
 
         <div className="flex items-center gap-3 sm:border-l sm:border-border/60 sm:pl-4">

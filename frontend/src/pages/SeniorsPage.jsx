@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Button from "../components/ui/Button";
+import AddSeniorModal from "../components/dashboard/AddSeniorModal";
 import EditSeniorModal from "../components/dashboard/EditSeniorModal";
 import DeleteSeniorModal from "../components/dashboard/DeleteSeniorModal";
 import { getInitials } from "../lib/auth";
@@ -81,6 +82,7 @@ export default function SeniorsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedSenior, setSelectedSenior] = useState(null);
+  const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -123,18 +125,31 @@ export default function SeniorsPage() {
   return (
     <main className="flex-1 space-y-6 p-4 sm:p-6">
       <div className="rounded-2xl bg-linear-to-r from-primary/10 via-secondary/5 to-primary/5 p-6 shadow-sm backdrop-blur-sm sm:p-8">
-        <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
-          Seniors
-        </h1>
-        <p className="mt-2 max-w-2xl text-sm text-muted sm:text-base">
-          Everyone in your care circle. Update details or remove someone when
-          they leave your care.
-        </p>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
+              Seniors
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-muted sm:text-base">
+              Everyone in your care circle. Update details or remove someone when
+              they leave your care.
+            </p>
+          </div>
+          <Button
+            type="button"
+            className="shrink-0 px-4 py-2 text-sm"
+            onClick={() => setAddOpen(true)}
+          >
+            + Add senior
+          </Button>
+        </div>
 
         {!loading && !error && seniors.length > 0 && (
           <div className="mt-6 flex flex-wrap gap-4">
             <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-foreground">{stats.total}</p>
+              <p className="text-2xl font-bold text-foreground">
+                {stats.total}
+              </p>
               <p className="text-xs text-muted">In your circle</p>
             </div>
             <div className="rounded-xl bg-white/80 px-4 py-3 backdrop-blur-sm">
@@ -163,8 +178,8 @@ export default function SeniorsPage() {
       {!loading && !error && seniors.length === 0 && (
         <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">
-            No seniors yet. Use &quot;+ Add senior&quot; in the header to add
-            someone to your circle.
+            No seniors yet. Use &quot;+ Add senior&quot; above to add someone to
+            your circle.
           </p>
         </div>
       )}
@@ -181,6 +196,12 @@ export default function SeniorsPage() {
           ))}
         </div>
       )}
+
+      <AddSeniorModal
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        onSuccess={handleMutationSuccess}
+      />
 
       <EditSeniorModal
         open={editOpen}
