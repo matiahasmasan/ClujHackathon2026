@@ -19,6 +19,11 @@ export function clearAuth() {
   localStorage.removeItem("user");
 }
 
+/** True if an access token is present (i.e. the user has logged in). */
+export function isAuthenticated() {
+  return Boolean(localStorage.getItem("access_token"));
+}
+
 export function getInitials(firstName, lastName) {
   const first = firstName?.trim()?.[0] ?? "";
   const last = lastName?.trim()?.[0] ?? "";
