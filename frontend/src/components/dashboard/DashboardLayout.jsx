@@ -43,7 +43,13 @@ export default function DashboardLayout() {
           onAddSenior={() => setAddSeniorOpen(true)}
         />
 
-        <Outlet context={{ user, seniorsVersion }} />
+        <Outlet
+          context={{
+            user,
+            seniorsVersion,
+            bumpSeniors: () => setSeniorsVersion((v) => v + 1),
+          }}
+        />
 
         <AddSeniorModal
           open={addSeniorOpen}

@@ -149,6 +149,78 @@ export async function createSenior(payload) {
 }
 
 /**
+ * Call GET /api/seniors/:id (requires Bearer token).
+ */
+export async function fetchSenior(seniorId) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/seniors/${seniorId}`, {
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not load senior."));
+  }
+
+  return data;
+}
+
+/**
+ * Call PATCH /api/seniors/:id (requires Bearer token).
+ */
+export async function updateSenior(seniorId, payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/seniors/${seniorId}`, {
+      method: "PATCH",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not update senior."));
+  }
+
+  return data;
+}
+
+/**
+ * Call DELETE /api/seniors/:id (requires Bearer token).
+ */
+export async function deleteSenior(seniorId) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/seniors/${seniorId}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  if (response.status === 204) return;
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not delete senior."));
+  }
+}
+
+/**
  * Call POST /api/auth/register.
  * Returns the parsed UserResponse on success, or throws an Error whose
  * message is suitable to show the user.
