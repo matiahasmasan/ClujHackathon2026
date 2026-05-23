@@ -25,10 +25,7 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:flex-wrap sm:gap-4 sm:pt-2">
-            <Button className="w-full sm:w-auto">Set up a Circle</Button>
-            <Button variant="outline" className="w-full sm:w-auto">
-              Watch Demo
-            </Button>
+            <Button to="/login" className="w-full sm:w-auto">Set up a Circle</Button>
           </div>
         </div>
 
