@@ -78,7 +78,7 @@ export async function googleLogin(credential) {
 }
 
 /**
- * Call GET /api/users (requires Bearer token).
+ * Call GET /api/users (admin only).
  * Returns { message, count, users }.
  */
 export async function fetchUsers() {
@@ -99,6 +99,80 @@ export async function fetchUsers() {
   }
 
   return data;
+}
+
+/**
+ * Call POST /api/users (admin only).
+ */
+export async function createUser(payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/users`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not create user."));
+  }
+
+  return data;
+}
+
+/**
+ * Call PATCH /api/users/:id (admin only).
+ */
+export async function updateUser(userId, payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/users/${userId}`, {
+      method: "PATCH",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not update user."));
+  }
+
+  return data;
+}
+
+/**
+ * Call DELETE /api/users/:id (admin only).
+ */
+export async function deleteUser(userId) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/users/${userId}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  if (response.status === 204) return;
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not delete user."));
+  }
 }
 
 /**

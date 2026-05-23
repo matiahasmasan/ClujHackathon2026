@@ -2,9 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/intouch-logo.png";
 import { clearAuth } from "../../lib/auth";
 
-const navItems = [
-  { label: "Users", to: "/admin", icon: "users", end: true },
-];
+const navItems = [{ label: "Users", to: "/admin", icon: "users", end: true }];
 
 function NavIcon({ name }) {
   const icons = {
@@ -15,9 +13,7 @@ function NavIcon({ name }) {
         <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
       </>
     ),
-    shield: (
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    ),
+    shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
   };
 
   return (
@@ -73,13 +69,6 @@ function SidebarContent({ onNavigate }) {
       </nav>
 
       <div className="shrink-0 space-y-3 border-t border-border/40 p-4">
-        <Link
-          to="/dashboard"
-          className="flex w-full items-center justify-center rounded-xl border border-border px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-surface hover:text-foreground"
-          onClick={onNavigate}
-        >
-          Back to Dashboard
-        </Link>
         <Link
           to="/login"
           className="flex w-full items-center justify-center rounded-xl border border-border px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-surface hover:text-foreground"

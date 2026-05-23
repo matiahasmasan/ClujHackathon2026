@@ -19,3 +19,20 @@ class UsersListResponse(BaseModel):
     message: str
     count: int
     users: list[UserPublic]
+
+
+class UserCreate(BaseModel):
+    first_name: str
+    last_name: str
+    email: str
+    password: str
+    phone_number: str | None = None
+    role: str = "caregiver"
+
+
+class UserAdminUpdate(BaseModel):
+    first_name: str | None = None
+    last_name: str | None = None
+    email: str | None = None
+    phone_number: str | None = None
+    role: str | None = None
