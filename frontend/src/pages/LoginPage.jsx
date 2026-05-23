@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/intouch-logo.png";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
+import { login } from "../lib/api";
 
 function MailIcon({ className }) {
   return (
@@ -40,8 +42,25 @@ function LockIcon({ className }) {
 }
 
 export default function LoginPage() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const data = await login({ email, password });
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -65,6 +84,8 @@ export default function LoginPage() {
               placeholder="you@example.com"
               icon={MailIcon}
               autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <Input
@@ -74,10 +95,21 @@ export default function LoginPage() {
               placeholder="Enter your password"
               icon={LockIcon}
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button type="submit" className="mt-2 w-full rounded-xl py-3.5">
-              Log In
+            {error && (
+              <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+                {error}
+              </p>
+            )}
+            <Button
+              type="submit"
+              disabled={loading}
+              className="mt-2 w-full rounded-xl py-3.5 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? "Logging in…" : "Log In"}
             </Button>
           </form>
 
