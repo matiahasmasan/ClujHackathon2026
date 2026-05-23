@@ -37,14 +37,13 @@ function yearlySavings(monthly, yearly) {
 export default function PricingCard({ plan }) {
   const savings = yearlySavings(plan.price_monthly, plan.price_yearly);
   const isHighlighted = plan.is_highlighted;
-  const ctaIsInternal = plan.cta_href.startsWith("/");
   const buttonClass = "mt-8 w-full py-2.5 text-sm";
 
   return (
     <article
       className={`relative flex flex-col rounded-2xl p-6 transition-shadow sm:p-8 ${
         isHighlighted
-          ? "z-10 scale-[1.02] bg-white shadow-xl shadow-primary/15 ring-2 ring-primary/20 lg:-my-2"
+          ? "z-10 bg-white shadow-xl shadow-primary/15 ring-2 ring-primary/20"
           : "bg-white/75 shadow-sm backdrop-blur-sm hover:shadow-md"
       }`}
     >
@@ -79,24 +78,13 @@ export default function PricingCard({ plan }) {
         ))}
       </ul>
 
-      {ctaIsInternal ? (
-        <Button
-          to={plan.cta_href}
-          variant={isHighlighted ? "primary" : "outline"}
-          className={buttonClass}
-        >
-          {plan.cta_label}
-        </Button>
-      ) : (
-        <a href={plan.cta_href} className="mt-8 block">
-          <Button
-            variant={isHighlighted ? "primary" : "outline"}
-            className={`${buttonClass} pointer-events-none`}
-          >
-            {plan.cta_label}
-          </Button>
-        </a>
-      )}
+      <Button
+        to="/login"
+        variant={isHighlighted ? "primary" : "outline"}
+        className={buttonClass}
+      >
+        {plan.cta_label}
+      </Button>
     </article>
   );
 }

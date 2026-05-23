@@ -42,13 +42,24 @@ export default function Pricing() {
     };
   }, []);
 
+  useEffect(() => {
+    if (loading || window.location.hash !== "#pricing") return;
+
+    const target = document.getElementById("pricing");
+    if (!target) return;
+
+    requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [loading]);
+
   return (
-    <section
-      id="pricing"
-      className="scroll-anchor px-4 py-14 sm:px-6 sm:py-20 lg:py-28"
-    >
+    <section className="px-4 py-14 sm:px-6 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
+        <div
+          id="pricing"
+          className="mx-auto mb-10 max-w-2xl text-center sm:mb-14"
+        >
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
             Simple, transparent pricing
           </h2>
@@ -64,7 +75,7 @@ export default function Pricing() {
           </p>
         )}
 
-        <div className="grid items-stretch gap-6 md:grid-cols-3 lg:gap-8">
+        <div className="grid items-stretch gap-6 pt-3 md:grid-cols-3 lg:gap-8">
           {loading
             ? Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)
             : plans.map((plan) => <PricingCard key={plan.id} plan={plan} />)}
