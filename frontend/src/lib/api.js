@@ -51,6 +51,33 @@ export async function login({ email, password }) {
 }
 
 /**
+ * Call POST /api/auth/google with the ID token from Google Identity Services.
+ * Returns the parsed LoginResponse on success, or throws a user-facing Error.
+ */
+export async function googleLogin(credential) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/auth/google`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ credential }),
+    });
+  } catch {
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(
+      parseErrorMessage(data, "Google sign-in failed. Please try again."),
+    );
+  }
+
+  return data;
+}
+
+/**
  * Call GET /api/users (requires Bearer token).
  * Returns { message, count, users }.
  */

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/intouch-logo.png";
+import GoogleSignInButton from "../components/auth/GoogleSignInButton";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { login, register } from "../lib/api";
@@ -224,6 +225,8 @@ export default function SignUpPage() {
               {loading ? "Creating account…" : "Sign Up"}
             </Button>
           </form>
+
+          <GoogleSignInButton onError={setError} text="signup_with" />
 
           <p className="mt-6 text-center text-sm text-muted">
             Already have an account?{" "}
