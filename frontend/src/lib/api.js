@@ -427,3 +427,23 @@ export async function register({
 
   return data;
 }
+
+/**
+ * Call GET /api/pricing (public).
+ */
+export async function fetchPricing() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/pricing`);
+  } catch {
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not load pricing plans."));
+  }
+
+  return data;
+}

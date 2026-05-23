@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function StatIcon({ name }) {
   const className = "size-5 text-primary";
 
@@ -31,19 +33,34 @@ function StatIcon({ name }) {
   );
 }
 
-export default function StatCard({ label, value, sub, icon }) {
-  return (
-    <article className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-sm text-muted">{label}</p>
-          <p className="mt-1 text-3xl font-bold text-foreground">{value}</p>
-          <p className="mt-1 text-xs text-muted">{sub}</p>
-        </div>
-        <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10">
-          <StatIcon name={icon} />
-        </div>
+export default function StatCard({ label, value, sub, icon, to }) {
+  const content = (
+    <div className="flex items-start justify-between gap-3">
+      <div>
+        <p className="text-sm text-muted">{label}</p>
+        <p className="mt-1 text-3xl font-bold text-foreground">{value}</p>
+        <p className="mt-1 text-xs text-muted">{sub}</p>
       </div>
-    </article>
+      <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10">
+        <StatIcon name={icon} />
+      </div>
+    </div>
   );
+
+  const baseClass =
+    "rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm";
+
+  if (to) {
+    return (
+      <Link
+        to={to}
+        className={`block ${baseClass} transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30`}
+        aria-label={`${label}: ${value}`}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return <article className={baseClass}>{content}</article>;
 }

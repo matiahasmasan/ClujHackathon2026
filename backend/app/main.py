@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import auth, calls, dashboard, health, medications, seniors, users
+from app.api.routes import auth, calls, dashboard, health, medications, pricing, seniors, users
 from app.core.config import settings
 
 app = FastAPI(title=settings.app_name, debug=settings.debug)
@@ -22,6 +22,7 @@ app.include_router(dashboard.router, prefix="/api")
 app.include_router(seniors.router, prefix="/api")
 app.include_router(medications.router, prefix="/api")
 app.include_router(calls.router, prefix="/api")
+app.include_router(pricing.router, prefix="/api")
 
 
 @app.get("/")

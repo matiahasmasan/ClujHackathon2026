@@ -17,24 +17,28 @@ function buildStatCards(stats) {
       value: String(stats.senior_count),
       sub: "Active in your circle",
       icon: "users",
+      to: "/dashboard/seniors",
     },
     {
       label: "Meds today",
       value: `${stats.medications_taken}/${stats.medications_total}`,
       sub: "Doses taken so far",
       icon: "pill",
+      to: "/dashboard/medications",
     },
     {
       label: "Wellness calls",
       value: String(stats.calls_completed_24h),
       sub: "Completed in last 24h",
       icon: "phone",
+      to: "/dashboard/calls",
     },
     {
       label: "Active alerts",
       value: String(stats.active_alerts),
       sub: "Need your attention",
       icon: "alert",
+      to: "/dashboard/calls",
     },
   ];
 }
