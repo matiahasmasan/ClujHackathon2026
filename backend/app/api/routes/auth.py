@@ -1,11 +1,9 @@
-import secrets
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.core.security import hash_password, verify_password
+from app.core.security import create_access_token, hash_password, verify_password
 from app.models.user import User
 from app.schemas.auth import (
     LoginRequest,
@@ -57,9 +55,8 @@ async def login(
             detail="Invalid email or password",
         )
 
-    # Placeholder token. Replace with a real signed JWT once auth is built out.
     return LoginResponse(
-        access_token=secrets.token_urlsafe(32),
+        access_token=create_access_token(user_id=user.id, email=user.email),
         user_id=user.id,
         email=user.email,
         first_name=user.first_name,

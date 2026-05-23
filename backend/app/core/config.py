@@ -1,3 +1,4 @@
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -22,6 +23,11 @@ class Settings(BaseSettings):
 
     # Database — preia automat DATABASE_URL din .env.
     database_url: str
+
+    # JWT — loaded from JWT_SECRET_KEY in .env (required).
+    jwt_secret_key: str = Field(..., min_length=32)
+    jwt_algorithm: str = "HS256"
+    jwt_access_token_expire_minutes: int = 60
 
 
 settings = Settings()
