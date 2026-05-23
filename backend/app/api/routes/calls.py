@@ -21,7 +21,7 @@ router = APIRouter(prefix="/calls", tags=["calls"])
 
 
 def _validate_status(value: str) -> str:
-    normalized = value.strip().lower()
+    normalized = value.strip().lower().replace("in_progress", "ongoing")
     if normalized not in CALL_STATUSES:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -117,12 +117,27 @@ async def create_call(
 ) -> CallOut:
     senior = await _get_senior_for_caregiver(payload.senior_id, db, current_user)
     call_status = _validate_status(payload.status)
+    now = datetime.now(UTC).replace(tzinfo=None)
+    started_at = (
+        payload.started_at.replace(tzinfo=None)
+        if payload.started_at
+        else now
+    )
+    ended_at = (
+        payload.ended_at.replace(tzinfo=None) if payload.ended_at else None
+    )
+    if call_status == "completed" and ended_at is None:
+        ended_at = now
+
     call = Call(
         senior_id=senior.id,
         caregiver_id=current_user.id,
         status=call_status,
         notes=payload.notes.strip() if payload.notes else None,
-        started_at=datetime.now(UTC).replace(tzinfo=None),
+        ai_summary=payload.ai_summary.strip() if payload.ai_summary else None,
+        health_flags=payload.health_flags.strip() if payload.health_flags else None,
+        started_at=started_at,
+        ended_at=ended_at,
     )
     db.add(call)
     await db.commit()
@@ -141,6 +156,9 @@ async def update_call(
 
     if payload.status is not None:
         call.status = _validate_status(payload.status)
+
+    if payload.started_at is not None:
+        call.started_at = payload.started_at.replace(tzinfo=None)
 
     if payload.ended_at is not None:
         call.ended_at = payload.ended_at.replace(tzinfo=None)

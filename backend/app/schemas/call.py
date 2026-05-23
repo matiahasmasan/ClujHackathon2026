@@ -2,17 +2,22 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
-CALL_STATUSES = ("initiated", "in_progress", "completed", "missed", "failed")
+CALL_STATUSES = ("initiated", "ongoing", "completed", "missed", "failed")
 
 
 class CallCreate(BaseModel):
     senior_id: int
     notes: str | None = None
     status: str = Field(default="initiated", max_length=20)
+    ai_summary: str | None = None
+    health_flags: str | None = None
+    started_at: datetime | None = None
+    ended_at: datetime | None = None
 
 
 class CallUpdate(BaseModel):
     status: str | None = Field(None, max_length=20)
+    started_at: datetime | None = None
     ended_at: datetime | None = None
     notes: str | None = None
     ai_summary: str | None = None
