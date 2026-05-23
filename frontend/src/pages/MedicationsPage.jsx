@@ -59,10 +59,12 @@ export default function MedicationsPage() {
 
   const stats = useMemo(() => {
     const taken = medications.filter((m) => m.is_taken_today).length;
+    const lowStock = medications.filter((m) => m.stock < 10).length;
     return {
       total: medications.length,
       taken,
       pending: medications.length - taken,
+      lowStock,
     };
   }, [medications]);
 
@@ -132,7 +134,7 @@ export default function MedicationsPage() {
       </div>
 
       {!loading && !error && (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard
             label="Meds today"
             value={String(stats.total)}
@@ -149,6 +151,12 @@ export default function MedicationsPage() {
             label="Pending"
             value={String(stats.pending)}
             sub="Still due today"
+            icon="pill"
+          />
+          <StatCard
+            label="Low stock"
+            value={String(stats.lowStock)}
+            sub="Under 10 units left"
             icon="pill"
           />
         </div>
@@ -196,6 +204,7 @@ export default function MedicationsPage() {
                   <th className="pb-3 pr-4">Medication</th>
                   <th className="pb-3 pr-4">Dose</th>
                   <th className="pb-3 pr-4">Time</th>
+                  <th className="pb-3 pr-4">Stock</th>
                   <th className="pb-3 pr-4">Status</th>
                   <th className="pb-3">Actions</th>
                 </tr>
@@ -207,8 +216,15 @@ export default function MedicationsPage() {
                   const initials = getInitials(firstName, lastName);
                   const status = med.is_taken_today ? "taken" : "pending";
 
+                  const stockLevel =
+                    med.stock === 0
+                      ? "out"
+                      : med.stock < 10
+                        ? "low"
+                        : "ok";
+
                   return (
-                    <tr key={med.id}>
+                    <tr key={med.id} className={stockLevel === "out" ? "bg-red-50/50" : stockLevel === "low" ? "bg-amber-50/50" : ""}>
                       <td className="py-3.5 pr-4">
                         <div className="flex items-center gap-2.5">
                           <span className="flex size-8 items-center justify-center rounded-full bg-secondary/10 text-xs font-bold text-secondary">
@@ -225,6 +241,23 @@ export default function MedicationsPage() {
                       <td className="py-3.5 pr-4 text-muted">{med.dose}</td>
                       <td className="py-3.5 pr-4 text-muted">
                         {formatTime(med.scheduled_time)}
+                      </td>
+                      <td className="py-3.5 pr-4">
+                        {stockLevel === "out" && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-700">
+                            <svg className="size-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden><path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" /></svg>
+                            Out of stock
+                          </span>
+                        )}
+                        {stockLevel === "low" && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700">
+                            <svg className="size-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden><path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" /></svg>
+                            {med.stock} left
+                          </span>
+                        )}
+                        {stockLevel === "ok" && (
+                          <span className="text-sm text-muted">{med.stock}</span>
+                        )}
                       </td>
                       <td className="py-3.5 pr-4">
                         <StatusBadge status={status} />

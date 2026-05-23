@@ -6,6 +6,7 @@ class MedicationCreate(BaseModel):
     medication_name: str = Field(..., min_length=1, max_length=100)
     dose: str = Field(..., min_length=1, max_length=50)
     scheduled_time: str = Field(..., pattern=r"^\d{2}:\d{2}(:\d{2})?$")
+    stock: int = Field(0, ge=0)
 
 
 class MedicationUpdate(BaseModel):
@@ -13,6 +14,7 @@ class MedicationUpdate(BaseModel):
     dose: str | None = Field(None, min_length=1, max_length=50)
     scheduled_time: str | None = Field(None, pattern=r"^\d{2}:\d{2}(:\d{2})?$")
     is_taken_today: bool | None = None
+    stock: int | None = Field(None, ge=0)
 
 
 class MedicationOut(BaseModel):
@@ -25,6 +27,7 @@ class MedicationOut(BaseModel):
     dose: str
     scheduled_time: str
     is_taken_today: bool
+    stock: int
 
 
 class MedicationsListResponse(BaseModel):

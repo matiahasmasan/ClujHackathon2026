@@ -37,6 +37,7 @@ def _to_out(med: Medication, senior_name: str) -> MedicationOut:
         dose=med.dose,
         scheduled_time=_format_time(med.scheduled_time),
         is_taken_today=med.is_taken_today,
+        stock=med.stock,
     )
 
 
@@ -101,6 +102,7 @@ async def create_medication(
         dose=payload.dose.strip(),
         scheduled_time=_parse_time(payload.scheduled_time),
         is_taken_today=False,
+        stock=payload.stock,
     )
     db.add(med)
     await db.commit()
@@ -125,6 +127,8 @@ async def update_medication(
         med.scheduled_time = _parse_time(payload.scheduled_time)
     if payload.is_taken_today is not None:
         med.is_taken_today = payload.is_taken_today
+    if payload.stock is not None:
+        med.stock = payload.stock
 
     await db.commit()
     await db.refresh(med)
