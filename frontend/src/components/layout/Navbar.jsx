@@ -80,7 +80,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-cream/70 backdrop-blur-md">
       <div className="relative mx-auto flex h-24 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         <Link to="/" className="flex shrink-0 items-center" onClick={closeMenu}>
-          <img src={logo} alt="inTouch" className="h-24 w-auto" />
+          <img src={logo} alt="inTouch" className="h-28 w-auto" />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
@@ -140,7 +140,9 @@ export default function Navbar() {
                     <a
                       href={link.href}
                       className="block rounded-lg px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:bg-surface"
-                      onClick={(event) => handleNavClick(event, link.href, closeMenu)}
+                      onClick={(event) =>
+                        handleNavClick(event, link.href, closeMenu)
+                      }
                     >
                       {link.label}
                     </a>

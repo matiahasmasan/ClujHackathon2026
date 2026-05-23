@@ -1,11 +1,6 @@
 import logo from "../../assets/intouch-logo.png";
 
-const productLinks = [
-  "For Seniors",
-  "Pricing",
-  "App Features",
-  "Security",
-];
+const productLinks = ["For Seniors", "Pricing", "App Features", "Security"];
 
 const supportLinks = [
   "Help Center",
@@ -40,7 +35,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-2">
-            <img src={logo} alt="inTouch" className="h-24 w-auto" />
+            <img src={logo} alt="inTouch" className="h-28 w-auto" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
               Empowering independent living through thoughtful technology and
               human connection.
