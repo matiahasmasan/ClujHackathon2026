@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
+import RequireAuth from "./components/auth/RequireAuth";
 import DashboardPage from "./pages/DashboardPage";
 import SeniorsPage from "./pages/SeniorsPage";
 import LedgerPage from "./pages/LedgerPage";
