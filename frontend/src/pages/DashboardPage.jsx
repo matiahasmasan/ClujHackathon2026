@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DashboardSidebar from "../components/dashboard/DashboardSidebar";
-import DashboardHeader from "../components/dashboard/DashboardHeader";
+import { useOutletContext } from "react-router-dom";
 import GreetingCard from "../components/dashboard/GreetingCard";
 import StatCard from "../components/dashboard/StatCard";
 import CircleList from "../components/dashboard/CircleList";
 import RecentCalls from "../components/dashboard/RecentCalls";
 import MedicationsTable from "../components/dashboard/MedicationsTable";
 import Button from "../components/ui/Button";
-import { getInitials, getStoredUser } from "../lib/auth";
+import { getInitials } from "../lib/auth";
 import { fetchDashboard } from "../lib/api";
 import {
   stats as mockStats,
@@ -72,8 +70,7 @@ function buildStatCards(apiStats) {
 }
 
 export default function DashboardPage() {
-  const navigate = useNavigate();
-  const [user, setUser] = useState(getStoredUser);
+  const { user } = useOutletContext();
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -92,13 +89,8 @@ export default function DashboardPage() {
   }, []);
 
   useEffect(() => {
-    if (!localStorage.getItem("access_token") || !getStoredUser()) {
-      navigate("/login", { replace: true });
-      return;
-    }
-    setUser(getStoredUser());
     loadDashboard();
-  }, [navigate, loadDashboard]);
+  }, [loadDashboard]);
 
   const statCards = useMemo(
     () => (dashboard ? buildStatCards(dashboard.stats) : mockStats),
@@ -117,54 +109,44 @@ export default function DashboardPage() {
     [dashboard],
   );
 
-  if (!user) return null;
-
   return (
-    <div className="flex min-h-screen">
-      <DashboardSidebar />
+    <main className="flex-1 space-y-6 p-4 sm:p-6">
+      {loading && (
+        <p className="text-center text-sm text-muted">Loading dashboard…</p>
+      )}
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <DashboardHeader user={user} />
+      {error && (
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
+          <p className="text-sm text-red-600">{error}</p>
+          <Button onClick={loadDashboard} className="px-4 py-2 text-sm">
+            Retry
+          </Button>
+        </div>
+      )}
 
-        <main className="flex-1 space-y-6 p-4 sm:p-6">
-          {loading && (
-            <p className="text-center text-sm text-muted">Loading dashboard…</p>
-          )}
+      {!loading && !error && dashboard && (
+        <>
+          <GreetingCard
+            firstName={user.first_name}
+            seniorCount={dashboard.stats.senior_count}
+            medsTaken={dashboard.stats.medications_taken}
+            medsTotal={dashboard.stats.medications_total}
+          />
 
-          {error && (
-            <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
-              <p className="text-sm text-red-600">{error}</p>
-              <Button onClick={loadDashboard} className="px-4 py-2 text-sm">
-                Retry
-              </Button>
-            </div>
-          )}
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {statCards.map((stat) => (
+              <StatCard key={stat.label} {...stat} />
+            ))}
+          </div>
 
-          {!loading && !error && dashboard && (
-            <>
-              <GreetingCard
-                firstName={user.first_name}
-                seniorCount={dashboard.stats.senior_count}
-                medsTaken={dashboard.stats.medications_taken}
-                medsTotal={dashboard.stats.medications_total}
-              />
+          <div className="grid gap-6 xl:grid-cols-2">
+            <CircleList members={circleMembers} />
+            <RecentCalls calls={recentCalls} />
+          </div>
 
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                {statCards.map((stat) => (
-                  <StatCard key={stat.label} {...stat} />
-                ))}
-              </div>
-
-              <div className="grid gap-6 xl:grid-cols-2">
-                <CircleList members={circleMembers} />
-                <RecentCalls calls={recentCalls} />
-              </div>
-
-              <MedicationsTable rows={medicationRows} />
-            </>
-          )}
-        </main>
-      </div>
-    </div>
+          <MedicationsTable rows={medicationRows} />
+        </>
+      )}
+    </main>
   );
 }

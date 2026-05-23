@@ -31,7 +31,7 @@ export default function GreetingCard({
           {medsLine}.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Button className="bg-blue/80 px-5 py-2.5 text-sm">
+          <Button to="/dashboard/seniors" className="bg-blue/80 px-5 py-2.5 text-sm">
             View today&apos;s schedule
           </Button>
         </div>

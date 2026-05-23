@@ -1,13 +1,32 @@
 import Button from "../ui/Button";
 import { getInitials } from "../../lib/auth";
 
-export default function DashboardHeader({ user }) {
+export default function DashboardHeader({ user, onMenuOpen, onAddSenior }) {
   const fullName = `${user.first_name} ${user.last_name}`;
   const initials = getInitials(user.first_name, user.last_name);
+
   return (
     <header className="flex flex-col gap-4 border-b border-border/40 bg-white/50 px-4 py-4 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:border-b-0">
       <div className="order-1 flex items-center justify-between gap-3 sm:order-2 sm:justify-end">
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onMenuOpen}
+            className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-white text-muted transition-colors hover:text-foreground lg:hidden"
+            aria-label="Open menu"
+          >
+            <svg
+              className="size-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden
+            >
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+
           <button
             type="button"
             className="relative inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-white text-muted transition-colors hover:text-foreground"
@@ -26,7 +45,14 @@ export default function DashboardHeader({ user }) {
             </svg>
             <span className="absolute top-2 right-2 size-2 rounded-full bg-red-500" />
           </button>
-          <Button className="px-4 py-2 text-sm">+ Add senior</Button>
+
+          <Button
+            type="button"
+            className="px-4 py-2 text-sm"
+            onClick={onAddSenior}
+          >
+            + Add senior
+          </Button>
         </div>
 
         <div className="flex items-center gap-3 sm:border-l sm:border-border/60 sm:pl-4">
