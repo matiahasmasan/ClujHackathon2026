@@ -1,1 +1,0 @@
-# ClujHackathon2026
