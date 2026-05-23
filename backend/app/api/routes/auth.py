@@ -13,8 +13,30 @@ from app.schemas.auth import (
     RegisterRequest,
     UserResponse,
 )
+import jwt
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+
+def create_access_token(data: dict):
+    return jwt.encode(data, JWT_SECRET_KEY, algorithm="HS256")
+
+def verify_token(token: str):
+    try:
+        return jwt.decode(token, JWT_SECRET_KEY, algorithms=["HS256"])
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    return verify_token(token)
 
 
 @router.post(
@@ -59,7 +81,7 @@ async def login(
 
     # Placeholder token. Replace with a real signed JWT once auth is built out.
     return LoginResponse(
-        access_token=secrets.token_urlsafe(32),
+        access_token=create_access_token({"user_id": user.id}),
         user_id=user.id,
         email=user.email,
         first_name=user.first_name,
