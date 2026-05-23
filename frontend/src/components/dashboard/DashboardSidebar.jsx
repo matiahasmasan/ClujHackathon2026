@@ -134,7 +134,7 @@ function SidebarContent({ onNavigate }) {
         </div>
         <Link
           to="/login"
-          className="block px-3 text-sm font-medium text-muted transition-colors hover:text-foreground"
+          className="flex w-full items-center justify-center rounded-xl border border-border px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-surface hover:text-foreground"
           onClick={() => {
             onNavigate?.();
             clearAuth();
