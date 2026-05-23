@@ -550,3 +550,103 @@ export async function fetchPricing() {
 
   return data;
 }
+
+export async function createPlan(payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/pricing`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not create plan."));
+  return data;
+}
+
+export async function updatePlan(planId, payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/pricing/${planId}`, {
+      method: "PATCH",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not update plan."));
+  return data;
+}
+
+export async function deletePlan(planId) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/pricing/${planId}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  if (response.status === 204) return;
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not delete plan."));
+}
+
+export async function createFeature(planId, payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/pricing/${planId}/features`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not add feature."));
+  return data;
+}
+
+export async function updateFeature(featureId, payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/pricing/features/${featureId}`, {
+      method: "PATCH",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not update feature."));
+  return data;
+}
+
+export async function deleteFeature(featureId) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/pricing/features/${featureId}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  if (response.status === 204) return;
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not delete feature."));
+}

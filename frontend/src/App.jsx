@@ -14,6 +14,7 @@ import CallsPage from "./pages/CallsPage";
 import SettingsPage from "./pages/SettingsPage";
 import LedgerPage from "./pages/LedgerPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
+import AdminPricingPage from "./pages/AdminPricingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
             }
           >
             <Route index element={<AdminUsersPage />} />
+            <Route path="pricing" element={<AdminPricingPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

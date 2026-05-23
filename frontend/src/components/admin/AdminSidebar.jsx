@@ -2,7 +2,10 @@ import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/intouch-logo.png";
 import { clearAuth } from "../../lib/auth";
 
-const navItems = [{ label: "Users", to: "/admin", icon: "users", end: true }];
+const navItems = [
+  { label: "Users", to: "/admin", icon: "users", end: true },
+  { label: "Pricing", to: "/admin/pricing", icon: "pricing" },
+];
 
 function NavIcon({ name }) {
   const icons = {
@@ -14,6 +17,12 @@ function NavIcon({ name }) {
       </>
     ),
     shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
+    pricing: (
+      <>
+        <line x1="12" y1="1" x2="12" y2="23" />
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </>
+    ),
   };
 
   return (
