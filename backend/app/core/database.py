@@ -9,7 +9,6 @@ from sqlalchemy.orm import DeclarativeBase
 
 from app.core.config import settings
 
-# Async engine — the connection pool to PostgreSQL.
 engine = create_async_engine(settings.database_url, echo=settings.debug)
 
 # Factory that produces AsyncSession objects bound to the engine.
