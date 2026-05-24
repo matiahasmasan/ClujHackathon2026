@@ -787,3 +787,84 @@ export async function fetchAllReviews() {
   if (!response.ok) throw new Error(parseErrorMessage(data, "Could not load reviews."));
   return data;
 }
+
+export async function fetchPayments() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/payments`, { headers: authHeaders() });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  handleAuth(response);
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not load payments."));
+  return data;
+}
+
+export async function fetchAllPayments() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/payments/admin/all`, { headers: authHeaders() });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  handleAuth(response);
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not load payments."));
+  return data;
+}
+
+export async function createPayment(payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/payments`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  handleAuth(response);
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not create payment."));
+  return data;
+}
+
+export async function updatePayment(paymentId, payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/payments/${paymentId}`, {
+      method: "PATCH",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  handleAuth(response);
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not update payment."));
+  return data;
+}
+
+export async function deletePayment(paymentId) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/payments/${paymentId}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  handleAuth(response);
+  if (response.status === 204) return;
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Could not delete payment."));
+}

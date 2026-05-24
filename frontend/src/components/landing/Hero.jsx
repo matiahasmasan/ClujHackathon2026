@@ -127,7 +127,7 @@ export default function Hero() {
                   <StatusIcon />
                   <div>
                     <p className="text-sm font-semibold text-primary">
-                      Mom is Online
+                      Mom is on call
                     </p>
                     <p className="text-xs text-muted">Healthy vitals today</p>
                   </div>

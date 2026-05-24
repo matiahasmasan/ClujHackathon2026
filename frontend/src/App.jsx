@@ -17,10 +17,12 @@ const CallsPage = lazy(() => import("./pages/CallsPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const LedgerPage = lazy(() => import("./pages/LedgerPage"));
 const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
+const PaymentsPage = lazy(() => import("./pages/PaymentsPage"));
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
 const AdminUsersPage = lazy(() => import("./pages/AdminUsersPage"));
 const AdminPricingPage = lazy(() => import("./pages/AdminPricingPage"));
 const AdminReviewsPage = lazy(() => import("./pages/AdminReviewsPage"));
+const AdminPaymentsPage = lazy(() => import("./pages/AdminPaymentsPage"));
 const AdminSettingsPage = lazy(() => import("./pages/AdminSettingsPage"));
 
 export default function App() {
@@ -49,6 +51,7 @@ export default function App() {
             <Route path="settings" element={<SettingsPage />} />
             <Route path="ledger" element={<LedgerPage />} />
             <Route path="reviews" element={<ReviewsPage />} />
+            <Route path="payments" element={<PaymentsPage />} />
           </Route>
           <Route
             path="/admin"
@@ -63,6 +66,7 @@ export default function App() {
             <Route index element={<AdminUsersPage />} />
             <Route path="pricing" element={<AdminPricingPage />} />
             <Route path="reviews" element={<AdminReviewsPage />} />
+            <Route path="payments" element={<AdminPaymentsPage />} />
             <Route path="settings" element={<AdminSettingsPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
