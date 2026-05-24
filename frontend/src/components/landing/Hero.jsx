@@ -66,7 +66,7 @@ function scrollToDemo(event) {
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden lg:max-h-[calc(100dvh-var(--header-height))]">
+    <section className="relative overflow-hidden pt-16 lg:max-h-[calc(100dvh-var(--header-height))]">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(ellipse_at_top,rgba(1,125,240,0.12)_0%,transparent_68%)]"

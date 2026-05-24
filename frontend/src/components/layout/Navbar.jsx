@@ -81,6 +81,7 @@ const navButtonClass =
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const [authenticated, setAuthenticated] = useState(() => isAuthenticated());
 
@@ -94,11 +95,25 @@ export default function Navbar() {
     return () => window.removeEventListener("storage", syncAuth);
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [location]);
+
   const closeMenu = () => setOpen(false);
   const appDestination = getAppDestination();
+  const showSolidNav = scrolled || open;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/40 bg-cream/80 backdrop-blur-md">
+    <header
+      className={`sticky top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-300 ${
+        showSolidNav
+          ? "border-b border-border/40 bg-cream/80 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
+      }`}
+    >
       <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           to="/"
