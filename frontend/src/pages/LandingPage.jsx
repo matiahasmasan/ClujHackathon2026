@@ -9,7 +9,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <main>
+      <main className="-mt-16">
         <Hero />
         <Features />
         <Pricing />

@@ -19,9 +19,49 @@ export function clearAuth() {
   localStorage.removeItem("user");
 }
 
-/** True if an access token is present (i.e. the user has logged in). */
+// Decode the (unverified) payload of a JWT. The backend is the only party that
+// verifies the signature; here we just need to read public claims like `exp`.
+function decodeJwtPayload(token) {
+  if (!token || typeof token !== "string") return null;
+  const parts = token.split(".");
+  if (parts.length !== 3) return null;
+  try {
+    const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const padded = base64.padEnd(
+      base64.length + ((4 - (base64.length % 4)) % 4),
+      "=",
+    );
+    return JSON.parse(atob(padded));
+  } catch {
+    return null;
+  }
+}
+
+/** Epoch-ms expiry of the stored access token, or null if missing/invalid. */
+export function getTokenExpiry() {
+  const payload = decodeJwtPayload(localStorage.getItem("access_token"));
+  if (!payload || typeof payload.exp !== "number") return null;
+  return payload.exp * 1000;
+}
+
+/** True if the stored token has an `exp` claim that is already in the past. */
+export function isTokenExpired() {
+  const expiresAt = getTokenExpiry();
+  if (expiresAt === null) return false;
+  return Date.now() >= expiresAt;
+}
+
+/**
+ * True if an access token is present AND not expired. Eagerly clears the
+ * stored token when it has expired so guards always see a clean state.
+ */
 export function isAuthenticated() {
-  return Boolean(localStorage.getItem("access_token"));
+  if (!localStorage.getItem("access_token")) return false;
+  if (isTokenExpired()) {
+    clearAuth();
+    return false;
+  }
+  return true;
 }
 
 export function getInitials(firstName, lastName) {

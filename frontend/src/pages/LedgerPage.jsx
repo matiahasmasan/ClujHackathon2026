@@ -42,7 +42,11 @@ export default function LedgerPage() {
       total: entries.length,
       lastEntry: last ? formatTime(last.createdAt) : "—",
       integrity:
-        result === null ? "Unverified" : result.valid ? "Verified ✓" : "Tampered ✗",
+        result === null
+          ? "Unverified"
+          : result.valid
+            ? "Verified ✓"
+            : "Tampered ✗",
     };
   }, [entries, result]);
 
@@ -54,7 +58,8 @@ export default function LedgerPage() {
   }
 
   async function handleAddEvent() {
-    const sample = SAMPLE_EVENTS[Math.floor(Math.random() * SAMPLE_EVENTS.length)];
+    const sample =
+      SAMPLE_EVENTS[Math.floor(Math.random() * SAMPLE_EVENTS.length)];
     const time = new Date().toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
@@ -137,14 +142,7 @@ export default function LedgerPage() {
         >
           {busy ? "Verifying…" : "Verify integrity"}
         </Button>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleTamper}
-          className="border-red-200 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-        >
-          Tamper (demo)
-        </Button>
+
         <Button
           type="button"
           variant="outline"
@@ -172,16 +170,17 @@ export default function LedgerPage() {
 
       {/* Empty state */}
       {entries.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">
-            No events yet. Use &quot;+ Log event&quot; to record the first entry.
+            No events yet. Use &quot;+ Log event&quot; to record the first
+            entry.
           </p>
         </div>
       )}
 
       {/* Chain entries */}
       {entries.length > 0 && (
-        <section className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
+        <section className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
           <h2 className="text-lg font-bold text-foreground">Event chain</h2>
 
           <ol className="mt-4 space-y-3">
@@ -191,7 +190,7 @@ export default function LedgerPage() {
               return (
                 <li
                   key={entry.id}
-                  className={`rounded-xl border border-border/40 p-4 transition-colors ${
+                  className={`rounded-xl border border-border/40 p-4 transition-colors dashboard-row-hover ${
                     isBroken ? "border-red-300 bg-red-50" : "bg-surface/50"
                   }`}
                 >

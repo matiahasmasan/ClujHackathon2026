@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-primary: #017df0;
   --color-primary-foreground: #ffffff;
@@ -12,13 +14,27 @@
   --color-surface: #fdfbf7;
   --color-card: #ffffff;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --header-height: 6rem;
+  --header-height: 4rem;
+}
+
+.dark {
+  --color-foreground: #f1f5f9;
+  --color-muted: #94a3b8;
+  --color-border: #334155;
+  --color-cream: #0b1220;
+  --color-surface: #0f172a;
+  --color-card: #1e293b;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
@@ -26,5 +42,74 @@
     font-family: var(--font-sans);
     background-color: var(--color-cream);
     -webkit-font-smoothing: antialiased;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes hero-float-alt {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes hero-float-slow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(-1deg);
+  }
+}
+
+@layer utilities {
+  .hero-float {
+    animation: hero-float 4s ease-in-out infinite;
+  }
+
+  .hero-float-delay {
+    animation: hero-float-alt 4.5s ease-in-out 0.75s infinite;
+  }
+
+  .hero-float-slow {
+    animation: hero-float-slow 5.5s ease-in-out 1.25s infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float,
+    .hero-float-delay,
+    .hero-float-slow {
+      animation: none;
+    }
+  }
+
+  .dashboard-card-hover {
+    @apply transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-card motion-reduce:hover:translate-y-0;
+    @apply hover:shadow-lg hover:shadow-primary/10 hover:ring-1 hover:ring-primary/20;
+    @apply dark:hover:shadow-md dark:hover:shadow-none dark:hover:ring-primary/10;
+  }
+
+  .dashboard-row-hover {
+    @apply transition-colors duration-150 hover:bg-primary/[0.06];
+    @apply dark:hover:bg-surface/50;
   }
 }

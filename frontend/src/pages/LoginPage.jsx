@@ -47,12 +47,13 @@ function LockIcon({ className }) {
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  // Where to go after login: back to the page the guard bounced us from, or
-  // the dashboard by default.
-  const redirectTo = location.state?.from?.pathname ?? "/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(
+    location.state?.sessionExpired
+      ? "Your session expired. Please sign in again."
+      : "",
+  );
   const [loading, setLoading] = useState(false);
   // Holds the LoginResponse after a correct password, while we show the 2FA
   // step. Set to null when no 2FA is in progress.
@@ -79,17 +80,22 @@ export default function LoginPage() {
     localStorage.setItem("access_token", pendingLogin.access_token);
     saveUser(pendingLogin);
     setPendingLogin(null);
-    navigate(redirectTo, { replace: true });
+    const defaultDest = pendingLogin.role === "admin" ? "/admin" : "/dashboard";
+    navigate(location.state?.from?.pathname ?? defaultDest, { replace: true });
   };
 
   return (
     <div className="flex min-h-screen flex-col px-4 py-10 sm:py-14">
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center">
         <Link to="/" className="shrink-0">
-          <img src={logo} alt="inTouch" className="h-28 w-auto" />
+          <img
+            src={logo}
+            alt="inTouch"
+            className="h-8 w-auto max-w-[7.5rem] object-contain sm:h-9 sm:max-w-[8.5rem]"
+          />
         </Link>
 
-        <div className="mt-8 w-full rounded-2xl border border-border/50 bg-white p-6 shadow-lg shadow-foreground/5 sm:p-8">
+        <div className="mt-8 w-full rounded-2xl border border-border/50 bg-card p-6 shadow-lg shadow-foreground/5 sm:p-8">
           <h1 className="text-2xl font-bold text-foreground">Log in</h1>
           <p className="mt-1 text-sm text-muted">
             Welcome back. Enter your details to continue.

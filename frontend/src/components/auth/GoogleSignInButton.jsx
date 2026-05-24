@@ -41,7 +41,7 @@ export default function GoogleSignInButton({ onError, text = "continue_with" }) 
             const data = await googleLogin(credential);
             localStorage.setItem("access_token", data.access_token);
             saveUser(data);
-            navigate("/dashboard");
+            navigate(data.role === "admin" ? "/admin" : "/dashboard");
           } catch (err) {
             onErrorRef.current?.(err.message);
           }

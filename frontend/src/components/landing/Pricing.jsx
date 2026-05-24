@@ -4,7 +4,7 @@ import PricingCard from "./PricingCard";
 
 function CardSkeleton() {
   return (
-    <div className="flex animate-pulse flex-col rounded-2xl bg-white/75 p-6 sm:p-8">
+    <div className="flex animate-pulse flex-col rounded-2xl bg-card/75 p-6 sm:p-8">
       <div className="h-6 w-24 rounded bg-border" />
       <div className="mt-1 h-4 w-48 rounded bg-border" />
       <div className="mt-5 h-10 w-32 rounded bg-border" />

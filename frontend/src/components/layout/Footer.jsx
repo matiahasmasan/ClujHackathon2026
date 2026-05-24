@@ -1,4 +1,5 @@
 import logo from "../../assets/intouch-logo.png";
+import ThemeToggle from "../dashboard/ThemeToggle";
 
 const productLinks = ["For Seniors", "Pricing", "App Features", "Security"];
 
@@ -35,7 +36,11 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-2">
-            <img src={logo} alt="inTouch" className="h-28 w-auto" />
+            <img
+              src={logo}
+              alt="inTouch"
+              className="h-8 w-auto max-w-[7.5rem] object-contain sm:h-9 sm:max-w-[8.5rem]"
+            />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
               Empowering independent living through thoughtful technology and
               human connection.
@@ -46,10 +51,16 @@ export default function Footer() {
           <LinkColumn title="Support" links={supportLinks} />
         </div>
 
-        <p className="mt-12 pt-4 text-center text-sm text-muted">
-          &copy; {new Date().getFullYear()} inTouch Health Technologies. All
-          rights reserved.
-        </p>
+        <div className="mt-12 flex flex-col items-center gap-6 border-t border-border/40 pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-center text-sm text-muted sm:text-left">
+            &copy; {new Date().getFullYear()} inTouch Health Technologies. All
+            rights reserved.
+          </p>
+          <div className="flex flex-col items-center gap-2 sm:items-end">
+            <span className="text-xs font-medium text-muted">Appearance</span>
+            <ThemeToggle />
+          </div>
+        </div>
       </div>
     </footer>
   );

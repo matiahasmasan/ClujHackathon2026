@@ -8,7 +8,7 @@ const navItems = [
   { label: "Medications", to: "/dashboard/medications", icon: "pill" },
   { label: "Wellness Calls", to: "/dashboard/calls", icon: "phone" },
   { label: "Care Ledger", to: "/dashboard/ledger", icon: "ledger" },
-  { label: "Alerts", to: "#", icon: "alert" },
+  { label: "Reviews", to: "/dashboard/reviews", icon: "star" },
   { label: "Settings", to: "/dashboard/settings", icon: "settings" },
 ];
 
@@ -42,6 +42,9 @@ function NavIcon({ name }) {
         <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
         <path d="M12 9v4M12 17h.01" />
       </>
+    ),
+    star: (
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
     ),
     settings: (
       <>
@@ -78,7 +81,11 @@ function SidebarContent({ onNavigate }) {
     <>
       <div className="shrink-0 px-5 py-4">
         <Link to="/" onClick={onNavigate}>
-          <img src={logo} alt="inTouch" className="h-24 w-auto" />
+          <img
+            src={logo}
+            alt="inTouch"
+            className="h-8 w-auto max-w-[7.5rem] object-contain sm:h-9 sm:max-w-[8.5rem]"
+          />
         </Link>
       </div>
 
@@ -98,7 +105,7 @@ function SidebarContent({ onNavigate }) {
                     `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
                       isActive
                         ? "bg-primary text-primary-foreground"
-                        : "text-muted hover:bg-white/80 hover:text-foreground"
+                        : "text-muted hover:bg-card/70 hover:text-foreground"
                     }`
                   }
                 >
@@ -108,7 +115,7 @@ function SidebarContent({ onNavigate }) {
               ) : (
                 <a
                   href={item.to}
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-white/80 hover:text-foreground"
+                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-card/70 hover:text-foreground"
                 >
                   <NavIcon name={item.icon} />
                   {item.label}
@@ -153,7 +160,7 @@ export default function DashboardSidebar({ open = false, onClose }) {
   return (
     <>
       {/* Desktop */}
-      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border/40 bg-white/60 backdrop-blur-sm lg:flex lg:flex-col">
+      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border/40 bg-card/60 backdrop-blur-sm lg:flex lg:flex-col">
         <SidebarContent />
       </aside>
 
@@ -169,7 +176,7 @@ export default function DashboardSidebar({ open = false, onClose }) {
 
       {/* Mobile drawer */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 max-w-[85vw] flex-col border-r border-border/40 bg-white shadow-xl transition-transform duration-300 ease-out lg:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 max-w-[85vw] flex-col border-r border-border/40 bg-card shadow-xl transition-transform duration-300 ease-out lg:hidden ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-hidden={!open}

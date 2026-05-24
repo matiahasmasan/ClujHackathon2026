@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardHeader from "./DashboardHeader";
+import { RouteSkeleton } from "./DashboardSkeleton";
 import { getStoredUser } from "../../lib/auth";
 
 export default function DashboardLayout() {
@@ -38,16 +39,18 @@ export default function DashboardLayout() {
       <div className="flex min-w-0 flex-1 flex-col">
         <DashboardHeader user={user} onMenuOpen={() => setSidebarOpen(true)} />
 
-        <Outlet
-          context={{
-            user,
-            refreshUser: () => setUser(getStoredUser()),
-            seniorsVersion,
-            bumpSeniors: () => setSeniorsVersion((v) => v + 1),
-            medicationsVersion,
-            bumpMedications: () => setMedicationsVersion((v) => v + 1),
-          }}
-        />
+        <Suspense fallback={<RouteSkeleton />}>
+          <Outlet
+            context={{
+              user,
+              refreshUser: () => setUser(getStoredUser()),
+              seniorsVersion,
+              bumpSeniors: () => setSeniorsVersion((v) => v + 1),
+              medicationsVersion,
+              bumpMedications: () => setMedicationsVersion((v) => v + 1),
+            }}
+          />
+        </Suspense>
       </div>
     </div>
   );

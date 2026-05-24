@@ -1,17 +1,27 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AppBackground from "./components/layout/AppBackground";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import DashboardLayout from "./components/dashboard/DashboardLayout";
 import RequireAuth from "./components/auth/RequireAuth";
-import DashboardPage from "./pages/DashboardPage";
-import SeniorsPage from "./pages/SeniorsPage";
-import MedicationsPage from "./pages/MedicationsPage";
-import CallsPage from "./pages/CallsPage";
-import SettingsPage from "./pages/SettingsPage";
-import LedgerPage from "./pages/LedgerPage";
+import RequireAdmin from "./components/auth/RequireAdmin";
 import NotFoundPage from "./pages/NotFoundPage";
+import DashboardLayoutSkeleton from "./components/dashboard/DashboardSkeleton";
+
+const DashboardLayout = lazy(() => import("./components/dashboard/DashboardLayout"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const SeniorsPage = lazy(() => import("./pages/SeniorsPage"));
+const MedicationsPage = lazy(() => import("./pages/MedicationsPage"));
+const CallsPage = lazy(() => import("./pages/CallsPage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const LedgerPage = lazy(() => import("./pages/LedgerPage"));
+const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
+const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
+const AdminUsersPage = lazy(() => import("./pages/AdminUsersPage"));
+const AdminPricingPage = lazy(() => import("./pages/AdminPricingPage"));
+const AdminReviewsPage = lazy(() => import("./pages/AdminReviewsPage"));
+const AdminSettingsPage = lazy(() => import("./pages/AdminSettingsPage"));
 
 export default function App() {
   return (
@@ -26,7 +36,9 @@ export default function App() {
             path="/dashboard"
             element={
               <RequireAuth>
-                <DashboardLayout />
+                <Suspense fallback={<DashboardLayoutSkeleton />}>
+                  <DashboardLayout />
+                </Suspense>
               </RequireAuth>
             }
           >
@@ -36,6 +48,22 @@ export default function App() {
             <Route path="calls" element={<CallsPage />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="ledger" element={<LedgerPage />} />
+            <Route path="reviews" element={<ReviewsPage />} />
+          </Route>
+          <Route
+            path="/admin"
+            element={
+              <RequireAdmin>
+                <Suspense fallback={<DashboardLayoutSkeleton />}>
+                  <AdminLayout />
+                </Suspense>
+              </RequireAdmin>
+            }
+          >
+            <Route index element={<AdminUsersPage />} />
+            <Route path="pricing" element={<AdminPricingPage />} />
+            <Route path="reviews" element={<AdminReviewsPage />} />
+            <Route path="settings" element={<AdminSettingsPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

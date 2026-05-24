@@ -41,20 +41,20 @@ export default function StatCard({ label, value, sub, icon, to }) {
         <p className="mt-1 text-3xl font-bold text-foreground">{value}</p>
         <p className="mt-1 text-xs text-muted">{sub}</p>
       </div>
-      <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10">
+      <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10 transition-transform duration-200 group-hover:scale-105">
         <StatIcon name={icon} />
       </div>
     </div>
   );
 
   const baseClass =
-    "rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm";
+    "group rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm dashboard-card-hover";
 
   if (to) {
     return (
       <Link
         to={to}
-        className={`block ${baseClass} transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30`}
+        className={`block ${baseClass} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30`}
         aria-label={`${label}: ${value}`}
       >
         {content}

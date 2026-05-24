@@ -6,6 +6,10 @@ import StatusBadge from "../components/dashboard/StatusBadge";
 import AddMedicationModal from "../components/dashboard/AddMedicationModal";
 import EditMedicationModal from "../components/dashboard/EditMedicationModal";
 import DeleteMedicationModal from "../components/dashboard/DeleteMedicationModal";
+import {
+  MedicationsTableSkeleton,
+  StatCardGridSkeleton,
+} from "../components/dashboard/DashboardSkeleton";
 import { getInitials } from "../lib/auth";
 import { fetchMedications, updateMedication } from "../lib/api";
 
@@ -120,15 +124,23 @@ export default function MedicationsPage() {
 
         <label className="relative mt-2 block">
           <span className="sr-only">Search medications</span>
-          <svg className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+          <svg
+            className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
           </svg>
           <input
             type="search"
             placeholder="Search by medication, senior, or dose…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-border/60 bg-white/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border/60 bg-card/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </label>
       </div>
@@ -163,11 +175,14 @@ export default function MedicationsPage() {
       )}
 
       {loading && (
-        <p className="text-center text-sm text-muted">Loading medications…</p>
+        <>
+          <StatCardGridSkeleton count={4} />
+          <MedicationsTableSkeleton rows={5} />
+        </>
       )}
 
       {error && (
-        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-card/75 p-6 text-center shadow-sm">
           <p className="text-sm text-red-600">{error}</p>
           <Button onClick={loadMedications} className="px-4 py-2 text-sm">
             Retry
@@ -176,7 +191,7 @@ export default function MedicationsPage() {
       )}
 
       {!loading && !error && medications.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">
             No medications scheduled yet. Add a senior to your circle, then use
             &quot;+ Add medication&quot; to create a daily reminder.
@@ -184,14 +199,19 @@ export default function MedicationsPage() {
         </div>
       )}
 
-      {!loading && !error && medications.length > 0 && filtered.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
-          <p className="text-sm text-muted">No medications match &quot;{query}&quot;.</p>
-        </div>
-      )}
+      {!loading &&
+        !error &&
+        medications.length > 0 &&
+        filtered.length === 0 && (
+          <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
+            <p className="text-sm text-muted">
+              No medications match &quot;{query}&quot;.
+            </p>
+          </div>
+        )}
 
       {!loading && !error && filtered.length > 0 && (
-        <section className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
+        <section className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
           <h2 className="text-lg font-bold text-foreground">
             Today&apos;s schedule
           </h2>
@@ -217,14 +237,10 @@ export default function MedicationsPage() {
                   const status = med.is_taken_today ? "taken" : "pending";
 
                   const stockLevel =
-                    med.stock === 0
-                      ? "out"
-                      : med.stock < 10
-                        ? "low"
-                        : "ok";
+                    med.stock === 0 ? "out" : med.stock < 10 ? "low" : "ok";
 
                   return (
-                    <tr key={med.id} className={stockLevel === "out" ? "bg-red-50/50" : stockLevel === "low" ? "bg-amber-50/50" : ""}>
+                    <tr key={med.id} className="dashboard-row-hover">
                       <td className="py-3.5 pr-4">
                         <div className="flex items-center gap-2.5">
                           <span className="flex size-8 items-center justify-center rounded-full bg-secondary/10 text-xs font-bold text-secondary">
@@ -243,20 +259,21 @@ export default function MedicationsPage() {
                         {formatTime(med.scheduled_time)}
                       </td>
                       <td className="py-3.5 pr-4">
-                        {stockLevel === "out" && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-700">
-                            <svg className="size-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden><path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" /></svg>
+                        {stockLevel === "out" ? (
+                          <span className="text-xs font-semibold text-red-600 dark:text-red-400">
                             Out of stock
                           </span>
-                        )}
-                        {stockLevel === "low" && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700">
-                            <svg className="size-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden><path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" /></svg>
-                            {med.stock} left
+                        ) : stockLevel === "low" ? (
+                          <span className="inline-flex items-baseline gap-1.5">
+                            <span className="font-medium text-amber-600 dark:text-amber-400">
+                              {med.stock}
+                            </span>
+                            <span className="text-xs text-muted">left</span>
                           </span>
-                        )}
-                        {stockLevel === "ok" && (
-                          <span className="text-sm text-muted">{med.stock}</span>
+                        ) : (
+                          <span className="text-sm text-muted">
+                            {med.stock}
+                          </span>
                         )}
                       </td>
                       <td className="py-3.5 pr-4">

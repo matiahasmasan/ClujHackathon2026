@@ -25,7 +25,7 @@ export default function Input({
           id={inputId}
           type={type}
           placeholder={placeholder}
-          className={`w-full rounded-xl border border-border bg-white py-3 text-sm text-foreground transition-colors placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 ${Icon ? "pl-11 pr-4" : "px-4"}`}
+          className={`w-full rounded-xl border border-border bg-card py-3 text-sm text-foreground transition-colors placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 ${Icon ? "pl-11 pr-4" : "px-4"}`}
           {...props}
         />
       </div>

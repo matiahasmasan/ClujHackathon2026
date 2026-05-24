@@ -2,7 +2,7 @@ import StatusBadge from "./StatusBadge";
 
 export default function MedicationsTable({ rows }) {
   return (
-    <section className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
+    <section className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
       <h2 className="text-lg font-bold text-foreground">Today&apos;s medications</h2>
 
       {rows.length === 0 ? (
@@ -23,7 +23,10 @@ export default function MedicationsTable({ rows }) {
           </thead>
           <tbody className="divide-y divide-border/40">
             {rows.map((row) => (
-              <tr key={row.id ?? `${row.senior}-${row.medication}`}>
+              <tr
+                key={row.id ?? `${row.senior}-${row.medication}`}
+                className="dashboard-row-hover"
+              >
                 <td className="py-3.5 pr-4">
                   <div className="flex items-center gap-2.5">
                     <span className="flex size-8 items-center justify-center rounded-full bg-secondary/10 text-xs font-bold text-secondary">

@@ -5,6 +5,10 @@ import StatCard from "../components/dashboard/StatCard";
 import AddSeniorModal from "../components/dashboard/AddSeniorModal";
 import EditSeniorModal from "../components/dashboard/EditSeniorModal";
 import DeleteSeniorModal from "../components/dashboard/DeleteSeniorModal";
+import {
+  ListSkeleton,
+  StatCardGridSkeleton,
+} from "../components/dashboard/DashboardSkeleton";
 import { getInitials } from "../lib/auth";
 import { fetchSeniors } from "../lib/api";
 
@@ -13,7 +17,7 @@ function SeniorCard({ senior, onEdit, onDelete }) {
   const initials = getInitials(senior.first_name, senior.last_name);
 
   return (
-    <article className="flex flex-col rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md sm:p-6">
+    <article className="flex flex-col rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md sm:p-6">
       <div className="flex items-start gap-4">
         <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-lg font-bold text-primary">
           {initials}
@@ -162,7 +166,7 @@ export default function SeniorsPage() {
             placeholder="Search by name, diagnosis, or phone…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-border/60 bg-white/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border/60 bg-card/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </label>
       </div>
@@ -185,11 +189,14 @@ export default function SeniorsPage() {
       )}
 
       {loading && (
-        <p className="text-center text-sm text-muted">Loading seniors…</p>
+        <>
+          <StatCardGridSkeleton count={2} />
+          <ListSkeleton rows={4} />
+        </>
       )}
 
       {error && (
-        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-card/75 p-6 text-center shadow-sm">
           <p className="text-sm text-red-600">{error}</p>
           <Button onClick={loadSeniors} className="px-4 py-2 text-sm">
             Retry
@@ -198,7 +205,7 @@ export default function SeniorsPage() {
       )}
 
       {!loading && !error && seniors.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">
             No seniors yet. Use &quot;+ Add senior&quot; above to add someone to
             your circle.
@@ -207,19 +214,19 @@ export default function SeniorsPage() {
       )}
 
       {!loading && !error && seniors.length > 0 && filtered.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">No seniors match &quot;{query}&quot;.</p>
         </div>
       )}
 
       {!loading && !error && filtered.length > 0 && (
-        <ul className="divide-y divide-border/50 rounded-2xl bg-white/75 shadow-sm backdrop-blur-sm">
+        <ul className="divide-y divide-border/50 rounded-2xl bg-card/75 shadow-sm backdrop-blur-sm">
           {filtered.map((senior) => {
             const name = `${senior.first_name} ${senior.last_name}`;
             return (
               <li
                 key={senior.id}
-                className="flex flex-col gap-3 p-5 sm:flex-row sm:items-start sm:justify-between"
+                className="dashboard-row-hover flex flex-col gap-3 p-5 transition-colors sm:flex-row sm:items-start sm:justify-between"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
