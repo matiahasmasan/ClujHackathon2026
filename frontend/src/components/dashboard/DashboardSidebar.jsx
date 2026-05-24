@@ -147,12 +147,12 @@ function SidebarContent({ onNavigate }) {
           <p className="mt-1 text-xs text-primary-foreground/85">
             Our care team is here for you.
           </p>
-          <button
-            type="button"
-            className="mt-3 w-full rounded-xl bg-white/20 px-3 py-2 text-xs font-semibold backdrop-blur-sm transition-colors hover:bg-white/30"
+          <a
+            href="tel:+40771170933"
+            className="mt-3 flex w-full items-center justify-center rounded-xl bg-white/20 px-3 py-2 text-xs font-semibold backdrop-blur-sm transition-colors hover:bg-white/30"
           >
             Contact support
-          </button>
+          </a>
         </div>
         <Link
           to="/login"
