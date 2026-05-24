@@ -77,10 +77,18 @@ export default function Navbar() {
   const closeMenu = () => setOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-cream/70 backdrop-blur-md">
-      <div className="relative mx-auto flex h-28 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-        <Link to="/" className="flex shrink-0 items-center" onClick={closeMenu}>
-          <img src={logo} alt="inTouch" className="h-28 w-auto" />
+    <header className="sticky top-0 z-50 border-b border-border/40 bg-cream/80 backdrop-blur-md">
+      <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        <Link
+          to="/"
+          className="flex min-w-0 shrink items-center"
+          onClick={closeMenu}
+        >
+          <img
+            src={logo}
+            alt="inTouch"
+            className="h-8 w-auto max-w-[7.5rem] object-contain sm:h-9 sm:max-w-[8.5rem]"
+          />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
@@ -125,13 +133,13 @@ export default function Navbar() {
           <>
             <button
               type="button"
-              className="fixed inset-0 top-24 z-40 bg-foreground/10 md:hidden"
+              className="fixed inset-0 top-16 z-40 bg-foreground/10 md:hidden"
               aria-label="Close menu"
               onClick={closeMenu}
             />
             <nav
               id="mobile-nav"
-              className="absolute inset-x-0 top-full z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain border-t border-border bg-card px-4 py-3 shadow-lg md:hidden"
+              className="absolute inset-x-0 top-full z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-border bg-card px-4 py-3 shadow-lg md:hidden"
               aria-label="Mobile"
             >
               <ul className="flex flex-col gap-1">

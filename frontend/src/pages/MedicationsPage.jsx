@@ -124,8 +124,16 @@ export default function MedicationsPage() {
 
         <label className="relative mt-2 block">
           <span className="sr-only">Search medications</span>
-          <svg className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+          <svg
+            className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
           </svg>
           <input
             type="search"
@@ -191,11 +199,16 @@ export default function MedicationsPage() {
         </div>
       )}
 
-      {!loading && !error && medications.length > 0 && filtered.length === 0 && (
-        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
-          <p className="text-sm text-muted">No medications match &quot;{query}&quot;.</p>
-        </div>
-      )}
+      {!loading &&
+        !error &&
+        medications.length > 0 &&
+        filtered.length === 0 && (
+          <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
+            <p className="text-sm text-muted">
+              No medications match &quot;{query}&quot;.
+            </p>
+          </div>
+        )}
 
       {!loading && !error && filtered.length > 0 && (
         <section className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
@@ -224,11 +237,7 @@ export default function MedicationsPage() {
                   const status = med.is_taken_today ? "taken" : "pending";
 
                   const stockLevel =
-                    med.stock === 0
-                      ? "out"
-                      : med.stock < 10
-                        ? "low"
-                        : "ok";
+                    med.stock === 0 ? "out" : med.stock < 10 ? "low" : "ok";
 
                   return (
                     <tr key={med.id}>
@@ -262,7 +271,9 @@ export default function MedicationsPage() {
                             <span className="text-xs text-muted">left</span>
                           </span>
                         ) : (
-                          <span className="text-sm text-muted">{med.stock}</span>
+                          <span className="text-sm text-muted">
+                            {med.stock}
+                          </span>
                         )}
                       </td>
                       <td className="py-3.5 pr-4">

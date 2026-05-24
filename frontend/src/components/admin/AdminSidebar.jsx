@@ -57,7 +57,11 @@ function SidebarContent({ onNavigate }) {
     <>
       <div className="shrink-0 px-5 py-4">
         <Link to="/" onClick={onNavigate}>
-          <img src={logo} alt="inTouch" className="h-28 w-auto" />
+          <img
+            src={logo}
+            alt="inTouch"
+            className="h-8 w-auto max-w-[7.5rem] object-contain sm:h-9 sm:max-w-[8.5rem]"
+          />
         </Link>
         <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
           Admin
