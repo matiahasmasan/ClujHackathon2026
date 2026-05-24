@@ -4,13 +4,7 @@ import Input from "../ui/Input";
 import Modal from "../ui/Modal";
 import { createSenior } from "../../lib/api";
 
-const GENDER_OPTIONS = [
-  "Female",
-  "Male",
-  "Non-binary",
-  "Other",
-  "Prefer not to say",
-];
+const GENDER_OPTIONS = ["Female", "Male", "Prefer not to say"];
 
 const emptyForm = {
   first_name: "",
