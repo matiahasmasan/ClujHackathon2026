@@ -1,7 +1,8 @@
 import json
+from typing import Annotated
 
 from pydantic import Field, field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -21,7 +22,9 @@ class Settings(BaseSettings):
     # Accepts either a JSON list (e.g. '["https://foo.com"]') or a plain
     # comma-separated string (e.g. 'https://foo.com,https://bar.com') so the
     # value is easy to paste into hosting dashboards like Render or Vercel.
-    cors_origins: list[str] = [
+    # `NoDecode` disables pydantic-settings' automatic JSON parsing so the raw
+    # env string reaches the validator below intact.
+    cors_origins: Annotated[list[str], NoDecode] = [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
     ]
