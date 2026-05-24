@@ -788,6 +788,24 @@ export async function fetchAllReviews() {
   return data;
 }
 
+export async function checkout(payload) {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/payments/checkout`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    if (err.message === "Not authenticated") throw err;
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  handleAuth(response);
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(parseErrorMessage(data, "Payment could not be processed."));
+  return data;
+}
+
 export async function fetchPayments() {
   let response;
   try {

@@ -77,3 +77,17 @@ class PaymentsListResponse(BaseModel):
 class AdminPaymentsListResponse(BaseModel):
     count: int
     payments: list[PaymentWithUserOut]
+
+
+class CheckoutRequest(BaseModel):
+    plan_id: int
+    card_holder: str = Field(..., min_length=1, max_length=100)
+    card_number: str = Field(..., min_length=12, max_length=23)
+    card_exp: str = Field(..., min_length=4, max_length=7)
+    card_cvc: str = Field(..., min_length=3, max_length=4)
+
+
+class CheckoutResponse(BaseModel):
+    payment: PaymentOut
+    subscription_id: int
+    plan_name: str

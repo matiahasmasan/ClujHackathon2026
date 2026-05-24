@@ -100,6 +100,9 @@ export default function SubscriptionsPage() {
       {!loading && !error && subscriptions.length === 0 && (
         <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm backdrop-blur-sm">
           <p className="text-sm text-muted">No subscription yet. Choose a plan to get started.</p>
+          <Button to="/#pricing" className="mt-4 px-5 py-2 text-sm">
+            View plans
+          </Button>
         </div>
       )}
 

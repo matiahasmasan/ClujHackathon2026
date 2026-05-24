@@ -1,3 +1,6 @@
+import secrets
+from datetime import UTC, datetime, timedelta
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -5,9 +8,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_current_user
 from app.core.database import get_db
 from app.models.payment import Payment
+from app.models.pricing import PricingPlan
+from app.models.subscription import Subscription
 from app.models.user import User
 from app.schemas.payment import (
     AdminPaymentsListResponse,
+    CheckoutRequest,
+    CheckoutResponse,
     PaymentCreate,
     PaymentOut,
     PaymentUpdate,
@@ -34,7 +41,81 @@ def _normalize_status(status_value: str) -> str:
     return status_value.strip().lower()
 
 
+def _fake_stripe_id(prefix: str) -> str:
+    return f"{prefix}_sim_{secrets.token_hex(12)}"
+
+
 # ── Caregiver endpoints ───────────────────────────────────────────────────────
+
+
+@router.post("/checkout", response_model=CheckoutResponse, status_code=status.HTTP_201_CREATED)
+async def checkout(
+    payload: CheckoutRequest,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> CheckoutResponse:
+    """Simulate a Stripe payment: creates/updates a subscription and a succeeded payment."""
+    plan = await db.scalar(select(PricingPlan).where(PricingPlan.id == payload.plan_id))
+    if not plan:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Pricing plan not found.")
+
+    digits_only = "".join(ch for ch in payload.card_number if ch.isdigit())
+    if len(digits_only) < 12 or len(digits_only) > 19:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid card number.")
+
+    now = datetime.now(UTC)
+    period_end = now + timedelta(days=30)
+    amount_cents = int(round(float(plan.price_monthly) * 100))
+    currency = plan.currency or "USD"
+
+    subscription = await db.scalar(
+        select(Subscription).where(Subscription.user_id == current_user.id)
+    )
+    if subscription:
+        subscription.plan_id = plan.id
+        subscription.status = "active"
+        subscription.current_period_start = now
+        subscription.current_period_end = period_end
+        subscription.cancel_at_period_end = False
+        subscription.canceled_at = None
+        subscription.updated_at = now
+    else:
+        subscription = Subscription(
+            user_id=current_user.id,
+            plan_id=plan.id,
+            stripe_customer_id=_fake_stripe_id("cus"),
+            stripe_subscription_id=_fake_stripe_id("sub"),
+            status="active",
+            current_period_start=now,
+            current_period_end=period_end,
+            cancel_at_period_end=False,
+        )
+        db.add(subscription)
+
+    await db.flush()
+
+    payment = Payment(
+        user_id=current_user.id,
+        subscription_id=subscription.id,
+        stripe_payment_intent_id=_fake_stripe_id("pi"),
+        stripe_invoice_id=_fake_stripe_id("in"),
+        amount=amount_cents,
+        currency=currency,
+        status="succeeded",
+        paid_at=now,
+    )
+    db.add(payment)
+
+    await db.commit()
+    await db.refresh(payment)
+    await db.refresh(subscription)
+
+    return CheckoutResponse(
+        payment=PaymentOut.model_validate(payment),
+        subscription_id=subscription.id,
+        plan_name=plan.name,
+    )
+
 
 @router.get("", response_model=PaymentsListResponse)
 async def list_my_payments(

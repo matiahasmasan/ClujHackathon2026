@@ -19,6 +19,7 @@ const LedgerPage = lazy(() => import("./pages/LedgerPage"));
 const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
 const PaymentsPage = lazy(() => import("./pages/PaymentsPage"));
 const SubscriptionsPage = lazy(() => import("./pages/SubscriptionsPage"));
+const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
 const AdminUsersPage = lazy(() => import("./pages/AdminUsersPage"));
 const AdminPricingPage = lazy(() => import("./pages/AdminPricingPage"));
@@ -55,6 +56,7 @@ export default function App() {
             <Route path="reviews" element={<ReviewsPage />} />
             <Route path="payments" element={<PaymentsPage />} />
             <Route path="subscriptions" element={<SubscriptionsPage />} />
+            <Route path="checkout/:planId" element={<CheckoutPage />} />
           </Route>
           <Route
             path="/admin"
