@@ -2,7 +2,19 @@ import { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import Modal from "../ui/Modal";
-import { updateSenior } from "../../lib/api";
+import MedicationListEditor from "./MedicationListEditor";
+import {
+  emptyMedication,
+  medicationPayload,
+  prepareMedications,
+} from "../../lib/medications";
+import {
+  createMedication,
+  deleteMedication,
+  fetchMedications,
+  updateMedication,
+  updateSenior,
+} from "../../lib/api";
 
 const GENDER_OPTIONS = ["Female", "Male", "Prefer not to say"];
 
@@ -15,6 +27,10 @@ export default function EditSeniorModal({ open, senior, onClose, onSuccess }) {
     phone_number: "",
     diagnoses: "",
   });
+  const [medications, setMedications] = useState([{ ...emptyMedication }]);
+  // ids of the medications that existed when the modal opened — used to detect
+  // which ones were removed so we can delete them on save.
+  const [originalIds, setOriginalIds] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -30,6 +46,36 @@ export default function EditSeniorModal({ open, senior, onClose, onSuccess }) {
     });
     setError("");
     setLoading(false);
+
+    // Load this senior's existing medications into the editor.
+    let cancelled = false;
+    setMedications([{ ...emptyMedication }]);
+    setOriginalIds([]);
+    fetchMedications()
+      .then((data) => {
+        if (cancelled) return;
+        const mine = (data.medications ?? []).filter(
+          (m) => m.senior_id === senior.id,
+        );
+        setOriginalIds(mine.map((m) => m.id));
+        setMedications(
+          mine.length > 0
+            ? mine.map((m) => ({
+                id: m.id,
+                medication_name: m.medication_name ?? "",
+                dose: m.dose ?? "",
+                scheduled_time: m.scheduled_time ?? "",
+                stock: m.stock != null ? String(m.stock) : "",
+              }))
+            : [{ ...emptyMedication }],
+        );
+      })
+      .catch(() => {
+        /* leave the single empty row if medications can't be loaded */
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [open, senior]);
 
   function updateField(field) {
@@ -39,6 +85,13 @@ export default function EditSeniorModal({ open, senior, onClose, onSuccess }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+
+    const { rows: medRows, error: medError } = prepareMedications(medications);
+    if (medError) {
+      setError(medError);
+      return;
+    }
+
     setLoading(true);
     try {
       const updated = await updateSenior(senior.id, {
@@ -49,6 +102,29 @@ export default function EditSeniorModal({ open, senior, onClose, onSuccess }) {
         phone_number: form.phone_number.trim(),
         diagnoses: form.diagnoses.trim(),
       });
+
+      // Reconcile medications: update existing, create new, delete removed.
+      const keptIds = [];
+      for (const row of medRows) {
+        const payload = medicationPayload(row, senior.id);
+        if (row.id) {
+          keptIds.push(row.id);
+          await updateMedication(row.id, {
+            medication_name: payload.medication_name,
+            dose: payload.dose,
+            stock: payload.stock,
+            ...(payload.scheduled_time
+              ? { scheduled_time: payload.scheduled_time }
+              : {}),
+          });
+        } else {
+          await createMedication(payload);
+        }
+      }
+      for (const id of originalIds) {
+        if (!keptIds.includes(id)) await deleteMedication(id);
+      }
+
       onSuccess?.(updated);
       onClose();
     } catch (err) {
@@ -135,7 +211,7 @@ export default function EditSeniorModal({ open, senior, onClose, onSuccess }) {
           id="edit-senior-phone"
           label="Phone number"
           type="tel"
-          maxLength={11}
+          maxLength={12}
           required
           value={form.phone_number}
           onChange={updateField("phone_number")}
@@ -159,6 +235,13 @@ export default function EditSeniorModal({ open, senior, onClose, onSuccess }) {
             className="w-full resize-y rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
           />
         </div>
+
+        <MedicationListEditor
+          medications={medications}
+          onChange={setMedications}
+          disabled={loading}
+          idPrefix="edit-med"
+        />
 
         <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
           <Button

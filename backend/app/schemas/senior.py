@@ -7,7 +7,7 @@ class SeniorCreate(BaseModel):
     age: int = Field(..., ge=1, le=120)
     gender: str = Field(..., min_length=1, max_length=20)
     diagnoses: str = Field(..., min_length=1)
-    phone_number: str = Field(..., min_length=1, max_length=11)
+    phone_number: str = Field(..., min_length=1, max_length=12)
 
 
 class SeniorOut(BaseModel):
@@ -28,7 +28,7 @@ class SeniorUpdate(BaseModel):
     age: int | None = Field(None, ge=1, le=120)
     gender: str | None = Field(None, min_length=1, max_length=20)
     diagnoses: str | None = None
-    phone_number: str | None = Field(None, min_length=1, max_length=11)
+    phone_number: str | None = Field(None, min_length=1, max_length=12)
 
 
 class SeniorsListResponse(BaseModel):
