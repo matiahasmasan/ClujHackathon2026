@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/intouch-logo.png";
 import Button from "../ui/Button";
+import { getStoredUser, isAuthenticated } from "../../lib/auth";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -56,7 +57,7 @@ function MenuIcon({ open }) {
 function LogInIcon() {
   return (
     <svg
-      className="size-4"
+      className="size-3.5"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -71,10 +72,30 @@ function LogInIcon() {
   );
 }
 
+function getAppDestination() {
+  return getStoredUser()?.role === "admin" ? "/admin" : "/dashboard";
+}
+
+const navButtonClass =
+  "gap-1.5 px-3 py-1.5 text-xs font-semibold sm:px-3.5 sm:py-1.5 sm:text-sm";
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const [authenticated, setAuthenticated] = useState(() => isAuthenticated());
+
+  useEffect(() => {
+    setAuthenticated(isAuthenticated());
+  }, [location]);
+
+  useEffect(() => {
+    const syncAuth = () => setAuthenticated(isAuthenticated());
+    window.addEventListener("storage", syncAuth);
+    return () => window.removeEventListener("storage", syncAuth);
+  }, []);
 
   const closeMenu = () => setOpen(false);
+  const appDestination = getAppDestination();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/40 bg-cream/80 backdrop-blur-md">
@@ -105,16 +126,30 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden items-center gap-2 md:flex">
-            <Button
-              to="/login"
-              variant="outline"
-              className="gap-2 px-4 py-2 text-sm"
-            >
-              <LogInIcon />
-              Log In
-            </Button>
-            <Button className="px-4 py-2 text-sm">Get Started</Button>
+          <div className="hidden md:block">
+            {authenticated ? (
+              <Button
+                to={appDestination}
+                variant="primary"
+                className={navButtonClass}
+              >
+                Get Started
+              </Button>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button
+                  to="/login"
+                  variant="outline"
+                  className={navButtonClass}
+                >
+                  <LogInIcon />
+                  Log In
+                </Button>
+                <Button to="/signup" variant="primary" className={navButtonClass}>
+                  Sign Up
+                </Button>
+              </div>
+            )}
           </div>
 
           <button
@@ -158,19 +193,37 @@ export default function Navbar() {
                 ))}
               </ul>
 
-              <div className="mt-4 flex flex-col gap-3 border-t border-border pt-4">
-                <Button
-                  to="/login"
-                  variant="outline"
-                  className="w-full gap-2 py-2.5 text-sm"
-                  onClick={closeMenu}
-                >
-                  <LogInIcon />
-                  Log In
-                </Button>
-                <Button className="w-full py-2.5 text-sm" onClick={closeMenu}>
-                  Get Started
-                </Button>
+              <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4">
+                {authenticated ? (
+                  <Button
+                    to={appDestination}
+                    variant="primary"
+                    className={`w-full ${navButtonClass}`}
+                    onClick={closeMenu}
+                  >
+                    Get Started
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      to="/login"
+                      variant="outline"
+                      className={`w-full ${navButtonClass}`}
+                      onClick={closeMenu}
+                    >
+                      <LogInIcon />
+                      Log In
+                    </Button>
+                    <Button
+                      to="/signup"
+                      variant="primary"
+                      className={`w-full ${navButtonClass}`}
+                      onClick={closeMenu}
+                    >
+                      Sign Up
+                    </Button>
+                  </>
+                )}
               </div>
             </nav>
           </>

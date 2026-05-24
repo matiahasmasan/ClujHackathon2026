@@ -3,7 +3,7 @@ import Button from "../ui/Button";
 function CheckIcon() {
   return (
     <svg
-      className="mt-0.5 size-4 shrink-0 text-secondary"
+      className="mt-0.5 size-4 shrink-0 text-secondary transition-transform duration-300 group-hover:scale-110"
       viewBox="0 0 20 20"
       fill="currentColor"
       aria-hidden
@@ -37,27 +37,38 @@ function yearlySavings(monthly, yearly) {
 export default function PricingCard({ plan }) {
   const savings = yearlySavings(plan.price_monthly, plan.price_yearly);
   const isHighlighted = plan.is_highlighted;
-  const buttonClass = "mt-8 w-full py-2.5 text-sm";
+  const buttonClass = "mt-8 w-full py-2.5 text-sm transition-all duration-300";
 
   return (
     <article
-      className={`relative flex flex-col rounded-2xl p-6 transition-shadow sm:p-8 ${
+      className={`group relative flex flex-col rounded-2xl p-6 transition-all duration-300 ease-out sm:p-8 ${
         isHighlighted
-          ? "z-10 bg-card shadow-xl shadow-primary/15 ring-2 ring-primary/20"
-          : "bg-card/75 shadow-sm backdrop-blur-sm hover:shadow-md"
+          ? "z-10 bg-card shadow-xl shadow-primary/15 ring-2 ring-primary/20 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/25 hover:ring-primary/40 motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100"
+          : "bg-card/75 shadow-sm backdrop-blur-sm hover:-translate-y-2 hover:scale-[1.02] hover:bg-card hover:shadow-lg hover:ring-1 hover:ring-primary/15 motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100"
       }`}
     >
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-x-8 top-0 h-px bg-linear-to-r from-transparent via-primary/50 to-transparent transition-opacity duration-300 ${
+          isHighlighted
+            ? "opacity-60 group-hover:opacity-100"
+            : "opacity-0 group-hover:opacity-100"
+        }`}
+      />
+
       {isHighlighted && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground shadow-sm">
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground shadow-sm transition-transform duration-300 group-hover:scale-105">
           Most Popular
         </span>
       )}
 
-      <h3 className="text-xl font-bold text-foreground">{plan.name}</h3>
+      <h3 className="text-xl font-bold text-foreground transition-colors duration-300 group-hover:text-primary">
+        {plan.name}
+      </h3>
       <p className="mt-1 text-sm text-muted">{plan.tagline}</p>
 
       <div className="mt-5 flex items-baseline gap-1">
-        <span className="text-4xl font-bold tracking-tight text-foreground">
+        <span className="origin-left text-4xl font-bold tracking-tight text-foreground transition-transform duration-300 group-hover:scale-105">
           {formatPrice(plan.price_monthly, plan.currency)}
         </span>
         <span className="text-sm text-muted">/month</span>
@@ -71,7 +82,10 @@ export default function PricingCard({ plan }) {
 
       <ul className="mt-6 flex flex-1 flex-col gap-3">
         {plan.features.map((feature) => (
-          <li key={feature.id} className="flex items-start gap-2.5 text-sm text-foreground">
+          <li
+            key={feature.id}
+            className="flex items-start gap-2.5 text-sm text-foreground transition-transform duration-300 group-hover:translate-x-0.5"
+          >
             <CheckIcon />
             <span>{feature.label}</span>
           </li>
@@ -81,7 +95,11 @@ export default function PricingCard({ plan }) {
       <Button
         to="/login"
         variant={isHighlighted ? "primary" : "outline"}
-        className={buttonClass}
+        className={
+          isHighlighted
+            ? `${buttonClass} group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:shadow-primary/30`
+            : `${buttonClass} group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-md group-hover:shadow-primary/20`
+        }
       >
         {plan.cta_label}
       </Button>
