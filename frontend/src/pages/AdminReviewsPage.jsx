@@ -4,6 +4,10 @@ import StatCard from "../components/dashboard/StatCard";
 import { fetchAllReviews, deleteReview } from "../lib/api";
 import { getInitials } from "../lib/auth";
 import Modal from "../components/ui/Modal";
+import {
+  ListSkeleton,
+  StatCardGridSkeleton,
+} from "../components/dashboard/DashboardSkeleton";
 
 function Stars({ rating }) {
   return (
@@ -156,7 +160,12 @@ export default function AdminReviewsPage() {
         </div>
       )}
 
-      {loading && <p className="text-center text-sm text-muted">Loading reviews…</p>}
+      {loading && (
+        <>
+          <StatCardGridSkeleton count={3} />
+          <ListSkeleton rows={4} />
+        </>
+      )}
 
       {error && (
         <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">

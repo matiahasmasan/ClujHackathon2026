@@ -2,6 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Button from "../components/ui/Button";
 import StatCard from "../components/dashboard/StatCard";
 import StatusBadge from "../components/dashboard/StatusBadge";
+import {
+  CallCardListSkeleton,
+  StatCardGridSkeleton,
+} from "../components/dashboard/DashboardSkeleton";
 import { getInitials } from "../lib/auth";
 import { fetchCalls } from "../lib/api";
 
@@ -198,7 +202,10 @@ export default function CallsPage() {
       )}
 
       {loading && (
-        <p className="text-center text-sm text-muted">Loading calls…</p>
+        <>
+          <StatCardGridSkeleton count={4} />
+          <CallCardListSkeleton rows={3} />
+        </>
       )}
 
       {error && (

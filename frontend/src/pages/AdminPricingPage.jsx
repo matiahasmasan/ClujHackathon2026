@@ -4,6 +4,10 @@ import StatCard from "../components/dashboard/StatCard";
 import PlanModal from "../components/admin/PlanModal";
 import DeletePlanModal from "../components/admin/DeletePlanModal";
 import FeatureModal from "../components/admin/FeatureModal";
+import {
+  PricingPlanListSkeleton,
+  StatCardGridSkeleton,
+} from "../components/dashboard/DashboardSkeleton";
 import { deleteFeature, fetchPricing } from "../lib/api";
 
 function IconEdit() {
@@ -135,7 +139,12 @@ export default function AdminPricingPage() {
         </div>
       )}
 
-      {loading && <p className="text-center text-sm text-muted">Loading pricing…</p>}
+      {loading && (
+        <>
+          <StatCardGridSkeleton count={3} />
+          <PricingPlanListSkeleton rows={3} />
+        </>
+      )}
 
       {error && (
         <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">

@@ -3,6 +3,7 @@ import Button from "../components/ui/Button";
 import AddReviewModal from "../components/dashboard/AddReviewModal";
 import EditReviewModal from "../components/dashboard/EditReviewModal";
 import DeleteReviewModal from "../components/dashboard/DeleteReviewModal";
+import { ListSkeleton } from "../components/dashboard/DashboardSkeleton";
 import { fetchReviews } from "../lib/api";
 
 function Stars({ rating }) {
@@ -71,7 +72,7 @@ export default function ReviewsPage() {
         </div>
       </div>
 
-      {loading && <p className="text-center text-sm text-muted">Loading reviews…</p>}
+      {loading && <ListSkeleton rows={3} />}
 
       {error && (
         <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">

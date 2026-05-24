@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
 import DashboardHeader from "../dashboard/DashboardHeader";
+import { RouteSkeleton } from "../dashboard/DashboardSkeleton";
 import { getStoredUser } from "../../lib/auth";
 
 export default function AdminLayout() {
@@ -40,7 +41,9 @@ export default function AdminLayout() {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <DashboardHeader user={user} onMenuOpen={() => setSidebarOpen(true)} />
-        <Outlet context={{ user }} />
+        <Suspense fallback={<RouteSkeleton />}>
+          <Outlet context={{ user }} />
+        </Suspense>
       </div>
     </div>
   );

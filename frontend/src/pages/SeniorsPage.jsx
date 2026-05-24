@@ -5,6 +5,10 @@ import StatCard from "../components/dashboard/StatCard";
 import AddSeniorModal from "../components/dashboard/AddSeniorModal";
 import EditSeniorModal from "../components/dashboard/EditSeniorModal";
 import DeleteSeniorModal from "../components/dashboard/DeleteSeniorModal";
+import {
+  ListSkeleton,
+  StatCardGridSkeleton,
+} from "../components/dashboard/DashboardSkeleton";
 import { getInitials } from "../lib/auth";
 import { fetchSeniors } from "../lib/api";
 
@@ -185,7 +189,10 @@ export default function SeniorsPage() {
       )}
 
       {loading && (
-        <p className="text-center text-sm text-muted">Loading seniors…</p>
+        <>
+          <StatCardGridSkeleton count={2} />
+          <ListSkeleton rows={4} />
+        </>
       )}
 
       {error && (

@@ -4,6 +4,10 @@ import StatCard from "../components/dashboard/StatCard";
 import AddUserModal from "../components/admin/AddUserModal";
 import EditUserModal from "../components/admin/EditUserModal";
 import DeleteUserModal from "../components/admin/DeleteUserModal";
+import {
+  ListSkeleton,
+  StatCardGridSkeleton,
+} from "../components/dashboard/DashboardSkeleton";
 import { getInitials } from "../lib/auth";
 import { fetchUsers } from "../lib/api";
 
@@ -135,7 +139,10 @@ export default function AdminUsersPage() {
       )}
 
       {loading && (
-        <p className="text-center text-sm text-muted">Loading users…</p>
+        <>
+          <StatCardGridSkeleton count={3} />
+          <ListSkeleton rows={4} />
+        </>
       )}
 
       {error && (

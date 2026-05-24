@@ -6,6 +6,10 @@ import StatusBadge from "../components/dashboard/StatusBadge";
 import AddMedicationModal from "../components/dashboard/AddMedicationModal";
 import EditMedicationModal from "../components/dashboard/EditMedicationModal";
 import DeleteMedicationModal from "../components/dashboard/DeleteMedicationModal";
+import {
+  MedicationsTableSkeleton,
+  StatCardGridSkeleton,
+} from "../components/dashboard/DashboardSkeleton";
 import { getInitials } from "../lib/auth";
 import { fetchMedications, updateMedication } from "../lib/api";
 
@@ -163,7 +167,10 @@ export default function MedicationsPage() {
       )}
 
       {loading && (
-        <p className="text-center text-sm text-muted">Loading medications…</p>
+        <>
+          <StatCardGridSkeleton count={4} />
+          <MedicationsTableSkeleton rows={5} />
+        </>
       )}
 
       {error && (

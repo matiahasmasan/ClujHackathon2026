@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
+import { SettingsFormSkeleton } from "../components/dashboard/DashboardSkeleton";
 import { getInitials, saveUser } from "../lib/auth";
 import { formatDateTime } from "../lib/format";
 import { fetchProfile, updateProfile } from "../lib/api";
@@ -93,9 +94,7 @@ export default function SettingsPage() {
         </p>
       </div>
 
-      {loading && (
-        <p className="text-center text-sm text-muted">Loading profile…</p>
-      )}
+      {loading && <SettingsFormSkeleton />}
 
       {error && !profile && (
         <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">

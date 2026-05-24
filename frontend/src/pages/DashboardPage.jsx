@@ -5,6 +5,7 @@ import StatCard from "../components/dashboard/StatCard";
 import CircleList from "../components/dashboard/CircleList";
 import RecentCalls from "../components/dashboard/RecentCalls";
 import MedicationsTable from "../components/dashboard/MedicationsTable";
+import { DashboardContentSkeleton } from "../components/dashboard/DashboardSkeleton";
 import Button from "../components/ui/Button";
 import { getInitials } from "../lib/auth";
 import { formatRelativeTime } from "../lib/format";
@@ -125,12 +126,12 @@ export default function DashboardPage() {
     [dashboard],
   );
 
+  if (loading) {
+    return <DashboardContentSkeleton />;
+  }
+
   return (
     <main className="flex-1 space-y-6 p-4 sm:p-6">
-      {loading && (
-        <p className="text-center text-sm text-muted">Loading dashboard…</p>
-      )}
-
       {error && (
         <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
           <p className="text-sm text-red-600">{error}</p>
@@ -140,7 +141,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {!loading && !error && dashboard && (
+      {!error && dashboard && (
         <>
           <GreetingCard
             firstName={user.first_name}
