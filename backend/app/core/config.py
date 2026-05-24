@@ -1,4 +1,6 @@
-from pydantic import Field
+import json
+
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -15,11 +17,19 @@ class Settings(BaseSettings):
     app_name: str = "ClujHackathon2026 API"
     debug: bool = True
 
-    # CORS — origins allowed to call the API (the Vite dev server by default)
+    # CORS — origins allowed to call the API (the Vite dev server by default).
+    # Accepts either a JSON list (e.g. '["https://foo.com"]') or a plain
+    # comma-separated string (e.g. 'https://foo.com,https://bar.com') so the
+    # value is easy to paste into hosting dashboards like Render or Vercel.
     cors_origins: list[str] = [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
     ]
+
+    # Optional regex matched against the Origin header. Use it to allow Vercel
+    # preview deployments without listing every random subdomain, e.g.
+    # CORS_ORIGIN_REGEX=^https://cluj-hackathon2026(-[a-z0-9-]+)?\.vercel\.app$
+    cors_origin_regex: str | None = None
 
     # Database — preia automat DATABASE_URL din .env.
     database_url: str
@@ -32,6 +42,18 @@ class Settings(BaseSettings):
     # Google Sign-In — OAuth 2.0 Client ID used to verify ID tokens sent from
     # the frontend. Loaded from GOOGLE_CLIENT_ID in .env.
     google_client_id: str | None = None
+
+    @field_validator("cors_origins", mode="before")
+    @classmethod
+    def _parse_cors_origins(cls, value: object) -> object:
+        if not isinstance(value, str):
+            return value
+        stripped = value.strip()
+        if not stripped:
+            return []
+        if stripped.startswith("["):
+            return json.loads(stripped)
+        return [origin.strip() for origin in stripped.split(",") if origin.strip()]
 
 
 settings = Settings()
