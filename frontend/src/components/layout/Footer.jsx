@@ -1,28 +1,66 @@
+import { Link, useLocation } from "react-router-dom";
+
 import logo from "../../assets/intouch-logo.png";
 import ThemeToggle from "../dashboard/ThemeToggle";
 
-const productLinks = ["For Seniors", "Pricing", "App Features", "Security"];
-
-const supportLinks = [
-  "Help Center",
-  "Privacy Policy",
-  "Contact Us",
-  "Accessibility",
+const navLinks = [
+  { label: "Home", to: "/" },
+  { label: "Features", hash: "#features" },
+  { label: "Pricing", hash: "#pricing" },
+  { label: "Reviews", hash: "#how-it-works" },
 ];
 
-function LinkColumn({ title, links }) {
+const accountLinks = [
+  { label: "Log In", to: "/login" },
+  { label: "Sign Up", to: "/signup" },
+];
+
+const legalLinks = [{ label: "Privacy Policy", to: "/privacy" }];
+
+const linkClass =
+  "text-sm text-muted transition-colors hover:text-foreground";
+
+function FooterLink({ item, onLandingPage }) {
+  const { label, to, hash } = item;
+
+  if (hash) {
+    const handleClick = (event) => {
+      if (!onLandingPage) return;
+      const target = document.getElementById(hash.slice(1));
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.replaceState(null, "", hash);
+    };
+    return (
+      <a href={`/${hash}`} className={linkClass} onClick={handleClick}>
+        {label}
+      </a>
+    );
+  }
+
+  const handleHomeClick = (event) => {
+    if (to !== "/" || !onLandingPage) return;
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.history.replaceState(null, "", "/");
+  };
+
+  return (
+    <Link to={to} className={linkClass} onClick={handleHomeClick}>
+      {label}
+    </Link>
+  );
+}
+
+function LinkColumn({ title, links, onLandingPage }) {
   return (
     <div>
       <h3 className="text-sm font-semibold text-foreground">{title}</h3>
       <ul className="mt-4 space-y-3">
-        {links.map((label) => (
-          <li key={label}>
-            <a
-              href="#"
-              className="text-sm text-muted transition-colors hover:text-foreground"
-            >
-              {label}
-            </a>
+        {links.map((item) => (
+          <li key={item.label}>
+            <FooterLink item={item} onLandingPage={onLandingPage} />
           </li>
         ))}
       </ul>
@@ -31,11 +69,14 @@ function LinkColumn({ title, links }) {
 }
 
 export default function Footer() {
+  const location = useLocation();
+  const onLandingPage = location.pathname === "/";
+
   return (
     <footer className="scroll-anchor px-4 py-12 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-4">
-          <div className="sm:col-span-2 lg:col-span-2">
+          <div className="sm:col-span-2 lg:col-span-1">
             <img
               src={logo}
               alt="inTouch"
@@ -47,8 +88,21 @@ export default function Footer() {
             </p>
           </div>
 
-          <LinkColumn title="Product" links={productLinks} />
-          <LinkColumn title="Support" links={supportLinks} />
+          <LinkColumn
+            title="Navigate"
+            links={navLinks}
+            onLandingPage={onLandingPage}
+          />
+          <LinkColumn
+            title="Account"
+            links={accountLinks}
+            onLandingPage={onLandingPage}
+          />
+          <LinkColumn
+            title="Legal"
+            links={legalLinks}
+            onLandingPage={onLandingPage}
+          />
         </div>
 
         <div className="mt-12 flex flex-col items-center gap-6 border-t border-border/40 pt-8 sm:flex-row sm:items-center sm:justify-between">

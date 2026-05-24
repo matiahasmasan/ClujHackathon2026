@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { clearAuth, getInitials } from "../../lib/auth";
+import NotificationsMenu from "./NotificationsMenu";
 
 export default function DashboardHeader({ user, onMenuOpen }) {
   const fullName = `${user.first_name} ${user.last_name}`;
@@ -25,46 +26,27 @@ export default function DashboardHeader({ user, onMenuOpen }) {
   }
 
   return (
-    <header className="relative z-20 flex items-center justify-end px-4 py-4 backdrop-blur-sm sm:px-6 lg:border-b-0">
-      <div className="flex items-center justify-end gap-3">
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={onMenuOpen}
-            className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card text-muted transition-colors hover:text-foreground lg:hidden"
-            aria-label="Open menu"
-          >
-            <svg
-              className="size-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden
-            >
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+    <header className="relative z-20 flex items-center justify-between gap-3 px-4 py-4 backdrop-blur-sm sm:px-6 lg:justify-end lg:border-b-0">
+      <button
+        type="button"
+        onClick={onMenuOpen}
+        className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card text-muted transition-colors hover:text-foreground lg:hidden"
+        aria-label="Open menu"
+      >
+        <svg
+          className="size-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          aria-hidden
+        >
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
 
-          <button
-            type="button"
-            className="relative inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card text-muted transition-colors hover:text-foreground"
-            aria-label="Notifications"
-          >
-            <svg
-              className="size-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden
-            >
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-            </svg>
-            <span className="absolute top-2 right-2 size-2 rounded-full bg-red-500" />
-          </button>
-        </div>
+      <div className="flex items-center gap-3">
+        <NotificationsMenu />
 
         <div className="relative" ref={dropdownRef}>
           <button

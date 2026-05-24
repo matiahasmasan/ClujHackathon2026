@@ -34,6 +34,40 @@ async def _get_own_review(review_id: int, user_id: int, db: AsyncSession) -> Rev
     return review
 
 
+# ── Public endpoints ──────────────────────────────────────────────────────────
+
+@router.get("/featured", response_model=ReviewWithUserOut | None)
+async def get_featured_review(
+    db: AsyncSession = Depends(get_db),
+) -> ReviewWithUserOut | None:
+    """Return the first review in the table (lowest id), joined with its author.
+
+    Public — used by the landing page testimonial section. Returns `null` if
+    no reviews exist yet.
+    """
+    result = await db.execute(
+        select(Review, User)
+        .join(User, Review.user_id == User.id)
+        .order_by(Review.id.asc())
+        .limit(1)
+    )
+    row = result.first()
+    if not row:
+        return None
+    review, user = row
+    return ReviewWithUserOut(
+        id=review.id,
+        user_id=review.user_id,
+        rating=review.rating,
+        body=review.body,
+        created_at=review.created_at,
+        updated_at=review.updated_at,
+        user_first_name=user.first_name,
+        user_last_name=user.last_name,
+        user_email=user.email,
+    )
+
+
 # ── Caregiver endpoints ───────────────────────────────────────────────────────
 
 @router.get("", response_model=ReviewsListResponse)
