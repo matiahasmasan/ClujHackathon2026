@@ -146,7 +146,7 @@ export default function AdminReviewsPage() {
             placeholder="Search by name, email, or review text…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-border/60 bg-white/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border/60 bg-card/75 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </label>
       </div>
@@ -168,26 +168,26 @@ export default function AdminReviewsPage() {
       )}
 
       {error && (
-        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-card/75 p-6 text-center shadow-sm">
           <p className="text-sm text-red-600">{error}</p>
           <Button onClick={load} className="px-4 py-2 text-sm">Retry</Button>
         </div>
       )}
 
       {!loading && !error && reviews.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">No reviews have been submitted yet.</p>
         </div>
       )}
 
       {!loading && !error && reviews.length > 0 && filtered.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">No reviews match &quot;{query}&quot;.</p>
         </div>
       )}
 
       {!loading && !error && filtered.length > 0 && (
-        <ul className="divide-y divide-border/50 rounded-2xl bg-white/75 shadow-sm backdrop-blur-sm">
+        <ul className="divide-y divide-border/50 rounded-2xl bg-card/75 shadow-sm backdrop-blur-sm">
           {filtered.map((review) => (
             <li
               key={review.id}

@@ -31,7 +31,7 @@ export default function DashboardHeader({ user, onMenuOpen }) {
           <button
             type="button"
             onClick={onMenuOpen}
-            className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-white text-muted transition-colors hover:text-foreground lg:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card text-muted transition-colors hover:text-foreground lg:hidden"
             aria-label="Open menu"
           >
             <svg
@@ -48,7 +48,7 @@ export default function DashboardHeader({ user, onMenuOpen }) {
 
           <button
             type="button"
-            className="relative inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-white text-muted transition-colors hover:text-foreground"
+            className="relative inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card text-muted transition-colors hover:text-foreground"
             aria-label="Notifications"
           >
             <svg
@@ -70,7 +70,7 @@ export default function DashboardHeader({ user, onMenuOpen }) {
           <button
             type="button"
             onClick={() => setDropdownOpen((o) => !o)}
-            className="flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-black/5 sm:border-l sm:border-border/60 sm:pl-4"
+            className="flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-foreground/5 sm:border-l sm:border-border/60 sm:pl-4"
             aria-expanded={dropdownOpen}
             aria-haspopup="true"
           >
@@ -96,11 +96,11 @@ export default function DashboardHeader({ user, onMenuOpen }) {
           </button>
 
           {dropdownOpen && (
-            <div className="absolute right-0 top-full z-50 mt-2 w-44 rounded-xl border border-border/60 bg-white py-1 shadow-lg">
+            <div className="absolute right-0 top-full z-50 mt-2 w-44 rounded-xl border border-border/60 bg-card py-1 shadow-lg">
               <Link
                 to="/dashboard/settings"
                 onClick={() => setDropdownOpen(false)}
-                className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-black/5"
+                className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-foreground/5"
               >
                 <svg
                   className="size-4 text-muted"

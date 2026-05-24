@@ -12,7 +12,7 @@ export default function NotFoundPage() {
         <img src={logo} alt="inTouch" className="h-28 w-auto" />
       </Link>
 
-      <div className="w-full max-w-lg rounded-2xl bg-white/75 p-8 text-center shadow-sm backdrop-blur-sm sm:p-10">
+      <div className="w-full max-w-lg rounded-2xl bg-card/75 p-8 text-center shadow-sm backdrop-blur-sm sm:p-10">
         <p className="text-7xl font-bold tracking-tight text-foreground sm:text-8xl">
           404
         </p>
@@ -21,7 +21,7 @@ export default function NotFoundPage() {
         </h1>
         <p className="mt-3 text-muted">
           We couldn&apos;t find a page at{" "}
-          <code className="rounded-lg bg-white px-2 py-0.5 text-sm font-medium text-foreground ring-1 ring-border/60">
+          <code className="rounded-lg bg-surface px-2 py-0.5 text-sm font-medium text-foreground ring-1 ring-border/60">
             {location.pathname}
           </code>
           . It may have been moved or doesn&apos;t exist.

@@ -118,7 +118,7 @@ export default function SignUpPage() {
           <img src={logo} alt="inTouch" className="h-28 w-auto" />
         </Link>
 
-        <div className="mt-8 w-full rounded-2xl border border-border/50 bg-white p-6 shadow-lg shadow-foreground/5 sm:p-8">
+        <div className="mt-8 w-full rounded-2xl border border-border/50 bg-card p-6 shadow-lg shadow-foreground/5 sm:p-8">
           <h1 className="text-2xl font-bold text-foreground">Create account</h1>
           <p className="mt-1 text-sm text-muted">
             Join inTouch and stay connected with your care circle.

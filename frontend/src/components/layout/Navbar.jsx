@@ -131,7 +131,7 @@ export default function Navbar() {
             />
             <nav
               id="mobile-nav"
-              className="absolute inset-x-0 top-full z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain border-t border-border bg-white px-4 py-3 shadow-lg md:hidden"
+              className="absolute inset-x-0 top-full z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain border-t border-border bg-card px-4 py-3 shadow-lg md:hidden"
               aria-label="Mobile"
             >
               <ul className="flex flex-col gap-1">

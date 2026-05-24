@@ -2,7 +2,7 @@ import StatusBadge from "./StatusBadge";
 
 export default function MedicationsTable({ rows }) {
   return (
-    <section className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
+    <section className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
       <h2 className="text-lg font-bold text-foreground">Today&apos;s medications</h2>
 
       {rows.length === 0 ? (

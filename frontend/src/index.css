@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-primary: #017df0;
   --color-primary-foreground: #ffffff;
@@ -15,10 +17,24 @@
   --header-height: 6rem;
 }
 
+.dark {
+  --color-foreground: #f1f5f9;
+  --color-muted: #94a3b8;
+  --color-border: #334155;
+  --color-cream: #0b1220;
+  --color-surface: #0f172a;
+  --color-card: #1e293b;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
@@ -26,5 +42,8 @@
     font-family: var(--font-sans);
     background-color: var(--color-cream);
     -webkit-font-smoothing: antialiased;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
   }
 }

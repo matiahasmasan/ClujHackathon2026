@@ -56,7 +56,7 @@ export default function Modal({
       />
 
       <div
-        className={`relative max-h-[90dvh] w-full overflow-y-auto rounded-2xl bg-white p-6 shadow-xl sm:p-8 ${sizes[size]} ${panelClassName}`}
+        className={`relative max-h-[90dvh] w-full overflow-y-auto rounded-2xl bg-card p-6 shadow-xl sm:p-8 ${sizes[size]} ${panelClassName}`}
       >
         <div className="flex items-start justify-between gap-4">
           <div>

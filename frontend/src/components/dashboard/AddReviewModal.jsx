@@ -92,7 +92,7 @@ export default function AddReviewModal({ open, onClose, onSuccess }) {
             onChange={(e) => setForm((prev) => ({ ...prev, body: e.target.value }))}
             disabled={loading}
             maxLength={2000}
-            className="w-full resize-y rounded-xl border border-border bg-white px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
+            className="w-full resize-y rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
           />
         </div>
 

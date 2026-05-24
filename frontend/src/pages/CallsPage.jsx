@@ -60,7 +60,7 @@ function CallCard({ call }) {
   const flags = healthFlagsFromJson(call.health_flags);
 
   return (
-    <article className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
+    <article className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
       <div className="flex min-w-0 items-start gap-4">
         <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-sm font-bold text-primary">
           {initials}
@@ -167,7 +167,7 @@ export default function CallsPage() {
             placeholder="Search by senior, status, or summary…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-border/60 bg-white/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border/60 bg-card/70 py-2.5 pr-4 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </label>
       </div>
@@ -209,7 +209,7 @@ export default function CallsPage() {
       )}
 
       {error && (
-        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-card/75 p-6 text-center shadow-sm">
           <p className="text-sm text-red-600">{error}</p>
           <Button onClick={loadCalls} className="px-4 py-2 text-sm">
             Retry
@@ -218,7 +218,7 @@ export default function CallsPage() {
       )}
 
       {!loading && !error && calls.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">
             No wellness calls yet. Once automated check-ins run for seniors in
             your circle, they will appear here.
@@ -227,7 +227,7 @@ export default function CallsPage() {
       )}
 
       {!loading && !error && calls.length > 0 && filtered.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">No calls match &quot;{query}&quot;.</p>
         </div>
       )}

@@ -172,7 +172,7 @@ export default function LedgerPage() {
 
       {/* Empty state */}
       {entries.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">
             No events yet. Use &quot;+ Log event&quot; to record the first entry.
           </p>
@@ -181,7 +181,7 @@ export default function LedgerPage() {
 
       {/* Chain entries */}
       {entries.length > 0 && (
-        <section className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
+        <section className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
           <h2 className="text-lg font-bold text-foreground">Event chain</h2>
 
           <ol className="mt-4 space-y-3">

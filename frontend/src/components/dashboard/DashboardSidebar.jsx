@@ -101,7 +101,7 @@ function SidebarContent({ onNavigate }) {
                     `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
                       isActive
                         ? "bg-primary text-primary-foreground"
-                        : "text-muted hover:bg-white/80 hover:text-foreground"
+                        : "text-muted hover:bg-card/70 hover:text-foreground"
                     }`
                   }
                 >
@@ -111,7 +111,7 @@ function SidebarContent({ onNavigate }) {
               ) : (
                 <a
                   href={item.to}
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-white/80 hover:text-foreground"
+                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-card/70 hover:text-foreground"
                 >
                   <NavIcon name={item.icon} />
                   {item.label}
@@ -156,7 +156,7 @@ export default function DashboardSidebar({ open = false, onClose }) {
   return (
     <>
       {/* Desktop */}
-      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border/40 bg-white/60 backdrop-blur-sm lg:flex lg:flex-col">
+      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border/40 bg-card/60 backdrop-blur-sm lg:flex lg:flex-col">
         <SidebarContent />
       </aside>
 
@@ -172,7 +172,7 @@ export default function DashboardSidebar({ open = false, onClose }) {
 
       {/* Mobile drawer */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 max-w-[85vw] flex-col border-r border-border/40 bg-white shadow-xl transition-transform duration-300 ease-out lg:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 max-w-[85vw] flex-col border-r border-border/40 bg-card shadow-xl transition-transform duration-300 ease-out lg:hidden ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-hidden={!open}

@@ -21,6 +21,7 @@ const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
 const AdminUsersPage = lazy(() => import("./pages/AdminUsersPage"));
 const AdminPricingPage = lazy(() => import("./pages/AdminPricingPage"));
 const AdminReviewsPage = lazy(() => import("./pages/AdminReviewsPage"));
+const AdminSettingsPage = lazy(() => import("./pages/AdminSettingsPage"));
 
 export default function App() {
   return (
@@ -62,6 +63,7 @@ export default function App() {
             <Route index element={<AdminUsersPage />} />
             <Route path="pricing" element={<AdminPricingPage />} />
             <Route path="reviews" element={<AdminReviewsPage />} />
+            <Route path="settings" element={<AdminSettingsPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

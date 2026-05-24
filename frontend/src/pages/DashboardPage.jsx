@@ -133,7 +133,7 @@ export default function DashboardPage() {
   return (
     <main className="flex-1 space-y-6 p-4 sm:p-6">
       {error && (
-        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-card/75 p-6 text-center shadow-sm">
           <p className="text-sm text-red-600">{error}</p>
           <Button onClick={loadDashboard} className="px-4 py-2 text-sm">
             Retry

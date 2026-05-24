@@ -106,7 +106,7 @@ export default function TwoFactorModal({ open, email, onVerify, onClose }) {
                 onKeyDown={(e) => handleKeyDown(index, e)}
                 onFocus={(e) => e.target.select()}
                 aria-label={`Digit ${index + 1}`}
-                className="h-14 w-full rounded-xl border border-border bg-white text-center text-2xl font-semibold text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="h-14 w-full rounded-xl border border-border bg-card text-center text-2xl font-semibold text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
             ))}
           </div>

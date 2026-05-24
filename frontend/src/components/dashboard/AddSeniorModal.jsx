@@ -124,7 +124,7 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
               value={form.gender}
               onChange={updateField("gender")}
               disabled={loading}
-              className="w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
+              className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
             >
               <option value="" disabled>
                 Select gender
@@ -166,7 +166,7 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
             value={form.diagnoses}
             onChange={updateField("diagnoses")}
             disabled={loading}
-            className="w-full resize-y rounded-xl border border-border bg-white px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
+            className="w-full resize-y rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
           />
         </div>
 

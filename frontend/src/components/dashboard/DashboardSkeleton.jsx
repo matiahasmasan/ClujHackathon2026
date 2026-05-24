@@ -1,11 +1,11 @@
 function Bar({ className = "" }) {
-  return <div className={`rounded-md bg-slate-200/70 ${className}`} />;
+  return <div className={`rounded-md bg-border ${className}`} />;
 }
 
 function Card({ children, className = "" }) {
   return (
     <div
-      className={`rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm ${className}`}
+      className={`rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm ${className}`}
     >
       {children}
     </div>
@@ -50,7 +50,7 @@ export function StatCardGridSkeleton({ count = 4 }) {
 export function ListSkeleton({ rows = 4 }) {
   return (
     <ul
-      className="divide-y divide-border/50 rounded-2xl bg-white/75 shadow-sm backdrop-blur-sm motion-safe:animate-pulse"
+      className="divide-y divide-border/50 rounded-2xl bg-card/75 shadow-sm backdrop-blur-sm motion-safe:animate-pulse"
       aria-busy="true"
       aria-live="polite"
     >
@@ -61,7 +61,7 @@ export function ListSkeleton({ rows = 4 }) {
           className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between"
         >
           <div className="flex min-w-0 flex-1 items-start gap-3">
-            <div className="size-11 shrink-0 rounded-full bg-slate-200/70" />
+            <div className="size-11 shrink-0 rounded-full bg-border" />
             <div className="flex-1 space-y-2">
               <Bar className="h-4 w-40 max-w-full" />
               <Bar className="h-3 w-64 max-w-full" />
@@ -81,7 +81,7 @@ export function ListSkeleton({ rows = 4 }) {
 export function MedicationsTableSkeleton({ rows = 5 }) {
   return (
     <section
-      className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm motion-safe:animate-pulse sm:p-6"
+      className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm motion-safe:animate-pulse sm:p-6"
       aria-busy="true"
     >
       <Bar className="h-5 w-40" />
@@ -101,7 +101,7 @@ export function MedicationsTableSkeleton({ rows = 5 }) {
               <tr key={i}>
                 <td className="py-3.5 pr-4">
                   <div className="flex items-center gap-2.5">
-                    <div className="size-8 rounded-full bg-slate-200/70" />
+                    <div className="size-8 rounded-full bg-border" />
                     <Bar className="h-3 w-24" />
                   </div>
                 </td>
@@ -147,10 +147,10 @@ export function CallCardListSkeleton({ rows = 3 }) {
       {Array.from({ length: rows }).map((_, i) => (
         <article
           key={i}
-          className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6"
+          className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6"
         >
           <div className="flex items-start gap-4">
-            <div className="size-12 shrink-0 rounded-2xl bg-slate-200/70" />
+            <div className="size-12 shrink-0 rounded-2xl bg-border" />
             <div className="flex-1 space-y-2">
               <div className="flex flex-wrap items-center gap-2">
                 <Bar className="h-4 w-40" />
@@ -177,15 +177,15 @@ export function SettingsFormSkeleton() {
       className="grid gap-6 motion-safe:animate-pulse lg:grid-cols-[minmax(0,280px)_1fr]"
       aria-busy="true"
     >
-      <aside className="rounded-2xl bg-white/75 p-6 shadow-sm backdrop-blur-sm">
+      <aside className="rounded-2xl bg-card/75 p-6 shadow-sm backdrop-blur-sm">
         <div className="flex flex-col items-center space-y-3 text-center">
-          <div className="size-20 rounded-2xl bg-slate-200/70" />
+          <div className="size-20 rounded-2xl bg-border" />
           <Bar className="h-5 w-32" />
           <Bar className="h-3 w-40" />
           <Bar className="h-3 w-24" />
         </div>
       </aside>
-      <section className="rounded-2xl bg-white/75 p-6 shadow-sm backdrop-blur-sm sm:p-8">
+      <section className="rounded-2xl bg-card/75 p-6 shadow-sm backdrop-blur-sm sm:p-8">
         <Bar className="h-5 w-28" />
         <Bar className="mt-2 h-3 w-72 max-w-full" />
         <div className="mt-6 space-y-4">
@@ -227,7 +227,7 @@ export function PricingPlanListSkeleton({ rows = 3 }) {
       {Array.from({ length: rows }).map((_, i) => (
         <li
           key={i}
-          className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6"
+          className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6"
         >
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex flex-wrap items-center gap-2.5">
@@ -321,9 +321,9 @@ export function DashboardContentSkeleton() {
             {Array.from({ length: 3 }).map((_, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 rounded-xl bg-white/40 p-3"
+                className="flex items-center gap-3 rounded-xl bg-card/40 p-3"
               >
-                <div className="size-10 rounded-full bg-slate-200/70" />
+                <div className="size-10 rounded-full bg-border" />
                 <div className="flex-1 space-y-2">
                   <Bar className="h-3 w-32" />
                   <Bar className="h-3 w-20" />
@@ -337,7 +337,7 @@ export function DashboardContentSkeleton() {
           <Bar className="mb-4 h-4 w-32" />
           <div className="space-y-3">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="space-y-2 rounded-xl bg-white/40 p-3">
+              <div key={i} className="space-y-2 rounded-xl bg-card/40 p-3">
                 <div className="flex items-center justify-between">
                   <Bar className="h-3 w-28" />
                   <Bar className="h-3 w-16" />
@@ -357,9 +357,9 @@ export function DashboardContentSkeleton() {
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
-            className="flex items-center gap-4 border-t border-slate-100 px-4 py-3"
+            className="flex items-center gap-4 border-t border-border/60 px-4 py-3"
           >
-            <div className="size-9 rounded-full bg-slate-200/70" />
+            <div className="size-9 rounded-full bg-border" />
             <Bar className="h-3 w-28" />
             <Bar className="h-3 w-24" />
             <Bar className="h-3 w-16" />
@@ -373,7 +373,7 @@ export function DashboardContentSkeleton() {
 
 function SidebarSkeleton() {
   return (
-    <aside className="hidden w-64 shrink-0 border-r border-slate-100 bg-white/60 p-5 lg:block">
+    <aside className="hidden w-64 shrink-0 border-r border-border/60 bg-card/60 p-5 lg:block">
       <Bar className="mb-8 h-8 w-32" />
       <div className="space-y-3">
         {Array.from({ length: 6 }).map((_, i) => (
@@ -386,7 +386,7 @@ function SidebarSkeleton() {
 
 function HeaderSkeleton() {
   return (
-    <header className="flex items-center justify-between border-b border-slate-100 bg-white/60 px-4 py-4 sm:px-6">
+    <header className="flex items-center justify-between border-b border-border/60 bg-card/60 px-4 py-4 sm:px-6">
       <Bar className="h-5 w-40" />
       <Bar className="h-9 w-9 rounded-full" />
     </header>

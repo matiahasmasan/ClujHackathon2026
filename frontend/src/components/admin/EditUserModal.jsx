@@ -118,7 +118,7 @@ export default function EditUserModal({ open, user, onClose, onSuccess }) {
               value={form.role}
               onChange={field("role")}
               disabled={loading}
-              className="w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
+              className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
             >
               <option value="caregiver">Caregiver</option>
               <option value="admin">Admin</option>

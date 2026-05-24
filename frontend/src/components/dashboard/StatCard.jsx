@@ -48,7 +48,7 @@ export default function StatCard({ label, value, sub, icon, to }) {
   );
 
   const baseClass =
-    "rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm";
+    "rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm";
 
   if (to) {
     return (

@@ -6,6 +6,7 @@ const navItems = [
   { label: "Users", to: "/admin", icon: "users", end: true },
   { label: "Pricing", to: "/admin/pricing", icon: "pricing" },
   { label: "Reviews", to: "/admin/reviews", icon: "star" },
+  { label: "Settings", to: "/admin/settings", icon: "settings" },
 ];
 
 function NavIcon({ name }) {
@@ -25,6 +26,12 @@ function NavIcon({ name }) {
       <>
         <line x1="12" y1="1" x2="12" y2="23" />
         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </>
+    ),
+    settings: (
+      <>
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
       </>
     ),
   };
@@ -69,7 +76,7 @@ function SidebarContent({ onNavigate }) {
                   `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
                     isActive
                       ? "bg-primary text-primary-foreground"
-                      : "text-muted hover:bg-white/80 hover:text-foreground"
+                      : "text-muted hover:bg-card/70 hover:text-foreground"
                   }`
                 }
               >
@@ -115,7 +122,7 @@ export default function AdminSidebar({ open = false, onClose }) {
   return (
     <>
       {/* Desktop */}
-      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border/40 bg-white/60 backdrop-blur-sm lg:flex lg:flex-col">
+      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border/40 bg-card/60 backdrop-blur-sm lg:flex lg:flex-col">
         <SidebarContent />
       </aside>
 
@@ -131,7 +138,7 @@ export default function AdminSidebar({ open = false, onClose }) {
 
       {/* Mobile drawer */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 max-w-[85vw] flex-col border-r border-border/40 bg-white shadow-xl transition-transform duration-300 ease-out lg:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 max-w-[85vw] flex-col border-r border-border/40 bg-card shadow-xl transition-transform duration-300 ease-out lg:hidden ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-hidden={!open}

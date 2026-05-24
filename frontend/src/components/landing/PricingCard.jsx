@@ -43,8 +43,8 @@ export default function PricingCard({ plan }) {
     <article
       className={`relative flex flex-col rounded-2xl p-6 transition-shadow sm:p-8 ${
         isHighlighted
-          ? "z-10 bg-white shadow-xl shadow-primary/15 ring-2 ring-primary/20"
-          : "bg-white/75 shadow-sm backdrop-blur-sm hover:shadow-md"
+          ? "z-10 bg-card shadow-xl shadow-primary/15 ring-2 ring-primary/20"
+          : "bg-card/75 shadow-sm backdrop-blur-sm hover:shadow-md"
       }`}
     >
       {isHighlighted && (

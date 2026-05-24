@@ -147,14 +147,14 @@ export default function AdminPricingPage() {
       )}
 
       {error && (
-        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-card/75 p-6 text-center shadow-sm">
           <p className="text-sm text-red-600">{error}</p>
           <Button onClick={load} className="px-4 py-2 text-sm">Retry</Button>
         </div>
       )}
 
       {!loading && !error && plans.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">No plans yet. Use &quot;+ Add plan&quot; to create one.</p>
         </div>
       )}
@@ -163,7 +163,7 @@ export default function AdminPricingPage() {
       {!loading && !error && plans.length > 0 && (
         <ul className="space-y-4">
           {plans.map((plan) => (
-            <li key={plan.id} className="rounded-2xl bg-white/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
+            <li key={plan.id} className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
               {/* Plan header */}
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex items-center gap-2.5 flex-wrap">

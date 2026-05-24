@@ -14,7 +14,7 @@ const emptyForm = {
   phone_number: "",
 };
 
-export default function SettingsPage() {
+export default function AdminSettingsPage() {
   const { user: contextUser, refreshUser } = useOutletContext();
   const [profile, setProfile] = useState(null);
   const [form, setForm] = useState(emptyForm);
@@ -68,7 +68,7 @@ export default function SettingsPage() {
         last_name: updated.last_name,
         email: updated.email,
         phone_number: updated.phone_number,
-        role: updated.role ?? contextUser?.role,
+        role: updated.role ?? contextUser?.role ?? "admin",
       });
       refreshUser?.();
       setSuccess("Profile updated successfully.");
@@ -88,10 +88,10 @@ export default function SettingsPage() {
     <main className="flex-1 space-y-6 p-4 sm:p-6">
       <div className="rounded-2xl bg-linear-to-r from-primary/10 via-secondary/5 to-primary/5 p-6 shadow-sm backdrop-blur-sm sm:p-8">
         <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
-          Settings
+          Admin settings
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted sm:text-base">
-          Manage your caregiver profile and account details.
+          Manage your admin profile, appearance, and account details.
         </p>
       </div>
 
@@ -113,7 +113,10 @@ export default function SettingsPage() {
               <div className="flex size-20 items-center justify-center rounded-2xl bg-primary/10 text-2xl font-bold text-primary">
                 {initials}
               </div>
-              <h2 className="mt-4 text-lg font-bold text-foreground">
+              <span className="mt-3 inline-block rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                Admin
+              </span>
+              <h2 className="mt-3 text-lg font-bold text-foreground">
                 {displayUser.first_name} {displayUser.last_name}
               </h2>
               <p className="mt-1 text-sm text-muted">{displayUser.email}</p>
@@ -133,7 +136,7 @@ export default function SettingsPage() {
 
             <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
               {error && profile && (
-                <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+                <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600 dark:bg-red-950/40">
                   {error}
                 </p>
               )}
@@ -145,7 +148,7 @@ export default function SettingsPage() {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input
-                  id="settings-first-name"
+                  id="admin-settings-first-name"
                   label="First name"
                   required
                   value={form.first_name}
@@ -153,7 +156,7 @@ export default function SettingsPage() {
                   disabled={saving}
                 />
                 <Input
-                  id="settings-last-name"
+                  id="admin-settings-last-name"
                   label="Last name"
                   required
                   value={form.last_name}
@@ -163,7 +166,7 @@ export default function SettingsPage() {
               </div>
 
               <Input
-                id="settings-email"
+                id="admin-settings-email"
                 label="Email"
                 type="email"
                 value={profile?.email ?? displayUser.email}
@@ -171,7 +174,7 @@ export default function SettingsPage() {
               />
 
               <Input
-                id="settings-phone"
+                id="admin-settings-phone"
                 label="Phone number"
                 type="tel"
                 placeholder="0712345678"

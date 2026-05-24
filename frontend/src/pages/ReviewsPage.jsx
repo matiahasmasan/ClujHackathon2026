@@ -75,14 +75,14 @@ export default function ReviewsPage() {
       {loading && <ListSkeleton rows={3} />}
 
       {error && (
-        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/75 p-6 text-center shadow-sm">
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-card/75 p-6 text-center shadow-sm">
           <p className="text-sm text-red-600">{error}</p>
           <Button onClick={load} className="px-4 py-2 text-sm">Retry</Button>
         </div>
       )}
 
       {!loading && !error && reviews.length === 0 && (
-        <div className="rounded-2xl bg-white/75 p-8 text-center shadow-sm">
+        <div className="rounded-2xl bg-card/75 p-8 text-center shadow-sm">
           <p className="text-sm text-muted">
             You haven&apos;t written any reviews yet. Use &quot;+ Write a review&quot; above.
           </p>
@@ -90,7 +90,7 @@ export default function ReviewsPage() {
       )}
 
       {!loading && !error && reviews.length > 0 && (
-        <ul className="divide-y divide-border/50 rounded-2xl bg-white/75 shadow-sm backdrop-blur-sm">
+        <ul className="divide-y divide-border/50 rounded-2xl bg-card/75 shadow-sm backdrop-blur-sm">
           {reviews.map((review) => (
             <li key={review.id} className="flex flex-col gap-3 p-5 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex-1">
