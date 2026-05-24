@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import auth, calls, dashboard, health, medications, payments, pricing, reviews, seniors, users
+from app.api.routes import auth, calls, dashboard, health, medications, payments, pricing, reviews, seniors, subscriptions, users
 from app.core.config import settings
 import app.models  # noqa: F401 — register all ORM models for FK resolution
 
@@ -26,6 +26,7 @@ app.include_router(calls.router, prefix="/api")
 app.include_router(pricing.router, prefix="/api")
 app.include_router(reviews.router, prefix="/api")
 app.include_router(payments.router, prefix="/api")
+app.include_router(subscriptions.router, prefix="/api")
 
 
 @app.get("/")

@@ -10,6 +10,7 @@ const navItems = [
   { label: "Care Ledger", to: "/dashboard/ledger", icon: "ledger" },
   { label: "Reviews", to: "/dashboard/reviews", icon: "star" },
   { label: "Payments", to: "/dashboard/payments", icon: "payments" },
+  { label: "Subscriptions", to: "/dashboard/subscriptions", icon: "subscriptions" },
   { label: "Settings", to: "/dashboard/settings", icon: "settings" },
 ];
 
@@ -51,6 +52,13 @@ function NavIcon({ name }) {
       <>
         <rect x="2" y="5" width="20" height="14" rx="2" />
         <path d="M2 10h20" />
+      </>
+    ),
+    subscriptions: (
+      <>
+        <path d="M4 4h16v6H4z" />
+        <path d="M8 14h8" />
+        <path d="M10 18h4" />
       </>
     ),
     settings: (

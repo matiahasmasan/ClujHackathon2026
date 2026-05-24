@@ -6,6 +6,7 @@ const navItems = [
   { label: "Users", to: "/admin", icon: "users", end: true },
   { label: "Pricing", to: "/admin/pricing", icon: "pricing" },
   { label: "Payments", to: "/admin/payments", icon: "payments" },
+  { label: "Subscriptions", to: "/admin/subscriptions", icon: "subscriptions" },
   { label: "Reviews", to: "/admin/reviews", icon: "star" },
   { label: "Settings", to: "/admin/settings", icon: "settings" },
 ];
@@ -33,6 +34,13 @@ function NavIcon({ name }) {
       <>
         <rect x="2" y="5" width="20" height="14" rx="2" />
         <path d="M2 10h20" />
+      </>
+    ),
+    subscriptions: (
+      <>
+        <path d="M4 4h16v6H4z" />
+        <path d="M8 14h8" />
+        <path d="M10 18h4" />
       </>
     ),
     settings: (
