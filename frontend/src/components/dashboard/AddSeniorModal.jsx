@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import Modal from "../ui/Modal";
-import { createSenior } from "../../lib/api";
+import MedicationListEditor from "./MedicationListEditor";
+import {
+  emptyMedication,
+  medicationPayload,
+  prepareMedications,
+} from "../../lib/medications";
+import { createMedication, createSenior } from "../../lib/api";
 
 const GENDER_OPTIONS = ["Female", "Male", "Prefer not to say"];
 
@@ -17,12 +23,14 @@ const emptyForm = {
 
 export default function AddSeniorModal({ open, onClose, onSuccess }) {
   const [form, setForm] = useState(emptyForm);
+  const [medications, setMedications] = useState([{ ...emptyMedication }]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!open) return;
     setForm(emptyForm);
+    setMedications([{ ...emptyMedication }]);
     setError("");
     setLoading(false);
   }, [open]);
@@ -34,8 +42,15 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
+    // Validate medications before we create anything.
+    const { rows: medRows, error: medError } = prepareMedications(medications);
+    if (medError) {
+      setError(medError);
+      return;
+    }
+
+    setLoading(true);
     try {
       const senior = await createSenior({
         first_name: form.first_name.trim(),
@@ -45,6 +60,10 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
         phone_number: form.phone_number.trim(),
         diagnoses: form.diagnoses.trim(),
       });
+      // The senior now has an id — create each medication for them.
+      for (const row of medRows) {
+        await createMedication(medicationPayload(row, senior.id));
+      }
       onSuccess?.(senior);
       onClose();
     } catch (err) {
@@ -137,7 +156,7 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
           label="Phone number"
           type="tel"
           placeholder="0712345678"
-          maxLength={11}
+          maxLength={12}
           required
           autoComplete="tel"
           value={form.phone_number}
@@ -163,6 +182,13 @@ export default function AddSeniorModal({ open, onClose, onSuccess }) {
             className="w-full resize-y rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
           />
         </div>
+
+        <MedicationListEditor
+          medications={medications}
+          onChange={setMedications}
+          disabled={loading}
+          idPrefix="add-med"
+        />
 
         <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
           <Button

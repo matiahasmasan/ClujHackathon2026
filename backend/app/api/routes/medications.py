@@ -100,7 +100,11 @@ async def create_medication(
         senior_id=senior.id,
         medication_name=payload.medication_name.strip(),
         dose=payload.dose.strip(),
-        scheduled_time=_parse_time(payload.scheduled_time),
+        scheduled_time=(
+            _parse_time(payload.scheduled_time)
+            if payload.scheduled_time
+            else time(0, 0)
+        ),
         is_taken_today=False,
         stock=payload.stock,
     )
