@@ -13,7 +13,7 @@ export default function CircleList({ members }) {
           {members.map((member) => (
             <li
               key={member.id ?? member.initials}
-              className="flex flex-col gap-3 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between"
+              className="dashboard-row-hover -mx-2 flex flex-col gap-3 rounded-xl px-2 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex items-center gap-3">
                 <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">

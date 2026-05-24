@@ -60,7 +60,7 @@ function CallCard({ call }) {
   const flags = healthFlagsFromJson(call.health_flags);
 
   return (
-    <article className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
+    <article className="dashboard-card-hover rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
       <div className="flex min-w-0 items-start gap-4">
         <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-sm font-bold text-primary">
           {initials}

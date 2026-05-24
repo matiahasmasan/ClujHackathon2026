@@ -10,7 +10,7 @@ export default function FeatureCard({ number, title, description, accent = "prim
   };
 
   return (
-    <article className="group flex flex-col gap-3 rounded-2xl bg-card/75 p-6 shadow-sm backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-card hover:shadow-md hover:ring-1 hover:ring-primary/10 motion-reduce:hover:translate-y-0 sm:gap-4 sm:p-8">
+    <article className="group flex flex-col gap-3 rounded-2xl bg-card/75 p-6 shadow-sm backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-card hover:shadow-lg hover:shadow-primary/10 hover:ring-1 hover:ring-primary/20 motion-reduce:hover:translate-y-0 dark:hover:shadow-md dark:hover:shadow-none dark:hover:ring-primary/10 sm:gap-4 sm:p-8">
       <span
         className={`flex size-10 items-center justify-center rounded-full text-sm font-bold transition-transform duration-300 group-hover:scale-105 ${accentStyles[accent]}`}
       >

@@ -163,7 +163,10 @@ export default function AdminPricingPage() {
       {!loading && !error && plans.length > 0 && (
         <ul className="space-y-4">
           {plans.map((plan) => (
-            <li key={plan.id} className="rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6">
+            <li
+              key={plan.id}
+              className="dashboard-card-hover rounded-2xl bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6"
+            >
               {/* Plan header */}
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex items-center gap-2.5 flex-wrap">
@@ -230,7 +233,10 @@ export default function AdminPricingPage() {
 
                 <ul className="mt-3 space-y-1.5">
                   {plan.features.map((feature) => (
-                    <li key={feature.id} className="flex items-center justify-between gap-3 rounded-xl bg-black/[0.02] px-3 py-2">
+                    <li
+                      key={feature.id}
+                      className="dashboard-row-hover flex items-center justify-between gap-3 rounded-xl bg-black/[0.02] px-3 py-2"
+                    >
                       <span className="text-sm text-foreground">{feature.label}</span>
                       <div className="flex shrink-0 items-center gap-1">
                         <button

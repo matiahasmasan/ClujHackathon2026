@@ -240,7 +240,7 @@ export default function MedicationsPage() {
                     med.stock === 0 ? "out" : med.stock < 10 ? "low" : "ok";
 
                   return (
-                    <tr key={med.id}>
+                    <tr key={med.id} className="dashboard-row-hover">
                       <td className="py-3.5 pr-4">
                         <div className="flex items-center gap-2.5">
                           <span className="flex size-8 items-center justify-center rounded-full bg-secondary/10 text-xs font-bold text-secondary">

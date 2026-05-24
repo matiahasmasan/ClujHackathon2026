@@ -92,7 +92,10 @@ export default function ReviewsPage() {
       {!loading && !error && reviews.length > 0 && (
         <ul className="divide-y divide-border/50 rounded-2xl bg-card/75 shadow-sm backdrop-blur-sm">
           {reviews.map((review) => (
-            <li key={review.id} className="flex flex-col gap-3 p-5 sm:flex-row sm:items-start sm:justify-between">
+            <li
+              key={review.id}
+              className="dashboard-row-hover flex flex-col gap-3 p-5 sm:flex-row sm:items-start sm:justify-between"
+            >
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <Stars rating={review.rating} />

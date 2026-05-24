@@ -190,7 +190,7 @@ export default function LedgerPage() {
               return (
                 <li
                   key={entry.id}
-                  className={`rounded-xl border border-border/40 p-4 transition-colors ${
+                  className={`rounded-xl border border-border/40 p-4 transition-colors dashboard-row-hover ${
                     isBroken ? "border-red-300 bg-red-50" : "bg-surface/50"
                   }`}
                 >

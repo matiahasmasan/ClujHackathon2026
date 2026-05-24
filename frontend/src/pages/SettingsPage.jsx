@@ -108,7 +108,7 @@ export default function SettingsPage() {
 
       {!loading && displayUser && (
         <div className="grid gap-6 lg:grid-cols-[minmax(0,280px)_1fr]">
-          <aside className="rounded-2xl bg-card/75 p-6 shadow-sm backdrop-blur-sm">
+          <aside className="dashboard-card-hover rounded-2xl bg-card/75 p-6 shadow-sm backdrop-blur-sm">
             <div className="flex flex-col items-center text-center">
               <div className="flex size-20 items-center justify-center rounded-2xl bg-primary/10 text-2xl font-bold text-primary">
                 {initials}

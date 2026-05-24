@@ -44,7 +44,7 @@ export default function PricingCard({ plan }) {
       className={`group relative flex flex-col rounded-2xl p-6 transition-all duration-300 ease-out sm:p-8 ${
         isHighlighted
           ? "z-10 bg-card shadow-xl shadow-primary/15 ring-2 ring-primary/20 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/25 hover:ring-primary/40 motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100"
-          : "bg-card/75 shadow-sm backdrop-blur-sm hover:-translate-y-2 hover:scale-[1.02] hover:bg-card hover:shadow-lg hover:ring-1 hover:ring-primary/15 motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100"
+          : "bg-card/75 shadow-sm backdrop-blur-sm hover:-translate-y-2 hover:scale-[1.02] hover:bg-card hover:shadow-lg hover:shadow-primary/10 hover:ring-1 hover:ring-primary/20 motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 dark:hover:shadow-lg dark:hover:shadow-none dark:hover:ring-primary/15"
       }`}
     >
       <div

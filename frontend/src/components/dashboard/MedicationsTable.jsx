@@ -23,7 +23,10 @@ export default function MedicationsTable({ rows }) {
           </thead>
           <tbody className="divide-y divide-border/40">
             {rows.map((row) => (
-              <tr key={row.id ?? `${row.senior}-${row.medication}`}>
+              <tr
+                key={row.id ?? `${row.senior}-${row.medication}`}
+                className="dashboard-row-hover"
+              >
                 <td className="py-3.5 pr-4">
                   <div className="flex items-center gap-2.5">
                     <span className="flex size-8 items-center justify-center rounded-full bg-secondary/10 text-xs font-bold text-secondary">

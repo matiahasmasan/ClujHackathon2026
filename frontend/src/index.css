@@ -101,4 +101,15 @@
       animation: none;
     }
   }
+
+  .dashboard-card-hover {
+    @apply transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-card motion-reduce:hover:translate-y-0;
+    @apply hover:shadow-lg hover:shadow-primary/10 hover:ring-1 hover:ring-primary/20;
+    @apply dark:hover:shadow-md dark:hover:shadow-none dark:hover:ring-primary/10;
+  }
+
+  .dashboard-row-hover {
+    @apply transition-colors duration-150 hover:bg-primary/[0.06];
+    @apply dark:hover:bg-surface/50;
+  }
 }
