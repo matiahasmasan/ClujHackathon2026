@@ -707,6 +707,20 @@ export async function deleteFeature(featureId) {
   if (!response.ok) throw new Error(parseErrorMessage(data, "Could not delete feature."));
 }
 
+export async function fetchFeaturedReview() {
+  let response;
+  try {
+    response = await fetch(`${API_URL}/reviews/featured`);
+  } catch {
+    throw new Error("Cannot reach the server. Is the backend running?");
+  }
+  const data = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new Error(parseErrorMessage(data, "Could not load featured review."));
+  }
+  return data;
+}
+
 export async function fetchReviews() {
   let response;
   try {

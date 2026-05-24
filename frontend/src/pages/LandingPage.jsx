@@ -4,6 +4,7 @@ import Hero from "../components/landing/Hero";
 import Features from "../components/landing/Features";
 import Testimonial from "../components/landing/Testimonial";
 import Pricing from "../components/landing/Pricing";
+import PrivacyConsentBanner from "../components/landing/PrivacyConsentBanner";
 
 export default function LandingPage() {
   return (
@@ -16,6 +17,7 @@ export default function LandingPage() {
         <Testimonial />
       </main>
       <Footer />
+      <PrivacyConsentBanner />
     </div>
   );
 }

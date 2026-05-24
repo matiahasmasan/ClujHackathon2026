@@ -4,6 +4,7 @@ import AppBackground from "./components/layout/AppBackground";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import RequireAuth from "./components/auth/RequireAuth";
 import RequireAdmin from "./components/auth/RequireAdmin";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route
             path="/dashboard"
             element={
