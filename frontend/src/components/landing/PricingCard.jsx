@@ -1,4 +1,5 @@
 import Button from "../ui/Button";
+import { isAuthenticated } from "../../lib/auth";
 
 function CheckIcon() {
   return (
@@ -38,6 +39,10 @@ export default function PricingCard({ plan }) {
   const savings = yearlySavings(plan.price_monthly, plan.price_yearly);
   const isHighlighted = plan.is_highlighted;
   const buttonClass = "mt-8 w-full py-2.5 text-sm transition-all duration-300";
+  const checkoutHref = `/dashboard/checkout/${plan.id}`;
+  const ctaHref = isAuthenticated()
+    ? checkoutHref
+    : `/login?next=${encodeURIComponent(checkoutHref)}`;
 
   return (
     <article
@@ -93,7 +98,7 @@ export default function PricingCard({ plan }) {
       </ul>
 
       <Button
-        to="/login"
+        to={ctaHref}
         variant={isHighlighted ? "primary" : "outline"}
         className={
           isHighlighted

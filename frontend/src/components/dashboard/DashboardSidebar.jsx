@@ -9,6 +9,8 @@ const navItems = [
   { label: "Wellness Calls", to: "/dashboard/calls", icon: "phone" },
   { label: "Care Ledger", to: "/dashboard/ledger", icon: "ledger" },
   { label: "Reviews", to: "/dashboard/reviews", icon: "star" },
+  { label: "Payments", to: "/dashboard/payments", icon: "payments" },
+  { label: "Subscriptions", to: "/dashboard/subscriptions", icon: "subscriptions" },
   { label: "Settings", to: "/dashboard/settings", icon: "settings" },
 ];
 
@@ -45,6 +47,19 @@ function NavIcon({ name }) {
     ),
     star: (
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    ),
+    payments: (
+      <>
+        <rect x="2" y="5" width="20" height="14" rx="2" />
+        <path d="M2 10h20" />
+      </>
+    ),
+    subscriptions: (
+      <>
+        <path d="M4 4h16v6H4z" />
+        <path d="M8 14h8" />
+        <path d="M10 18h4" />
+      </>
     ),
     settings: (
       <>

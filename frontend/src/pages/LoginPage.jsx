@@ -80,8 +80,12 @@ export default function LoginPage() {
     localStorage.setItem("access_token", pendingLogin.access_token);
     saveUser(pendingLogin);
     setPendingLogin(null);
+    const params = new URLSearchParams(location.search);
+    const nextParam = params.get("next");
     const defaultDest = pendingLogin.role === "admin" ? "/admin" : "/dashboard";
-    navigate(location.state?.from?.pathname ?? defaultDest, { replace: true });
+    const target =
+      nextParam ?? location.state?.from?.pathname ?? defaultDest;
+    navigate(target, { replace: true });
   };
 
   return (
